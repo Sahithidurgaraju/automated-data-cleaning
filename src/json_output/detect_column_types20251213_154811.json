@@ -1,0 +1,46 @@
+{
+    "Rank": {
+        "detected_type": "int",
+        "targted_type": ""
+    },
+    "Peak": {
+        "detected_type": "string",
+        "targted_type": ""
+    },
+    "All Time Peak": {
+        "detected_type": "string",
+        "targted_type": ""
+    },
+    "Actual gross": {
+        "detected_type": "int",
+        "targted_type": ""
+    },
+    "Adjusted gross (in 2022 dollars)": {
+        "detected_type": "int",
+        "targted_type": ""
+    },
+    "Artist": {
+        "detected_type": "string",
+        "targted_type": ""
+    },
+    "Tour title": {
+        "detected_type": "string",
+        "targted_type": ""
+    },
+    "Year(s)": {
+        "detected_type": "year",
+        "targted_type": ""
+    },
+    "Shows": {
+        "detected_type": "int",
+        "targted_type": ""
+    },
+    "Average gross": {
+        "detected_type": "int",
+        "targted_type": ""
+    },
+    "Ref.": {
+        "detected_type": "string",
+        "targted_type": ""
+    }
+}

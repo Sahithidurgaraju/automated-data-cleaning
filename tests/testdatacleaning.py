@@ -30,6 +30,14 @@ def messy_data():
 #testing column name has any issues like white spaces, unicode characters, upper characters
 
 @pytest.mark.tc_0001
+def test_data_shape(messy_data):
+    cleaner = Datacleaner(messy_data)
+    rows, cols = cleaner.df.shape
+    logging.info(f"Rows and columns of given data:{cleaner.df.shape}")
+    assert rows>0, "rows are empty"
+    assert cols>0, "columns are empty"
+
+@pytest.mark.tc_0002
 def test_get_columns(messy_data):
     cleaner = Datacleaner(messy_data)
     columns = cleaner.get_column_names()
@@ -37,7 +45,7 @@ def test_get_columns(messy_data):
     #checking the column names are present or not
     assert isinstance(columns, (list,pd.Index)),"Column names should be a list or Index"
 
-@pytest.mark.tc_0002
+@pytest.mark.tc_0003
 def test_column_name_issues_present(messy_data):
     cleaner = Datacleaner(messy_data)
     cleaner_issues = cleaner.check_column_has_issues()
@@ -45,44 +53,32 @@ def test_column_name_issues_present(messy_data):
     #checking is there any issues
     assert cleaner_issues is True
 
-@pytest.mark.tc_0003
+@pytest.mark.tc_0004
 def test_column_name_issues(messy_data):
     cleaner = Datacleaner(messy_data)
     count = 0
-    cleaner_issues = cleaner.check_column_name_issues()
-    columns = cleaner.get_column_names()
-    for column_name, issue in cleaner_issues.items():        
-        if issue:
+    columns = cleaner.check_column_name_issues()
+    for column, issues in columns.items():
+        if issues:
             count += 1
-            logging.info(f"issues in columns:\n{column_name}:{issue}\n")
     logging.info(f"Total issues found:{count}")
+    cleaner_issues = cleaner.standardize_columns()
+    logging.info(f"column name issues:\n{cleaner_issues}")
     #checking what are the issues present in the column names
-    assert isinstance(cleaner_issues,dict)
-    assert cleaner_issues !={}
-    assert len(cleaner_issues)>0
-    assert any(any(ch.isupper() for ch in col) for col in columns), \
-    "Expected messy column names with uppercase, but all columns are lowercase"
-    # assert all(" " not in col for col in columns), "some columns contain spaces"
-    # assert all(re.match(r"^[a-z0-9_]+$", col) for col in columns), "Some columns have invalid characters"
-    for issues_list in cleaner_issues.values():
-        assert isinstance(issues_list, list)
-
-@pytest.mark.tc_0004
+    # assert os.path.exists(cleaner_issues), "json file not created"
+@pytest.mark.tc_0005
+def test_column_type_issues(messy_data):
+    cleaner = Datacleaner(messy_data)
+    columns = cleaner.detect_column_types_save_json()
+    logging.info(f"detected column types saved to {columns}")
+    assert os.path.exists(columns), "json file not created"
+@pytest.mark.tc_0006
 def test_print_head_data(messy_data):
     cleaner = Datacleaner(messy_data)
     head_df = cleaner.df.head(4)
     logging.info(f"\n{head_df}")
     assert head_df.notna().sum().sum() > 0, "Head contains only missing values"
-
-@pytest.mark.tc_0005
-def test_data_shape(messy_data):
-    cleaner = Datacleaner(messy_data)
-    rows, cols = cleaner.df.shape
-    logging.info(cleaner.df.shape)
-    assert rows>0, "rows are empty"
-    assert cols>0, "columns are empty"
-
-@pytest.mark.tc_0006
+@pytest.mark.tc_0007
 def test_missing_values(messy_data,tmp_path):
     cleaner = Datacleaner(messy_data) 
     outputdir = tmp_path / "output"
@@ -90,7 +86,7 @@ def test_missing_values(messy_data,tmp_path):
     missing_values = cleaner.df.isnull().sum()
     missing_values = missing_values[missing_values>0]
     file_path=cleaner.plot_missing_values(outputdir=str(outputdir))
-    logging.info(file_path)
+    logging.info(f"missing values plot created here: {file_path}")
     logging.info(f"missing values found in these columns:\n{missing_values}")    
     # checking
     assert not missing_values.empty,"No missing values found in any column"

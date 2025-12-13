@@ -1,53 +1,23 @@
-2025-12-12 18:47:42,163 - INFO - columns:
+2025-12-13 15:48:11,090 - INFO - Rows and columns of given data:(20, 11)
+2025-12-13 15:48:11,094 - INFO - columns:
 Index(['Rank', 'Peak', 'All Time Peak', 'Actual gross',
        'Adjusted gross (in 2022 dollars)', 'Artist', 'Tour title', 'Year(s)',
        'Shows', 'Average gross', 'Ref.'],
       dtype='object')
-2025-12-12 18:47:42,169 - INFO - issues found:
+2025-12-13 15:48:11,097 - INFO - issues found:
 True
-2025-12-12 18:47:42,175 - INFO - issues in columns:
-Rank:['contains upper case letters']
-
-2025-12-12 18:47:42,176 - INFO - issues in columns:
-Peak:['contains upper case letters']
-
-2025-12-12 18:47:42,176 - INFO - issues in columns:
-All Time Peak:['contains space', 'special characters found', 'contains upper case letters']
-
-2025-12-12 18:47:42,176 - INFO - issues in columns:
-Actual gross:['special characters found', 'contains upper case letters', 'unicode characters']
-
-2025-12-12 18:47:42,176 - INFO - issues in columns:
-Adjusted gross (in 2022 dollars):['contains space', 'special characters found', 'contains upper case letters', 'unicode characters']
-
-2025-12-12 18:47:42,176 - INFO - issues in columns:
-Artist:['contains upper case letters']
-
-2025-12-12 18:47:42,176 - INFO - issues in columns:
-Tour title:['contains space', 'special characters found', 'contains upper case letters']
-
-2025-12-12 18:47:42,176 - INFO - issues in columns:
-Year(s):['special characters found', 'contains upper case letters']
-
-2025-12-12 18:47:42,176 - INFO - issues in columns:
-Shows:['contains upper case letters']
-
-2025-12-12 18:47:42,177 - INFO - issues in columns:
-Average gross:['contains space', 'special characters found', 'contains upper case letters']
-
-2025-12-12 18:47:42,177 - INFO - issues in columns:
-Ref.:['special characters found', 'contains upper case letters']
-
-2025-12-12 18:47:42,177 - INFO - Total issues found:11
-2025-12-12 18:47:42,220 - INFO - 
+2025-12-13 15:48:11,102 - INFO - Total issues found:11
+2025-12-13 15:48:11,118 - INFO - column name issues:
+['rank', 'peak', 'all_time_peak', 'actualgross', 'adjustedgross_in_2022_dollars', 'artist', 'tour_title', 'years', 'shows', 'average_gross', 'ref']
+2025-12-13 15:48:11,152 - INFO - detected column types saved to C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\src\json_output\detect_column_types20251213_154811.json
+2025-12-13 15:48:11,159 - INFO - 
    Rank  Peak All Time Peak  Actual gross Adjusted gross (in 2022 dollars)        Artist                   Tour title    Year(s)  Shows Average gross Ref.
 0     1     1             2  $780,000,000                     $780,000,000  Taylor Swift              The Eras Tour †  2023–2024     56   $13,928,571  [1]
 1     2     1          7[2]  $579,800,000                     $579,800,000       Beyoncé       Renaissance World Tour       2023     56   $10,353,571  [3]
 2     3  1[4]          2[5]  $411,000,000                     $560,622,615       Madonna  Sticky & Sweet Tour ‡[4][a]  2008–2009     85    $4,835,294  [6]
 3     4  2[7]         10[7]  $397,300,000                     $454,751,555          Pink  Beautiful Trauma World Tour  2018–2019    156    $2,546,795  [7]
-2025-12-12 18:47:42,240 - INFO - (20, 11)
-2025-12-12 18:47:43,079 - INFO - C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\src\output\missing_values_20251212_184742.png
-2025-12-12 18:47:43,080 - INFO - missing values found in these columns:
+2025-12-13 15:48:11,513 - INFO - missing values plot created here: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\src\output\missing_values_20251213_154811.png
+2025-12-13 15:48:11,514 - INFO - missing values found in these columns:
 Peak             11
 All Time Peak    14
 dtype: int64

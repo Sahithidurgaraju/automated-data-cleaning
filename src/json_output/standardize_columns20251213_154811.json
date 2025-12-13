@@ -1,0 +1,35 @@
+{
+    "Rank": {
+        "new_column": "rank"
+    },
+    "Peak": {
+        "new_column": "peak"
+    },
+    "All Time Peak": {
+        "new_column": "all_time_peak"
+    },
+    "Actual\u00a0gross": {
+        "new_column": "actualgross"
+    },
+    "Adjusted\u00a0gross (in 2022 dollars)": {
+        "new_column": "adjustedgross_in_2022_dollars"
+    },
+    "Artist": {
+        "new_column": "artist"
+    },
+    "Tour title": {
+        "new_column": "tour_title"
+    },
+    "Year(s)": {
+        "new_column": "years"
+    },
+    "Shows": {
+        "new_column": "shows"
+    },
+    "Average gross": {
+        "new_column": "average_gross"
+    },
+    "Ref.": {
+        "new_column": "ref"
+    }
+}
