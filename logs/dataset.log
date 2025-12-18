@@ -1,0 +1,30 @@
+2025-12-18 19:35:45,878 - INFO - Logger initialized for dataset
+2025-12-18 19:35:45,878 - INFO - Processing: data\dataset.csv
+2025-12-18 19:35:46,768 - INFO - Loaded CSV: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\dataset.csv (utf-8)
+2025-12-18 19:35:46,770 - INFO - Cleaned column names: ['unnamed_0', 'track_id', 'artists', 'album_name', 'track_name', 'popularity', 'duration_ms', 'explicit', 'danceability', 'energy', 'key', 'loudness', 'mode', 'speechiness', 'acousticness', 'instrumentalness', 'liveness', 'valence', 'tempo', 'time_signature', 'track_genre']
+2025-12-18 19:35:47,319 - INFO - Cleaned text column: track_id
+2025-12-18 19:35:47,976 - INFO - Cleaned text column: artists
+2025-12-18 19:35:48,777 - INFO - Cleaned text column: album_name
+2025-12-18 19:35:49,463 - INFO - Cleaned text column: track_name
+2025-12-18 19:35:49,982 - INFO - Cleaned text column: track_genre
+2025-12-18 19:35:49,983 - INFO - CSV loading and cleaning completed: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\dataset.csv
+2025-12-18 19:35:55,765 - INFO - [dataset] Outliers plot (before) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\dataset_outliers\dataset_outliers_before_20251218_1935.png
+2025-12-18 19:35:55,791 - INFO - missing values found:artists        1
+album_name    21
+track_name     1
+dtype: int64
+2025-12-18 19:35:55,856 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\dataset_missing_values_output\dataset_missing_values_after_20251218_1929.png
+2025-12-18 19:35:55,856 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\dataset_missing_values_output\dataset_missing_values_before_20251218_1927.png
+2025-12-18 19:35:55,941 - INFO - [dataset] BEFORE-cleaning complete
+--------------------------------------------------
+2025-12-18 19:36:42,294 - INFO - [dataset] Cleaned columns: ['album_name', 'track_name']
+2025-12-18 19:36:42,294 - INFO - [dataset] Skipped columns: ['track_id', 'artists', 'explicit', 'track_genre']
+2025-12-18 19:36:43,732 - INFO - [dataset] Missing values handled | numeric=15, text=6, datetime=0
+2025-12-18 19:37:03,084 - INFO - [dataset] AFTER schema saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\dataset_schema_after.json
+2025-12-18 19:37:03,114 - WARNING - [dataset] Skipped schema apply for explicit: Need to pass bool-like values
+2025-12-18 19:37:08,018 - INFO - [dataset] Outliers plot (after) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\dataset_outliers\dataset_outliers_after_20251218_1937.png
+2025-12-18 19:37:08,020 - INFO - [dataset] Returning cleaned DataFrame with shape (114000, 21)
+2025-12-18 19:37:08,060 - INFO - missing values found:Series([], dtype: int64)
+2025-12-18 19:37:08,060 - INFO - No missing values found
+2025-12-18 19:37:09,752 - INFO - [dataset] AFTER-cleaning complete. Cleaned CSV saved at: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\cleaned_data_output\dataset_cleaned_20251218_193708.csv
+2025-12-18 19:37:09,752 - INFO - [dataset] Cleaned DataFrame preview

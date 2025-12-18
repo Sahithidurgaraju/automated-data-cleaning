@@ -1,0 +1,13 @@
+{
+    "rank": "integer",
+    "peak": "text",
+    "all_time_peak": "text",
+    "actual_gross": "integer",
+    "adjusted_gross_in_2022_dollars": "integer",
+    "artist": "text",
+    "tour_title": "text",
+    "year_s": "integer",
+    "shows": "integer",
+    "average_gross": "integer",
+    "year_s_end": "integer"
+}

@@ -1,0 +1,23 @@
+{
+    "unnamed_0": "integer",
+    "track_id": "text",
+    "artists": "text",
+    "album_name": "text",
+    "track_name": "text",
+    "popularity": "integer",
+    "duration_ms": "integer",
+    "explicit": "boolean",
+    "danceability": "float",
+    "energy": "float",
+    "key": "integer",
+    "loudness": "float",
+    "mode": "boolean",
+    "speechiness": "float",
+    "acousticness": "float",
+    "instrumentalness": "float",
+    "liveness": "float",
+    "valence": "float",
+    "tempo": "float",
+    "time_signature": "integer",
+    "track_genre": "category"
+}

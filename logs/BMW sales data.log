@@ -1,0 +1,28 @@
+2025-12-18 19:35:30,287 - INFO - Logger initialized for BMW sales data
+2025-12-18 19:35:30,287 - INFO - Processing: data\BMW sales data.csv
+2025-12-18 19:35:30,400 - INFO - Loaded CSV: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\BMW sales data.csv (utf-8)
+2025-12-18 19:35:30,401 - INFO - Cleaned column names: ['model', 'year', 'region', 'color', 'fuel_type', 'transmission', 'engine_size_l', 'mileage_km', 'price_usd', 'sales_volume', 'sales_classification']
+2025-12-18 19:35:30,569 - INFO - Cleaned text column: model
+2025-12-18 19:35:30,760 - INFO - Cleaned text column: region
+2025-12-18 19:35:30,924 - INFO - Cleaned text column: color
+2025-12-18 19:35:31,136 - INFO - Cleaned text column: fuel_type
+2025-12-18 19:35:31,313 - INFO - Cleaned text column: transmission
+2025-12-18 19:35:31,480 - INFO - Cleaned text column: sales_classification
+2025-12-18 19:35:31,480 - INFO - CSV loading and cleaning completed: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\BMW sales data.csv
+2025-12-18 19:35:32,359 - INFO - [BMW sales data] Outliers plot (before) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_outliers\BMW sales data_outliers_before_20251218_1935.png
+2025-12-18 19:35:32,372 - INFO - missing values found:Series([], dtype: int64)
+2025-12-18 19:35:32,372 - INFO - No missing values found
+2025-12-18 19:35:32,496 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_missing_values_output\BMW sales data_missing_values_after_20251218_1927.png
+2025-12-18 19:35:32,496 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_missing_values_output\BMW sales data_missing_values_before_20251218_1927.png
+2025-12-18 19:35:32,608 - INFO - [BMW sales data] BEFORE-cleaning complete
+--------------------------------------------------
+2025-12-18 19:35:38,442 - INFO - [BMW sales data] Cleaned columns: []
+2025-12-18 19:35:38,442 - INFO - [BMW sales data] Skipped columns: ['model', 'region', 'color', 'fuel_type', 'transmission', 'sales_classification']
+2025-12-18 19:35:38,878 - INFO - [BMW sales data] Missing values handled | numeric=5, text=6, datetime=0
+2025-12-18 19:35:39,311 - INFO - [BMW sales data] AFTER schema saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\BMW sales data_schema_after.json
+2025-12-18 19:35:40,126 - INFO - [BMW sales data] Outliers plot (after) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_outliers\BMW sales data_outliers_after_20251218_1935.png
+2025-12-18 19:35:40,127 - INFO - [BMW sales data] Returning cleaned DataFrame with shape (47691, 11)
+2025-12-18 19:35:40,131 - INFO - missing values found:Series([], dtype: int64)
+2025-12-18 19:35:40,132 - INFO - No missing values found
+2025-12-18 19:35:40,758 - INFO - [BMW sales data] AFTER-cleaning complete. Cleaned CSV saved at: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\cleaned_data_output\BMW sales data_cleaned_20251218_193540.csv
+2025-12-18 19:35:40,759 - INFO - [BMW sales data] Cleaned DataFrame preview
