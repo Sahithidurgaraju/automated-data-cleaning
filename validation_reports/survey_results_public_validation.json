@@ -1,0 +1,23 @@
+{
+  "dataset": "survey_results_public",
+  "status": "PASS",
+  "checks": {
+    "non_empty": {
+      "status": "PASS",
+      "message": "Dataset contains 46224 rows after cleaning"
+    },
+    "schema_match": {
+      "status": "PASS",
+      "message": "All expected schema columns are present"
+    },
+    "deduplication": {
+      "status": "PASS",
+      "message": "Deduplication skipped intentionally: No valid deduplication keys"
+    },
+    "no_nulls": {
+      "status": "PASS",
+      "message": "No null values found in dataset"
+    }
+  },
+  "timestamp": "20251219_1934"
+}

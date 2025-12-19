@@ -152,29 +152,6 @@ def messy_data():
 def test_pipeline(messy_data):
     csvname,df,logger=messy_data
     cleaner = Datacleaner(df,csvname) 
-    load_data = cleaner.load_csv(csvname,logger=logger)
-    cleaner.plot_outliers(csvname, logger,when="before", cleanup_old=True)
-    cleaner.plot_missing_values(csvname, df, logger, show_plot=False,when="before",cleanup_old=True)
-    
-    logger.info(f"[{csvname}] BEFORE-cleaning complete\n{'-'*50}")
-    # # # # # cleaning   
-    
-    # # # logger.info("Entering standard_data") 
-    cleaner.standard_data(csvname,logger)
-    cleaned_df = cleaner.handle_missing(csvname,logger,strategy="auto")
-    # logger.info(f"{cleaned_df}")
-    cleaner.detect_and_save_schema(cleaned_df, csvname,stage="after", logger=logger)
-    cleaner.apply_schema_from_json(csvname,stage="after",logger=logger)
-    cleaner.remove_irrelevant_columns(csvname,logger)
-    cleaner.plot_outliers(csvname,logger,when="after", cleanup_old=True)
-    cleaned_df = cleaner.get_cleaned_data(csvname,logger)
-    # # # logger.info(f"{cleaned_df.head(10)}")
-    # # # # Plot missing values after cleaning
-    cleaner.plot_missing_values(csvname, cleaned_df, logger, when="after",show_plot=False)
-    
-
-    # # # # # # # Export cleaned CSV
-    export_path = cleaner.export_to_csv(csvname, df_to_export=cleaned_df)
-
-    logger.info(f"[{csvname}] AFTER-cleaning complete. Cleaned CSV saved at: {export_path}")
+    cleaner.datacleaning_pipeline(csvname=csvname,cleanup_old=True,strategy="auto",show_plot=False,logger=logger) 
+    logger.info(f"[{csvname}] AFTER-cleaning complete. Cleaned CSV saved ")
     logger.info(f"[{csvname}] Cleaned DataFrame preview")

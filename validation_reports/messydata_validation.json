@@ -1,0 +1,23 @@
+{
+  "dataset": "messydata",
+  "status": "PASS",
+  "checks": {
+    "non_empty": {
+      "status": "PASS",
+      "message": "Dataset contains 20 rows after cleaning"
+    },
+    "schema_match": {
+      "status": "PASS",
+      "message": "All expected schema columns are present"
+    },
+    "deduplication": {
+      "status": "PASS",
+      "message": "Deduplication skipped intentionally: No valid deduplication keys"
+    },
+    "no_nulls": {
+      "status": "PASS",
+      "message": "Only structural nulls found (6); expected"
+    }
+  },
+  "timestamp": "20251219_1932"
+}
