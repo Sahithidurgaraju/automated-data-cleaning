@@ -1,0 +1,281 @@
+{
+  "dataset": "survey_results_public_cleaned_20251224_122858",
+  "applied_at": "2025-12-25T15:17:57.520033",
+  "column_transformations": {
+    "respondent": [
+      "cast_to_numeric",
+      "bins_created"
+    ],
+    "mainbranch": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "hobbyist": [
+      "lowercase",
+      "strip"
+    ],
+    "age": [
+      "cast_to_numeric"
+    ],
+    "age1stcode": [
+      "cast_to_numeric"
+    ],
+    "compfreq": [
+      "lowercase",
+      "strip"
+    ],
+    "comptotal": [
+      "cast_to_numeric"
+    ],
+    "convertedcomp": [
+      "cast_to_numeric"
+    ],
+    "country": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "currencydesc": [
+      "lowercase",
+      "strip"
+    ],
+    "currencysymbol": [
+      "lowercase",
+      "strip"
+    ],
+    "databasedesirenextyear": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "databaseworkedwith": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "devtype": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "edlevel": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "employment": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "ethnicity": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "gender": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "jobfactors": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "jobsat": [
+      "lowercase",
+      "strip"
+    ],
+    "jobseek": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "languagedesirenextyear": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters",
+      "split_year"
+    ],
+    "languageworkedwith": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "misctechdesirenextyear": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "misctechworkedwith": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newcollabtoolsdesirenextyear": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newcollabtoolsworkedwith": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newdevops": [
+      "lowercase",
+      "strip"
+    ],
+    "newdevopsimpt": [
+      "lowercase",
+      "strip"
+    ],
+    "newedimpt": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newjobhunt": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newjobhuntresearch": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newlearn": [
+      "lowercase",
+      "strip"
+    ],
+    "newofftopic": [
+      "lowercase",
+      "strip"
+    ],
+    "newonboardgood": [
+      "lowercase",
+      "strip"
+    ],
+    "newothercomms": [
+      "lowercase",
+      "strip"
+    ],
+    "newovertime": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newpurchaseresearch": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newpurplelink": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newsosites": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "newstuck": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "opsys": [
+      "lowercase",
+      "strip"
+    ],
+    "orgsize": [
+      "cast_to_numeric"
+    ],
+    "platformdesirenextyear": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "platformworkedwith": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "purchasewhat": [
+      "lowercase",
+      "strip"
+    ],
+    "sexuality": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "soaccount": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "socomm": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "sopartfreq": [
+      "lowercase",
+      "strip"
+    ],
+    "sovisitfreq": [
+      "lowercase",
+      "strip"
+    ],
+    "surveyease": [
+      "lowercase",
+      "strip"
+    ],
+    "surveylength": [
+      "lowercase",
+      "strip"
+    ],
+    "trans": [
+      "lowercase",
+      "strip"
+    ],
+    "undergradmajor": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "webframedesirenextyear": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "webframeworkedwith": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "welcomechange": [
+      "lowercase",
+      "strip"
+    ],
+    "workweekhrs": [
+      "cast_to_numeric"
+    ],
+    "yearscode": [
+      "cast_to_numeric"
+    ],
+    "yearscodepro": [
+      "cast_to_numeric"
+    ]
+  },
+  "dataset_operations": {},
+  "generated_columns": [
+    "respondent_bin",
+    "respondent_bin"
+  ]
+}

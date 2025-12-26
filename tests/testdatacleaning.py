@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import logging
 from src.pandasdatacleaning import Datacleaner
+from src.datatransformation import Datatranformer
 import warnings
 import re
 import pytest
@@ -32,8 +33,6 @@ import pytest
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 DATA_DIR = PROJECT_ROOT / "data"
 LOG_DIR = PROJECT_ROOT/"logs"
-
-
 
 @pytest.fixture
 def messy_data():
@@ -72,86 +71,96 @@ def messy_data():
 #here onwards testing of before cleaning of messy data starts:
 #testing column name has any issues like white spaces, unicode characters, upper characters
 
-# @pytest.mark.tc_0001
-# def test_data_shape(messy_data):
-#     csvname,df,logger=messy_data
-#     cleaner = Datacleaner(df,csvname)
-#     rows, cols = cleaner.df.shape
-#     logger.info(f"Rows and columns of given data:{cleaner.df.shape}")
-#     assert rows>0, "rows are empty"
-#     assert cols>0, "columns are empty"
+@pytest.mark.tc_0001
+def test_load_csv(messy_data):
+    csvname,df,logger = messy_data
+    cleaner = Datacleaner(df,csvname)
+    load_data = cleaner.load_csv(csvname,logger)
+    logger.info(f"[{csvname}]-Loaded data")
+    text_columns = load_data.select_dtypes(include="object").columns
+    for col in text_columns:
+        logger.info(f"{col}")
+        assert not load_data[col].str.startswith(" ").any()
+        assert not load_data[col].str.endswith(" ").any()
+    assert load_data is not None
+    assert not load_data.empty
+    assert load_data.shape[0] > 0
 
-# @pytest.mark.tc_0002
-# def test_get_columns(messy_data):
-#     csvname,df,logger=messy_data
-#     cleaner = Datacleaner(df)
-#     columns = cleaner.get_column_names(csvname,logger)
-#     logger.info(f"columns:\n{columns}")
-#     #checking the column names are present or not
-#     assert isinstance(columns, (list,pd.Index)),"Column names should be a list or Index"
+@pytest.mark.tc_0002
+def test_shape(messy_data):
+    csvname,df,logger = messy_data
+    cleaner = Datacleaner(df,csvname)
+    shape,rows,columns = cleaner.shape(csvname,logger)
+    logger.info(f"shape of the data:{shape}")
+    assert isinstance(shape, tuple), "Shape should be a tuple"
+    assert len(shape) == 2, "Shape should have (rows, columns)"
+    assert rows > 0, "Row count should be > 0"
+    assert columns > 0, "Column count should be > 0"
 
-# @pytest.mark.tc_0003
-# def test_column_name_issues_present(messy_data):
-#     csvname,df,logger=messy_data
-#     cleaner = Datacleaner(df)
-#     cleaner_issues = cleaner.check_column_has_issues(csvname,logger)
-#     logger.info(f"issues found:\n{cleaner_issues}")
-#     #checking is there any issues
-#     assert cleaner_issues is True
+@pytest.mark.tc_0003
+def test_handle_missing(messy_data):
+    csvname,df,logger = messy_data
+    cleaner = Datacleaner(df,csvname)
+    missing_data = cleaner.handle_missing(csvname,logger,strategy="auto")
+    for col in missing_data.columns:
+        if cleaner.is_structural_na_column(col, missing_data[col]):
+            continue
 
-# @pytest.mark.tc_0004
-# def test_column_name_issues(messy_data):
-#     csvname,df,logger=messy_data
-#     cleaner = Datacleaner(df)
-#     count = 0
-#     columns = cleaner.check_column_name_issues()
-#     for column, issues in columns.items():
-#         if issues:
-#             count += 1
-#     logger.info(f"Total issues found:{count}")
-#     cleaner_issues = cleaner.detect_column_name_issues_save_json(csvname,df,logger)
-#     logger.info(f"column name issues:\n{cleaner_issues}")
-#     #checking what are the issues present in the column names
-#     assert os.path.exists(cleaner_issues), "json file not created"
-# @pytest.mark.tc_0005
-# def test_column_type_issues(messy_data):
-#     csvname,df,logger=messy_data
-#     cleaner = Datacleaner(df)
-#     columns = cleaner.detect_column_types_save_json(csvname,df,logger)
-#     cleaner_column_types = cleaner.apply_schema_from_json(csvname,df,logger)
-#     logger.info(f"detected column types saved to {columns}")
-#     # assert os.path.exists(columns), "json file not created"
-# @pytest.mark.tc_0006
-# def test_print_head_data(messy_data):
-#     csvname,df,logger=messy_data
-#     cleaner = Datacleaner(df)
-#     head_df = cleaner.df.head(4)
-#     logger.info(f"\n{head_df}")
-#     assert head_df.notna().sum().sum() > 0, "Head contains only missing values"
-# @pytest.mark.tc_0007
-# def test_missing_values(messy_data):
-#     csvname,df,logger=messy_data
-#     cleaner = Datacleaner(df) 
-#     columns = cleaner.get_column_names() 
-#     missing_values = cleaner.df.isnull().sum()
-#     missing_values = missing_values[missing_values>0]
-#     file_path=cleaner.plot_missing_values(csvname,df,logger)
-#     logger.info(f"Test case for {csvname}: missing values plot created at {file_path}")   
-#     # checking
-#     assert not missing_values.empty,"No missing values found in any column"
-#     assert file_path is not None, "Function returned None even though missing values exist"
-#     assert os.path.exists(file_path), "Plot file not created"
-# @pytest.mark.tc_0008
-# def test_export_data(messy_data):
-#     csvname,df,logger=messy_data
-#     cleaner = Datacleaner(df) 
-#     cleaned_df = cleaner.standardize_columns(csvname,df,logger)
-#     # cleaner.export_to_csv(csvname=csvname, df_to_export=cleaned_df)
-#     logger.info(f"log exported{cleaned_df}")
-@pytest.mark.tc_0009
+        # Only assert for non-structural columns
+        null_ratio = missing_data[col].isna().mean()
+
+        # Allow reasonable threshold (configurable)
+        assert null_ratio <= 0.3, (
+            f"Column '{col}' has high null ratio {null_ratio:.1%}"
+        )
+@pytest.mark.tc_0004
+def test_remove_duplicates(messy_data):
+    csvname,df,logger = messy_data
+    cleaner = Datacleaner(df,csvname)
+    cleaner.remove_duplicates(csvname,logger)
+    dedup_keys = cleaner.derive_duplicate_subset(csvname)
+    if cleaner.deduplication_status == "executed":
+        assert df.duplicated(subset=dedup_keys).sum() == 0
+    elif cleaner.deduplication_status == "aborted":
+        assert df.shape[0] > 0 
+
+@pytest.mark.tc_0005
 def test_pipeline(messy_data):
     csvname,df,logger=messy_data
     cleaner = Datacleaner(df,csvname) 
-    cleaner.datacleaning_pipeline(csvname=csvname,cleanup_old=True,strategy="auto",show_plot=False,logger=logger) 
+    df_clean = cleaner.datacleaning_pipeline(csvname=csvname,cleanup_old=True,strategy="auto",show_plot=False,logger=logger) 
     logger.info(f"[{csvname}] AFTER-cleaning complete. Cleaned CSV saved ")
     logger.info(f"[{csvname}] Cleaned DataFrame preview")
+    assert not df_clean.empty
+    assert len(df_clean) > 0
+    
+@pytest.mark.tc_0006
+def test_validation_report_structure(messy_data):
+    csvname, df, logger = messy_data
+    cleaner = Datacleaner(df, csvname)
+    rows_before = len(df)
+    cleaner.datacleaning_pipeline(csvname=csvname,cleanup_old=True,strategy="auto",show_plot=False,logger=logger)
+
+    report = cleaner.validate_cleaned_data(csvname, logger,df,rows_before)
+    dedup_check = report["checks"]["deduplication"]
+    # basic structure
+    assert isinstance(report, dict)
+    assert "dataset" in report
+    assert "status" in report
+    assert "checks" in report
+    assert isinstance(report["checks"], dict)
+    assert report["dataset"] == csvname
+    assert report["status"] in ("PASS", "FAIL")
+    #checking report status 
+    for check, result in report["checks"].items():
+        assert result["status"] in ("PASS", "FAIL")
+        assert "message" in result    
+    #deduplication status 
+    if cleaner.deduplication_status == "aborted":
+        assert dedup_check["status"] == "PASS"
+        assert "skipped" in dedup_check["message"].lower()
+    elif cleaner.deduplication_status == "executed":
+        assert dedup_check["status"] == "PASS"
+
+
+

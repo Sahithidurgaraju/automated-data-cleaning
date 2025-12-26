@@ -1,35 +1,5 @@
-2025-12-19 19:32:32,267 - INFO - Logger initialized for messydata
-2025-12-19 19:32:32,268 - INFO - Processing: data\messydata.csv
-2025-12-19 19:32:32,277 - INFO - Loaded CSV: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\messydata.csv (utf-8)
-2025-12-19 19:32:32,280 - INFO - Cleaned column names: ['rank', 'peak', 'all_time_peak', 'actual_gross', 'adjusted_gross_in_2022_dollars', 'artist', 'tour_title', 'year_s', 'shows', 'average_gross', 'ref']
-2025-12-19 19:32:32,286 - INFO - Cleaned text column: peak
-2025-12-19 19:32:32,289 - INFO - Cleaned text column: all_time_peak
-2025-12-19 19:32:32,293 - INFO - Cleaned text column: actual_gross
-2025-12-19 19:32:32,298 - INFO - Cleaned text column: adjusted_gross_in_2022_dollars
-2025-12-19 19:32:32,303 - INFO - Cleaned text column: artist
-2025-12-19 19:32:32,306 - INFO - Cleaned text column: tour_title
-2025-12-19 19:32:32,309 - INFO - Cleaned text column: year_s
-2025-12-19 19:32:32,315 - INFO - Cleaned text column: average_gross
-2025-12-19 19:32:32,318 - INFO - Cleaned text column: ref
-2025-12-19 19:32:32,318 - INFO - CSV loading and cleaning completed: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\messydata.csv
-2025-12-19 19:32:32,543 - INFO - [messydata] Outliers plot (before) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\messydata_outliers\messydata_outliers_before_20251219_1932.png
-2025-12-19 19:32:32,547 - INFO - missing values found:peak             11
-all_time_peak    14
-dtype: int64
-2025-12-19 19:32:32,621 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\messydata_missing_values_output\messydata_missing_values_after_20251219_1912.png
-2025-12-19 19:32:32,621 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\messydata_missing_values_output\messydata_missing_values_before_20251219_1912.png
-2025-12-19 19:32:32,786 - INFO - [messydata] Cleaned columns: ['actual_gross', 'adjusted_gross_in_2022_dollars', 'year_s', 'average_gross']
-2025-12-19 19:32:32,786 - INFO - [messydata] Skipped columns: ['artist', 'tour_title']
-2025-12-19 19:32:32,802 - INFO - [messydata] Dropped 1 fully empty columns
-2025-12-19 19:32:32,810 - INFO - [messydata] Missing values handled | numeric=7, text=4, datetime=0
-2025-12-19 19:32:32,827 - INFO - [messydata] AFTER schema saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\messydata_schema_after.json
-2025-12-19 19:32:33,139 - INFO - [messydata] Outliers plot (after) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\messydata_outliers\messydata_outliers_after_20251219_1932.png
-2025-12-19 19:32:33,150 - INFO - [messydata] Removed 0 duplicate rows using keys=['artist', 'year_s', 'year_s_end']
-2025-12-19 19:32:33,151 - INFO - [messydata] Removed 0 duplicate rows using keys=['artist', 'year_s', 'year_s_end']
-2025-12-19 19:32:33,151 - INFO - [messydata] Returning cleaned DataFrame with shape (20, 11)
-2025-12-19 19:32:33,157 - INFO - missing values found:Series([], dtype: int64)
-2025-12-19 19:32:33,157 - INFO - No missing values found
-2025-12-19 19:32:33,402 - INFO - [messydata] Validation completed with status=PASS
-2025-12-19 19:32:33,403 - INFO - [messydata] Validation JSON saved to C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\validation_reports\messydata_validation.json
-2025-12-19 19:32:33,407 - INFO - [messydata] AFTER-cleaning complete. Cleaned CSV saved 
-2025-12-19 19:32:33,407 - INFO - [messydata] Cleaned DataFrame preview
+2025-12-24 12:29:21,182 - INFO - Logger initialized for messydata
+2025-12-24 12:29:21,182 - INFO - Processing: data\messydata.csv
+2025-12-24 12:29:21,186 - INFO - schema_path
+2025-12-24 12:29:21,192 - INFO - Transformation config saved: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\messydata_transformation_20251224_122921.json
+2025-12-24 12:29:21,192 - INFO - C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\messydata_transformation_20251224_122921.json

@@ -1,0 +1,92 @@
+{
+  "dataset": "dataset_cleaned_20251224_122437",
+  "applied_at": "2025-12-25T15:17:24.757484",
+  "column_transformations": {
+    "unnamed_0": [
+      "cast_to_numeric",
+      "bins_created"
+    ],
+    "track_id": [
+      "lowercase",
+      "strip"
+    ],
+    "artists": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "album_name": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "track_name": [
+      "lowercase",
+      "strip",
+      "normalize_delimiters"
+    ],
+    "popularity": [
+      "cast_to_numeric"
+    ],
+    "duration_ms": [
+      "cast_to_numeric",
+      "bins_created"
+    ],
+    "explicit": [
+      "cast_to_numeric"
+    ],
+    "danceability": [
+      "cast_to_numeric"
+    ],
+    "energy": [
+      "cast_to_numeric"
+    ],
+    "key": [
+      "cast_to_numeric"
+    ],
+    "loudness": [
+      "cast_to_numeric",
+      "bins_created"
+    ],
+    "mode": [
+      "cast_to_numeric"
+    ],
+    "speechiness": [
+      "cast_to_numeric"
+    ],
+    "acousticness": [
+      "cast_to_numeric"
+    ],
+    "instrumentalness": [
+      "cast_to_numeric"
+    ],
+    "liveness": [
+      "cast_to_numeric"
+    ],
+    "valence": [
+      "cast_to_numeric"
+    ],
+    "tempo": [
+      "cast_to_numeric",
+      "bins_created"
+    ],
+    "time_signature": [
+      "cast_to_numeric"
+    ],
+    "track_genre": [
+      "lowercase",
+      "strip"
+    ]
+  },
+  "dataset_operations": {},
+  "generated_columns": [
+    "unnamed_0_bin",
+    "unnamed_0_bin",
+    "duration_ms_bin",
+    "duration_ms_bin",
+    "loudness_bin",
+    "loudness_bin",
+    "tempo_bin",
+    "tempo_bin"
+  ]
+}

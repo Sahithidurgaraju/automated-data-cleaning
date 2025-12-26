@@ -1,30 +1,5 @@
-2025-12-19 19:30:27,971 - INFO - Logger initialized for BMW sales data
-2025-12-19 19:30:27,971 - INFO - Processing: data\BMW sales data.csv
-2025-12-19 19:30:28,142 - INFO - Loaded CSV: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\BMW sales data.csv (utf-8)
-2025-12-19 19:30:28,144 - INFO - Cleaned column names: ['model', 'year', 'region', 'color', 'fuel_type', 'transmission', 'engine_size_l', 'mileage_km', 'price_usd', 'sales_volume', 'sales_classification']
-2025-12-19 19:30:28,435 - INFO - Cleaned text column: model
-2025-12-19 19:30:28,737 - INFO - Cleaned text column: region
-2025-12-19 19:30:29,002 - INFO - Cleaned text column: color
-2025-12-19 19:30:29,250 - INFO - Cleaned text column: fuel_type
-2025-12-19 19:30:29,513 - INFO - Cleaned text column: transmission
-2025-12-19 19:30:29,732 - INFO - Cleaned text column: sales_classification
-2025-12-19 19:30:29,732 - INFO - CSV loading and cleaning completed: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\BMW sales data.csv
-2025-12-19 19:30:30,812 - INFO - [BMW sales data] Outliers plot (before) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_outliers\BMW sales data_outliers_before_20251219_1930.png
-2025-12-19 19:30:30,835 - INFO - missing values found:Series([], dtype: int64)
-2025-12-19 19:30:30,835 - INFO - No missing values found
-2025-12-19 19:30:30,976 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_missing_values_output\BMW sales data_missing_values_after_20251219_1929.png
-2025-12-19 19:30:30,977 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_missing_values_output\BMW sales data_missing_values_before_20251219_1929.png
-2025-12-19 19:30:39,704 - INFO - [BMW sales data] Cleaned columns: []
-2025-12-19 19:30:39,704 - INFO - [BMW sales data] Skipped columns: ['model', 'region', 'color', 'fuel_type', 'transmission', 'sales_classification']
-2025-12-19 19:30:40,952 - INFO - [BMW sales data] Missing values handled | numeric=5, text=6, datetime=0
-2025-12-19 19:30:41,695 - INFO - [BMW sales data] AFTER schema saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\BMW sales data_schema_after.json
-2025-12-19 19:30:43,136 - INFO - [BMW sales data] Outliers plot (after) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_outliers\BMW sales data_outliers_after_20251219_1930.png
-2025-12-19 19:30:43,600 - INFO - [BMW sales data] Removed 47676 duplicate rows using keys=['year']
-2025-12-19 19:30:43,600 - ERROR - [BMW sales data] Aborting deduplication — 100.0% rows flagged as duplicates using ['year']
-2025-12-19 19:30:43,600 - INFO - [BMW sales data] Returning cleaned DataFrame with shape (47691, 11)
-2025-12-19 19:30:43,611 - INFO - missing values found:Series([], dtype: int64)
-2025-12-19 19:30:43,611 - INFO - No missing values found
-2025-12-19 19:30:43,930 - INFO - [BMW sales data] Validation completed with status=PASS
-2025-12-19 19:30:43,931 - INFO - [BMW sales data] Validation JSON saved to C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\validation_reports\BMW sales data_validation.json
-2025-12-19 19:30:44,149 - INFO - [BMW sales data] AFTER-cleaning complete. Cleaned CSV saved 
-2025-12-19 19:30:44,149 - INFO - [BMW sales data] Cleaned DataFrame preview
+2025-12-24 12:29:13,719 - INFO - Logger initialized for BMW sales data
+2025-12-24 12:29:13,719 - INFO - Processing: data\BMW sales data.csv
+2025-12-24 12:29:13,783 - INFO - schema_path
+2025-12-24 12:29:13,893 - INFO - Transformation config saved: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\BMW sales data_transformation_20251224_122913.json
+2025-12-24 12:29:13,893 - INFO - C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\BMW sales data_transformation_20251224_122913.json

@@ -1,43 +1,34 @@
 import pandas as pd
 import warnings
 import numpy as np
-import re
-import os
-import unicodedata
-import seaborn as sns
-import matplotlib.pyplot as plt
+import re,os,unicodedata,time,glob,json,seaborn as sns, matplotlib.pyplot as plt
 from datetime import datetime
-import time
-import glob
 from pathlib import Path
-import json
 from src.config import DATA_DIR, JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR,VALIDATION_DIR
 # Ignore only RuntimeWarning (common for all-NaN median/mean)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
-
+#pattern checking 
 TEXT_DIRTY_PATTERN = r"\[[^\]]*\]|[†‡*]|[\x00-\x1F\x7F]"
 NUMERIC_PATTERN = r"[\$\€\£\₹(),]|\d+[KMBkmb]$"
 YEAR_PATTERN = r"(19\d{2}|20\d{2})"
 YEAR_RANGE_PATTERN = r"(19\d{2}|20\d{2}).*(19\d{2}|20\d{2})"
-
-
+#cleaning threshold
 TEXT_THRESHOLD = 0.6
 YEAR_THRESHOLD = 0.6
 NUMERIC_THRESHOLD = 0.1
-
-    
+#for checking the id columns
 ID_NAME_KEYWORDS = (
     "id", "uuid", "guid", "hash", "code", "ref", "reference"
 )
 
-
-
+#datacleaner class starts 
 class Datacleaner:
     def __init__(self, df,csvname):
         self.df = df.copy()
         self.logs = []
         self.column_mapping = {}  
         self.csvname = csvname
+
     #cleaning column names
     def clean_colnames(self):
         """
@@ -80,7 +71,7 @@ class Datacleaner:
         # Read CSV (encoding fallback)
         try:
             self.df = pd.read_csv(csv_path, na_values=[""],
-    keep_default_na=True,encoding=encoding)
+            keep_default_na=True,encoding=encoding)
             if logger:
                 logger.info(f"Loaded CSV: {csv_path} ({encoding})")
         except UnicodeDecodeError:
@@ -118,7 +109,19 @@ class Datacleaner:
             logger.info(f"CSV loading and cleaning completed: {csv_path}")
 
         return self.df
-    
+    def shape(self, csvname,logger):
+        if self.df is None:
+            logger.warning(f"[{csvname}] No dataframe loaded")
+            return None
+        shape = self.df.shape
+        rows = shape[0]
+        columns = shape[1]
+        self.logs.append(shape)
+        logger.info(f"shape:{shape}")
+        logger.info(f"Rows present in dataframe: {rows}")
+        logger.info(f"Columns present in dataframe: {columns}")
+        return shape,rows,columns
+
     def normalize_missing(self, df: pd.DataFrame) -> pd.DataFrame:
         """
     Convert all missing-like values (strings, blanks) into real NaNs.
@@ -146,6 +149,9 @@ class Datacleaner:
         return s.between(1800, 2200).mean() >= 0.8
 
     def handle_missing(self, csvname, logger, strategy="auto", fill_value=None):
+        """
+        Handles missing values using median and mode. Options include Auto, Drop, or Fill with a custom value.
+        """
 
         if self.df is None:
             logger.warning(f"[{csvname}] No dataframe loaded")
@@ -203,9 +209,6 @@ class Datacleaner:
         # Numeric → median (vectorized)
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", RuntimeWarning)
-            #     medians = df[num_cols].median()
-            # df[num_cols] = df[num_cols].fillna(medians)
-            # Restore integer columns safely
             for col in num_cols:
                     s = df[col]
                     if self.is_year_column(df[col]):
@@ -255,12 +258,18 @@ class Datacleaner:
         return self.df
 
     def load_schema(self,csvname):
+        """
+        Loads the schema configuration from a JSON file for the given CSV file.
+        """
         JSON_DIR.mkdir(exist_ok=True)
         base = os.path.splitext(os.path.basename(csvname))[0]
         return json.load(open(JSON_DIR / f"{base}_schema_after.json"))
 
 
     def get_outlier_columns(self, df, schema):
+        """
+        Identifies columns in the DataFrame that contain outliers.
+        """
         outlier_cols = []
 
         for col, dtype in schema.items():
@@ -284,7 +293,6 @@ class Datacleaner:
     def plot_outliers(self,csvname,logger,when="before",show_plot=False,cleanup_old=True):
         """
     Plots outliers BEFORE or AFTER cleaning.
-    Does NOT mutate self.df.
     """
 
         if when == "before":
@@ -421,14 +429,7 @@ class Datacleaner:
         df_to_export.to_csv(file_output_dir, index=False)
         self.logs.append(f"Data Exported to csv:{file_output_dir}")
         return file_output_dir
-    
-    def export_to_excel(self,file_name=None):
-        if file_name is None:
-            timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-            file_name = f"cleaned_data_{timestamp}"
-        self.df.to_excel(file_name, index=False)
-        self.logs.append(f"Data Exported to excel:{file_name}")
-        return file_name
+
     def is_structural_na_column(self, col: str, s: pd.Series) -> bool:
         col_lower = col.lower()
 
@@ -461,7 +462,7 @@ class Datacleaner:
             self.logs.append(f"No missing values found in {csvname}.")
             missing_values = pd.Series([0]*len(self.df.columns), index=self.df.columns)
             #plotting the bar graph of missing values present in the data
-        plt.figure(figsize=(8,5))
+        plt.figure(figsize=(8,12))
         ax=sns.barplot(x=missing_values.index, y=missing_values.values, palette='Reds')
         plt.title('Missing Values per Column')
         plt.ylabel('Count of Missing Values')
@@ -1025,6 +1026,7 @@ class Datacleaner:
     
         self.load_csv(csvname,logger)
         rows_before = len(self.df) 
+        self.shape(csvname,logger)
         self.plot_outliers(csvname, logger,when="before", cleanup_old=True)
         self.plot_missing_values(csvname, self.df, logger, show_plot=False,when="before",cleanup_old=True)
         self.standard_data(csvname,logger)

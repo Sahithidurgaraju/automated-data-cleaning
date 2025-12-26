@@ -1,0 +1,32 @@
+2025-12-26 12:15:32,387 - INFO - Logger initialized for BMW sales data_cleaned_20251224_122027
+2025-12-26 12:15:32,387 - INFO - Processing: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\cleaned_data_output\BMW sales data_cleaned_20251224_122027.csv
+2025-12-26 12:15:32,488 - INFO - C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\sql_credentials\sql_credentials.json created
+2025-12-26 12:15:32,612 - INFO - Engine(mysql+pymysql://root:***@127.0.0.1:3306/bmw_sales_data_cleaned_20251224_122027) MySQL connection successful!
+2025-12-26 12:15:35,588 - INFO - [BMW sales data_cleaned_20251224_122027] Data pushed to DB `bmw_sales_data_cleaned_20251224_122027` → table `transformed_bmw sales data_cleaned_20251224_122027`
+2025-12-26 12:15:35,713 - INFO - Table `transformed_bmw sales data_cleaned_20251224_122027` contains 47691 rows
+2025-12-26 12:15:35,718 - INFO - 
+Data Preview:
+      model  year         region  color fuel_type transmission  engine_size_l  mileage_km  price_usd  sales_volume sales_classification
+0  5 Series  2016           Asia    Red    Petrol       Manual            3.5      151748      98740          8300                 High
+1        i8  2013  North America    Red    Hybrid    Automatic            1.6      121671      79219          3428                  Low
+2  5 Series  2022  North America   Blue    Petrol    Automatic            4.5       10991     113265          6994                  Low
+3        X3  2024    Middle East   Blue    Petrol    Automatic            1.7       27255      60971          4047                  Low
+4  7 Series  2020  South America  Black    Diesel       Manual            2.1      122131      49898          3080                  Low
+2025-12-26 12:15:35,719 - INFO - 
+NULL Counts:
+model                   0
+year                    0
+region                  0
+color                   0
+fuel_type               0
+transmission            0
+engine_size_l           0
+mileage_km              0
+price_usd               0
+sales_volume            0
+sales_classification    0
+dtype: int64
+2025-12-26 12:15:35,719 - INFO - 
+Row Counts:
+47691
+2025-12-26 12:15:35,719 - INFO - successfully pushed data to sql
