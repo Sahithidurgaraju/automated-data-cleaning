@@ -462,7 +462,7 @@ class Datacleaner:
             self.logs.append(f"No missing values found in {csvname}.")
             missing_values = pd.Series([0]*len(self.df.columns), index=self.df.columns)
             #plotting the bar graph of missing values present in the data
-        plt.figure(figsize=(8,12))
+        plt.figure(figsize=(8,5))
         ax=sns.barplot(x=missing_values.index, y=missing_values.values, palette='Reds')
         plt.title('Missing Values per Column')
         plt.ylabel('Count of Missing Values')
@@ -888,7 +888,7 @@ class Datacleaner:
         self.df = data
         return data
     
-    def matches_pattern(col, pattern):
+    def matches_pattern(self, col, pattern):
         return pattern.startswith("*") and col.endswith(pattern[1:])
 
 

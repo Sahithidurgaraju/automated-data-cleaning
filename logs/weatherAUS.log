@@ -1,0 +1,52 @@
+2025-12-27 13:58:00,250 - INFO - Logger initialized for weatherAUS
+2025-12-27 13:58:00,250 - INFO - Processing: data\weatherAUS.csv
+2025-12-27 13:58:01,139 - INFO - Loaded CSV: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\weatherAUS.csv (utf-8)
+2025-12-27 13:58:01,140 - INFO - Cleaned column names: ['date', 'location', 'mintemp', 'maxtemp', 'rainfall', 'evaporation', 'sunshine', 'windgustdir', 'windgustspeed', 'winddir9am', 'winddir3pm', 'windspeed9am', 'windspeed3pm', 'humidity9am', 'humidity3pm', 'pressure9am', 'pressure3pm', 'cloud9am', 'cloud3pm', 'temp9am', 'temp3pm', 'raintoday', 'risk_mm', 'raintomorrow']
+2025-12-27 13:58:02,039 - INFO - Cleaned text column: date
+2025-12-27 13:58:02,809 - INFO - Cleaned text column: location
+2025-12-27 13:58:03,560 - INFO - Cleaned text column: windgustdir
+2025-12-27 13:58:04,172 - INFO - Cleaned text column: winddir9am
+2025-12-27 13:58:05,038 - INFO - Cleaned text column: winddir3pm
+2025-12-27 13:58:05,842 - INFO - Cleaned text column: raintoday
+2025-12-27 13:58:06,593 - INFO - Cleaned text column: raintomorrow
+2025-12-27 13:58:06,593 - INFO - CSV loading and cleaning completed: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\weatherAUS.csv
+2025-12-27 13:58:06,593 - INFO - shape:(142193, 24)
+2025-12-27 13:58:06,593 - INFO - Rows present in dataframe: 142193
+2025-12-27 13:58:06,593 - INFO - Columns present in dataframe: 24
+2025-12-27 13:58:14,385 - INFO - [weatherAUS] Outliers plot (before) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\weatherAUS_outliers\weatherAUS_outliers_before_20251227_1358.png
+2025-12-27 13:58:14,473 - INFO - missing values found:mintemp            637
+maxtemp            322
+rainfall          1406
+evaporation      60843
+sunshine         67816
+windgustdir       9330
+windgustspeed     9270
+winddir9am       10013
+winddir3pm        3778
+windspeed9am      1348
+windspeed3pm      2630
+humidity9am       1774
+humidity3pm       3610
+pressure9am      14014
+pressure3pm      13981
+cloud9am         53657
+cloud3pm         57094
+temp9am            904
+temp3pm           2726
+raintoday         1406
+dtype: int64
+2025-12-27 13:58:31,511 - INFO - [weatherAUS] Cleaned columns: []
+2025-12-27 13:58:31,511 - INFO - [weatherAUS] Skipped columns: ['location', 'windgustdir', 'winddir9am', 'winddir3pm', 'raintoday', 'raintomorrow']
+2025-12-27 13:58:33,770 - INFO - [weatherAUS] Missing values handled | numeric=17, text=7, datetime=0
+2025-12-27 13:58:35,927 - INFO - [weatherAUS] AFTER schema saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\weatherAUS_schema_after.json
+2025-12-27 13:58:36,151 - WARNING - [weatherAUS] Skipped schema apply for raintoday: Need to pass bool-like values
+2025-12-27 13:58:36,154 - WARNING - [weatherAUS] Skipped schema apply for raintomorrow: Need to pass bool-like values
+2025-12-27 13:58:42,718 - INFO - [weatherAUS] Outliers plot (after) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\weatherAUS_outliers\weatherAUS_outliers_after_20251227_1358.png
+2025-12-27 13:58:44,895 - WARNING - [weatherAUS] Duplicate subset empty after filtering — skipping deduplication
+2025-12-27 13:58:44,895 - INFO - [weatherAUS] Returning cleaned DataFrame with shape (142193, 24)
+2025-12-27 13:58:45,031 - INFO - missing values found:Series([], dtype: int64)
+2025-12-27 13:58:45,031 - INFO - No missing values found
+2025-12-27 13:58:45,413 - INFO - [weatherAUS] Validation completed with status=PASS
+2025-12-27 13:58:45,415 - INFO - [weatherAUS] Validation JSON saved to C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\validation_reports\weatherAUS_validation.json
+2025-12-27 13:58:46,764 - INFO - [weatherAUS] AFTER-cleaning complete. Cleaned CSV saved 
+2025-12-27 13:58:46,764 - INFO - [weatherAUS] Cleaned DataFrame preview

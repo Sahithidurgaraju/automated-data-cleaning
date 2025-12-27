@@ -1,0 +1,87 @@
+{
+  "dataset": "weatherAUS_cleaned_20251227_135845",
+  "applied_at": "2025-12-27T14:06:45.826808",
+  "column_transformations": {
+    "date": [
+      "lowercase",
+      "strip"
+    ],
+    "location": [
+      "lowercase",
+      "strip"
+    ],
+    "mintemp": [
+      "cast_to_numeric"
+    ],
+    "maxtemp": [
+      "cast_to_numeric"
+    ],
+    "rainfall": [
+      "cast_to_numeric"
+    ],
+    "evaporation": [
+      "cast_to_numeric"
+    ],
+    "sunshine": [
+      "cast_to_numeric"
+    ],
+    "windgustdir": [
+      "lowercase",
+      "strip"
+    ],
+    "windgustspeed": [
+      "cast_to_numeric"
+    ],
+    "winddir9am": [
+      "lowercase",
+      "strip"
+    ],
+    "winddir3pm": [
+      "lowercase",
+      "strip"
+    ],
+    "windspeed9am": [
+      "cast_to_numeric"
+    ],
+    "windspeed3pm": [
+      "cast_to_numeric"
+    ],
+    "humidity9am": [
+      "cast_to_numeric"
+    ],
+    "humidity3pm": [
+      "cast_to_numeric"
+    ],
+    "pressure9am": [
+      "cast_to_numeric"
+    ],
+    "pressure3pm": [
+      "cast_to_numeric"
+    ],
+    "cloud9am": [
+      "cast_to_numeric"
+    ],
+    "cloud3pm": [
+      "cast_to_numeric"
+    ],
+    "temp9am": [
+      "cast_to_numeric"
+    ],
+    "temp3pm": [
+      "cast_to_numeric"
+    ],
+    "raintoday": [
+      "lowercase",
+      "strip"
+    ],
+    "risk_mm": [
+      "cast_to_numeric"
+    ],
+    "raintomorrow": [
+      "lowercase",
+      "strip"
+    ]
+  },
+  "dataset_operations": {},
+  "generated_columns": []
+}

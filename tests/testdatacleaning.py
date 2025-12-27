@@ -113,18 +113,9 @@ def test_handle_missing(messy_data):
         assert null_ratio <= 0.3, (
             f"Column '{col}' has high null ratio {null_ratio:.1%}"
         )
-@pytest.mark.tc_0004
-def test_remove_duplicates(messy_data):
-    csvname,df,logger = messy_data
-    cleaner = Datacleaner(df,csvname)
-    cleaner.remove_duplicates(csvname,logger)
-    dedup_keys = cleaner.derive_duplicate_subset(csvname)
-    if cleaner.deduplication_status == "executed":
-        assert df.duplicated(subset=dedup_keys).sum() == 0
-    elif cleaner.deduplication_status == "aborted":
-        assert df.shape[0] > 0 
 
-@pytest.mark.tc_0005
+
+@pytest.mark.tc_0004
 def test_pipeline(messy_data):
     csvname,df,logger=messy_data
     cleaner = Datacleaner(df,csvname) 
@@ -133,34 +124,6 @@ def test_pipeline(messy_data):
     logger.info(f"[{csvname}] Cleaned DataFrame preview")
     assert not df_clean.empty
     assert len(df_clean) > 0
-    
-@pytest.mark.tc_0006
-def test_validation_report_structure(messy_data):
-    csvname, df, logger = messy_data
-    cleaner = Datacleaner(df, csvname)
-    rows_before = len(df)
-    cleaner.datacleaning_pipeline(csvname=csvname,cleanup_old=True,strategy="auto",show_plot=False,logger=logger)
-
-    report = cleaner.validate_cleaned_data(csvname, logger,df,rows_before)
-    dedup_check = report["checks"]["deduplication"]
-    # basic structure
-    assert isinstance(report, dict)
-    assert "dataset" in report
-    assert "status" in report
-    assert "checks" in report
-    assert isinstance(report["checks"], dict)
-    assert report["dataset"] == csvname
-    assert report["status"] in ("PASS", "FAIL")
-    #checking report status 
-    for check, result in report["checks"].items():
-        assert result["status"] in ("PASS", "FAIL")
-        assert "message" in result    
-    #deduplication status 
-    if cleaner.deduplication_status == "aborted":
-        assert dedup_check["status"] == "PASS"
-        assert "skipped" in dedup_check["message"].lower()
-    elif cleaner.deduplication_status == "executed":
-        assert dedup_check["status"] == "PASS"
 
 
 

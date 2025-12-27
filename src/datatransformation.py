@@ -242,9 +242,9 @@ class Datatranformer:
         agg = groupby_cfg.get("agg", {})
         if by and agg:
             df = df.groupby(by, as_index=False).agg(agg)
-
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         # SAVE EXECUTION REPORT
-        report_path = JSON_DIR / f"{base}_transformation_execution.json"
+        report_path = JSON_DIR / f"{base}_transformation_execution_{timestamp}.json"
         with open(report_path, "w") as f:
             json.dump(execution_report, f, indent=2)
         return df, execution_report

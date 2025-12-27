@@ -1,5 +1,36 @@
-2025-12-24 12:29:21,182 - INFO - Logger initialized for messydata
-2025-12-24 12:29:21,182 - INFO - Processing: data\messydata.csv
-2025-12-24 12:29:21,186 - INFO - schema_path
-2025-12-24 12:29:21,192 - INFO - Transformation config saved: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\messydata_transformation_20251224_122921.json
-2025-12-24 12:29:21,192 - INFO - C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\messydata_transformation_20251224_122921.json
+2025-12-27 13:54:56,341 - INFO - Logger initialized for messydata
+2025-12-27 13:54:56,341 - INFO - Processing: data\messydata.csv
+2025-12-27 13:54:56,349 - INFO - Loaded CSV: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\messydata.csv (utf-8)
+2025-12-27 13:54:56,350 - INFO - Cleaned column names: ['rank', 'peak', 'all_time_peak', 'actual_gross', 'adjusted_gross_in_2022_dollars', 'artist', 'tour_title', 'year_s', 'shows', 'average_gross', 'ref']
+2025-12-27 13:54:56,356 - INFO - Cleaned text column: peak
+2025-12-27 13:54:56,364 - INFO - Cleaned text column: all_time_peak
+2025-12-27 13:54:56,369 - INFO - Cleaned text column: actual_gross
+2025-12-27 13:54:56,374 - INFO - Cleaned text column: adjusted_gross_in_2022_dollars
+2025-12-27 13:54:56,379 - INFO - Cleaned text column: artist
+2025-12-27 13:54:56,384 - INFO - Cleaned text column: tour_title
+2025-12-27 13:54:56,389 - INFO - Cleaned text column: year_s
+2025-12-27 13:54:56,394 - INFO - Cleaned text column: average_gross
+2025-12-27 13:54:56,398 - INFO - Cleaned text column: ref
+2025-12-27 13:54:56,399 - INFO - CSV loading and cleaning completed: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\messydata.csv
+2025-12-27 13:54:56,399 - INFO - shape:(20, 11)
+2025-12-27 13:54:56,399 - INFO - Rows present in dataframe: 20
+2025-12-27 13:54:56,399 - INFO - Columns present in dataframe: 11
+2025-12-27 13:54:56,664 - INFO - [messydata] Outliers plot (before) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\messydata_outliers\messydata_outliers_before_20251227_1354.png
+2025-12-27 13:54:56,668 - INFO - missing values found:peak             11
+all_time_peak    14
+dtype: int64
+2025-12-27 13:54:57,007 - INFO - [messydata] Cleaned columns: ['actual_gross', 'adjusted_gross_in_2022_dollars', 'year_s', 'average_gross']
+2025-12-27 13:54:57,007 - INFO - [messydata] Skipped columns: ['artist', 'tour_title']
+2025-12-27 13:54:57,023 - INFO - [messydata] Dropped 1 fully empty columns
+2025-12-27 13:54:57,034 - INFO - [messydata] Missing values handled | numeric=7, text=4, datetime=0
+2025-12-27 13:54:57,052 - INFO - [messydata] AFTER schema saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\messydata_schema_after.json
+2025-12-27 13:54:57,467 - INFO - [messydata] Outliers plot (after) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\messydata_outliers\messydata_outliers_after_20251227_1354.png
+2025-12-27 13:54:57,485 - INFO - [messydata] Removed 0 duplicate rows using keys=['artist', 'year_s', 'year_s_end']
+2025-12-27 13:54:57,485 - INFO - [messydata] Removed 0 duplicate rows using keys=['artist', 'year_s', 'year_s_end']
+2025-12-27 13:54:57,485 - INFO - [messydata] Returning cleaned DataFrame with shape (20, 11)
+2025-12-27 13:54:57,497 - INFO - missing values found:Series([], dtype: int64)
+2025-12-27 13:54:57,497 - INFO - No missing values found
+2025-12-27 13:54:57,877 - INFO - [messydata] Validation completed with status=PASS
+2025-12-27 13:54:57,878 - INFO - [messydata] Validation JSON saved to C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\validation_reports\messydata_validation.json
+2025-12-27 13:54:57,882 - INFO - [messydata] AFTER-cleaning complete. Cleaned CSV saved 
+2025-12-27 13:54:57,882 - INFO - [messydata] Cleaned DataFrame preview

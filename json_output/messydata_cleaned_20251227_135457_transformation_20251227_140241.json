@@ -1,0 +1,241 @@
+{
+    "dataset": "messydata_cleaned_20251227_135457",
+    "columns": {
+        "rank": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": true
+            }
+        },
+        "peak": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "all_time_peak": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "actual_gross": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": true
+            }
+        },
+        "adjusted_gross_in_2022_dollars": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": true
+            }
+        },
+        "artist": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "tour_title": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                },
+                "normalize_delimiters": {
+                    "reason": "Multiple delimiters detected (; / : ,)",
+                    "default": true
+                },
+                "split_multi_values": {
+                    "reason": "Multi-valued text detected (skills/tags)",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_multi_values": true
+            }
+        },
+        "year_s": {
+            "suggested": {
+                "cast": {
+                    "type": "int",
+                    "reason": "Year column should remain integer",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": true
+            }
+        },
+        "shows": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": false
+            }
+        },
+        "average_gross": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": false
+            }
+        },
+        "year_s_end": {
+            "suggested": {
+                "cast": {
+                    "type": "int",
+                    "reason": "Year column should remain integer",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": false
+            }
+        }
+    },
+    "dataset_ops": {
+        "filter": {
+            "rank": {
+                ">=": null,
+                "<=": null
+            },
+            "peak": {
+                ">=": null,
+                "<=": null
+            },
+            "all_time_peak": {
+                ">=": null,
+                "<=": null
+            },
+            "actual_gross": {
+                ">=": null,
+                "<=": null
+            },
+            "adjusted_gross_in_2022_dollars": {
+                ">=": null,
+                "<=": null
+            },
+            "year_s": {
+                ">=": null,
+                "<=": null
+            },
+            "shows": {
+                ">=": null,
+                "<=": null
+            },
+            "average_gross": {
+                ">=": null,
+                "<=": null
+            },
+            "year_s_end": {
+                ">=": null,
+                "<=": null
+            }
+        },
+        "groupby": {
+            "by": [],
+            "agg": {}
+        }
+    }
+}

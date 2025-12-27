@@ -1,0 +1,397 @@
+{
+    "dataset": "weatherAUS_cleaned_20251227_135845",
+    "columns": {
+        "date": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "location": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "mintemp": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "maxtemp": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "rainfall": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "evaporation": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "sunshine": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "windgustdir": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "windgustspeed": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "winddir9am": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "winddir3pm": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "windspeed9am": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "windspeed3pm": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "humidity9am": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "humidity3pm": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "pressure9am": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "pressure3pm": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "cloud9am": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "cloud3pm": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "temp9am": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "temp3pm": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "raintoday": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "risk_mm": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "raintomorrow": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        }
+    },
+    "dataset_ops": {
+        "filter": {
+            "mintemp": {
+                ">=": null,
+                "<=": null
+            },
+            "maxtemp": {
+                ">=": null,
+                "<=": null
+            },
+            "rainfall": {
+                ">=": null,
+                "<=": null
+            },
+            "evaporation": {
+                ">=": null,
+                "<=": null
+            },
+            "sunshine": {
+                ">=": null,
+                "<=": null
+            },
+            "windgustspeed": {
+                ">=": null,
+                "<=": null
+            },
+            "windspeed9am": {
+                ">=": null,
+                "<=": null
+            },
+            "windspeed3pm": {
+                ">=": null,
+                "<=": null
+            },
+            "humidity9am": {
+                ">=": null,
+                "<=": null
+            },
+            "humidity3pm": {
+                ">=": null,
+                "<=": null
+            },
+            "pressure9am": {
+                ">=": null,
+                "<=": null
+            },
+            "pressure3pm": {
+                ">=": null,
+                "<=": null
+            },
+            "cloud9am": {
+                ">=": null,
+                "<=": null
+            },
+            "cloud3pm": {
+                ">=": null,
+                "<=": null
+            },
+            "temp9am": {
+                ">=": null,
+                "<=": null
+            },
+            "temp3pm": {
+                ">=": null,
+                "<=": null
+            },
+            "risk_mm": {
+                ">=": null,
+                "<=": null
+            }
+        },
+        "groupby": {
+            "by": [],
+            "agg": {}
+        }
+    }
+}

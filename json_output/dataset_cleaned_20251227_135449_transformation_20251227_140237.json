@@ -1,0 +1,403 @@
+{
+    "dataset": "dataset_cleaned_20251227_135449",
+    "columns": {
+        "unnamed_0": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": true
+            }
+        },
+        "track_id": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "artists": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                },
+                "normalize_delimiters": {
+                    "reason": "Multiple delimiters detected (; / : ,)",
+                    "default": true
+                },
+                "split_multi_values": {
+                    "reason": "Multi-valued text detected (skills/tags)",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_multi_values": true
+            }
+        },
+        "album_name": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                },
+                "normalize_delimiters": {
+                    "reason": "Multiple delimiters detected (; / : ,)",
+                    "default": true
+                },
+                "split_multi_values": {
+                    "reason": "Multi-valued text detected (skills/tags)",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_multi_values": true
+            }
+        },
+        "track_name": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                },
+                "normalize_delimiters": {
+                    "reason": "Multiple delimiters detected (; / : ,)",
+                    "default": true
+                },
+                "split_multi_values": {
+                    "reason": "Multi-valued text detected (skills/tags)",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_multi_values": true
+            }
+        },
+        "popularity": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "duration_ms": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": true
+            }
+        },
+        "explicit": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "danceability": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "energy": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "key": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "loudness": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": true
+            }
+        },
+        "mode": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "speechiness": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "acousticness": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "instrumentalness": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "liveness": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "valence": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "tempo": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": true
+            }
+        },
+        "time_signature": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "track_genre": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        }
+    },
+    "dataset_ops": {
+        "filter": {
+            "unnamed_0": {
+                ">=": null,
+                "<=": null
+            },
+            "popularity": {
+                ">=": null,
+                "<=": null
+            },
+            "duration_ms": {
+                ">=": null,
+                "<=": null
+            },
+            "explicit": {
+                ">=": null,
+                "<=": null
+            },
+            "danceability": {
+                ">=": null,
+                "<=": null
+            },
+            "energy": {
+                ">=": null,
+                "<=": null
+            },
+            "key": {
+                ">=": null,
+                "<=": null
+            },
+            "loudness": {
+                ">=": null,
+                "<=": null
+            },
+            "mode": {
+                ">=": null,
+                "<=": null
+            },
+            "speechiness": {
+                ">=": null,
+                "<=": null
+            },
+            "acousticness": {
+                ">=": null,
+                "<=": null
+            },
+            "instrumentalness": {
+                ">=": null,
+                "<=": null
+            },
+            "liveness": {
+                ">=": null,
+                "<=": null
+            },
+            "valence": {
+                ">=": null,
+                "<=": null
+            },
+            "tempo": {
+                ">=": null,
+                "<=": null
+            },
+            "time_signature": {
+                ">=": null,
+                "<=": null
+            }
+        },
+        "groupby": {
+            "by": [],
+            "agg": {}
+        }
+    }
+}
