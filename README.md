@@ -1,4 +1,4 @@
-## CSV ETL AUTOMATION (DATA CLEANING --> CLEANING VALIDATION --> TRANSFORM --> MYSQL)
+## CSV ETL AUTOMATION (Data Cleaning --> Cleaning Validation --> Transformation --> MYSQL)
 
 ## Project Summary:
 
@@ -36,7 +36,7 @@ logs/                      → dataset wise logs
 
 json_output                → here detect the column types and apply column types, transformation json 
 
-sql_credentials            → my sql workbench credentials
+sql_credentials            → my sql workbench credentials   # here can replace with user's credentials
 
 run_reports.py             → Executes cleaning + generates validation JSON
 
@@ -137,13 +137,13 @@ python apply_transformation.py       # Step 3: Apply transformations (bins, grou
 
 ## MySQL Connection Note
 
-To connect MySQL successfully:
+-To connect MySQL successfully:
 
-The pipeline uses PyMySQL driver, which requires the cryptography package for secure authentication plugins.
+-The pipeline uses PyMySQL driver, which requires the cryptography package for secure authentication plugins.
 
-If cryptography is missing, MySQL connection fails. 
+-If cryptography is missing, MySQL connection fails. 
 
-Installing it ensures secure connectivity and avoids auth runtime errors.
+-Installing it ensures secure connectivity and avoids auth runtime errors.
 
 ## Automatic Artifact Management:
 
@@ -265,6 +265,11 @@ These NULLs are expected, acceptable, and excluded from failure assertions, as t
 ## MySQL Push:
 
 <img width="1918" height="577" alt="image" src="https://github.com/user-attachments/assets/39d070d9-4154-437b-a4c4-3266cd7f5b55" />
+
+## Clone the Repository
+
+```bash
+git clone https://github.com/Sahithidurgaraju/automated-data-cleaning
 
 ## Future Enhancements
 
