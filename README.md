@@ -266,14 +266,14 @@ These NULLs are expected, acceptable, and excluded from failure assertions, as t
 
 <img width="1918" height="577" alt="image" src="https://github.com/user-attachments/assets/39d070d9-4154-437b-a4c4-3266cd7f5b55" />
 
-## Clone the Repository
 
-```bash
+## Clone the repository
+
 git clone https://github.com/Sahithidurgaraju/automated-data-cleaning
 
 ## Future Enhancements
 
-- Add scheduling support for automated daily ETL runs
+- Add scheduling support for automated daily ETL runs 
 
 - Cloud execution support (AWS Lambda, Airflow)
 
