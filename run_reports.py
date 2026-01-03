@@ -1,6 +1,8 @@
 import subprocess
 from pathlib import Path
 import os
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 
 DATA_DIR = Path("data")
 REPORTS_DIR = Path("reports")
