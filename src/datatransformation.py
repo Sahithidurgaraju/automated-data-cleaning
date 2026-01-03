@@ -26,15 +26,8 @@ class Datatranformer:
         self.df = df
         config = {
         "dataset": csvname,
-        "columns": {},
-        "dataset_ops": {
-            "filter": {},
-            "groupby": {
-                "by":[],
-                "agg":{}
-            }
+        "columns": {}
         }
-    }
 
         for col in df.columns:
             col_cfg = {
@@ -97,11 +90,6 @@ class Datatranformer:
                 }
                     col_cfg["enabled"]["bins"] = False
 
-                config["dataset_ops"]["filter"][col] = {
-                ">=": None,
-                "<=": None
-            }
-
             # suggest aggregation
         # ---------- YEAR SPLIT ----------
             if (
@@ -122,15 +110,16 @@ class Datatranformer:
         
     def save_config_file(self,df,csvname,logger):
         JSON_DIR.mkdir(exist_ok=True)
-        base = Path(csvname).stem
+        clean_name = re.sub(r"_\d{8}_\d{6}$", "", Path(csvname).stem)
+        base = clean_name
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         schema_path = JSON_DIR / f"{base}_transformation_{timestamp}.json"
         for old_file in JSON_DIR.glob(f"{base}_transformation_*.json"):
             try:
-                print("Deleting:", old_file.name)
+                logger.info("Deleting:", old_file.name)
                 old_file.unlink()
             except Exception as e:
-                print(f"Failed to delete {old_file}: {e}")
+                logger.info(f"Failed to delete {old_file}: {e}")
         config = self.generate_transform_config(df, csvname,logger)
     # Save schema
         with open(schema_path, "w") as f:
@@ -142,8 +131,8 @@ class Datatranformer:
     def apply_transformations(self, df, csvname, logger):
         df = df.copy()
 
-        base = Path(csvname).stem
-
+        clean_name = re.sub(r"_\d{8}_\d{6}$", "", Path(csvname).stem)
+        base = clean_name
         files = sorted(JSON_DIR.glob(f"{base}_transformation_*.json"), reverse=True)
         if not files:
             logger.warning(f"[{csvname}] No transformation config found")
@@ -215,33 +204,6 @@ class Datatranformer:
 
             if col_report:
                 execution_report["column_transformations"][col] = col_report
-
-        # FILTER
-        filter_cfg = config.get("dataset_ops", {}).get("filter", {})
-        applied_filters = []
-        for col, conds in filter_cfg.items():
-            if col not in df.columns or not isinstance(conds, dict):
-                continue
-            for op, val in conds.items():
-                if val is None:
-                    continue
-                if op == ">=":
-                    df = df[df[col] >= val]
-                elif op == "<=":
-                    df = df[df[col] <= val]
-                elif op == "==":
-                    df = df[df[col] == val]
-                applied_filters.append(f"{col} {op} {val}")
-
-        if applied_filters:
-            execution_report["dataset_operations"]["filters"] = applied_filters
-
-        # GROUPBY
-        groupby_cfg = config.get("dataset_ops", {}).get("groupby", {})
-        by = groupby_cfg.get("by", [])
-        agg = groupby_cfg.get("agg", {})
-        if by and agg:
-            df = df.groupby(by, as_index=False).agg(agg)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         # SAVE EXECUTION REPORT
         report_path = JSON_DIR / f"{base}_transformation_execution_{timestamp}.json"
@@ -260,7 +222,8 @@ class Datatranformer:
                 logger.warning(f"[{csvname}] No bin columns found for plotting")
             return None
         PLOTS_DIR.mkdir(exist_ok=True)  
-        csv_stem = Path(csvname).stem.lower().replace(" ", "_")
+        clean_name = re.sub(r"_\d{8}_\d{6}$", "", Path(csvname).stem)
+        csv_stem = clean_name
         folder = PLOTS_DIR / f"{csv_stem}_bins_histogram"
         folder.mkdir(exist_ok=True)
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -315,8 +278,9 @@ class Datatranformer:
         with open(report_path, "r") as f:
             database = json.load(f)
         engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}")
-        dbname = csvname.lower().replace(".csv", "").replace(" ", "_")
-        table = f"transformed_{csvname.lower().replace('.csv','')}"
+        clean_name = re.sub(r"_\d{8}_\d{6}$", "", Path(csvname).stem)
+        dbname = clean_name
+        table = f"transformed_{dbname}"
         check_db_query = text(f"SHOW DATABASES LIKE '{dbname}';")        
         with engine.connect() as conn:
             exists = conn.execute(check_db_query).fetchone()
