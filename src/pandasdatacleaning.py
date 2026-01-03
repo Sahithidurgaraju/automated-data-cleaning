@@ -464,7 +464,7 @@ class Datacleaner:
             #plotting the bar graph of missing values present in the data
         plt.figure(figsize=(8,5))
         ax=sns.barplot(x=missing_values.index, y=missing_values.values, palette='Reds')
-        plt.title('Missing Values per Column')
+        plt.title(f"Missing Values ({when})-{csvname}")
         plt.ylabel('Count of Missing Values')
         plt.xlabel('Columns')
         plt.xticks(rotation=45)
@@ -484,7 +484,6 @@ class Datacleaner:
         
         file_output_dir = PLOTS_DIR/ f"{csvname}_missing_values_output"
         file_output_dir.mkdir(exist_ok=True)
-        print(f"file output folder:{file_output_dir}")
         # Use timestamp for current run
         timestamp = time.strftime("%Y%m%d_%H%M")  
 
@@ -564,6 +563,8 @@ class Datacleaner:
             s.str.replace(r"\[[^\]]*\]", "", regex=True)
              .str.replace(r"[†‡*]", "", regex=True)
              .str.replace(r"[\x00-\x1F\x7F]", "", regex=True)
+             .str.replace(r"[^\x20-\x7E]", "", regex=True)  # remove all non-printable ascii
+             .str.encode("ascii", "ignore").str.decode("ascii")  #  remove garbage
              .str.replace("“", '"', regex=False)
              .str.replace("”", '"', regex=False)
              .str.replace("‘", "'", regex=False)

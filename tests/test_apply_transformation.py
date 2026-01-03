@@ -3,6 +3,7 @@ import pandas as pd
 import logging
 from src.pandasdatacleaning import Datacleaner
 from src.datatransformation import Datatranformer
+from src.etldashboard import Datadashboard
 import warnings
 import re
 import pytest
@@ -12,8 +13,6 @@ import matplotlib
 from pathlib import Path
 from src.logger_config import get_logger 
 matplotlib.use("Agg")
-from pandarallel import pandarallel
-pandarallel.initialize(nb_workers=1, progress_bar=False)
 from src.config import DATA_DIR,JSON_DIR,CLEANED_DATA_DIR
 # Ignore only RuntimeWarning (common for all-NaN median/mean)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -53,7 +52,8 @@ def messy_data():
             raise RuntimeError(f"No CSV files found in {CLEANED_DATA_DIR}")
         file_path = csv_files[0]
 
-    csv_name = file_path.stem
+    clean_name = re.sub(r"_\d{8}_\d{6}$", "", Path(file_path).stem)
+    csv_name = clean_name
     logger = get_logger(csv_name)
     logger.info(f"Processing: {file_path}")
 
@@ -93,4 +93,16 @@ def test_push_to_sql(messy_data):
     assert isinstance(null_count, int), "Null count is not integer!"
     assert row_count > 0, "No rows inserted into SQL!"
     assert row_count == len_df, "Row count mismatch after push!"
+
+# @pytest.mark.tc_0003
+# def test_database(messy_data):
+#     csvname,df,logger=messy_data
+#     data = Datadashboard()
+#     # databases = data.get_dataset_databases(logger)
+#     # tables = data.get_tables_from_databases(databases,logger)
+#     # data.load_table(tables,logger)
+#     data.show_dashboard(csvname,logger)
+#     # logger.info(f"{databases}")
+#     # logger.info(f"{tables}")
+    
 

@@ -1,31 +1,33 @@
-2025-12-27 13:52:46,592 - INFO - Logger initialized for BMW sales data
-2025-12-27 13:52:46,593 - INFO - Processing: data\BMW sales data.csv
-2025-12-27 13:52:46,714 - INFO - Loaded CSV: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\BMW sales data.csv (utf-8)
-2025-12-27 13:52:46,715 - INFO - Cleaned column names: ['model', 'year', 'region', 'color', 'fuel_type', 'transmission', 'engine_size_l', 'mileage_km', 'price_usd', 'sales_volume', 'sales_classification']
-2025-12-27 13:52:46,886 - INFO - Cleaned text column: model
-2025-12-27 13:52:47,064 - INFO - Cleaned text column: region
-2025-12-27 13:52:47,237 - INFO - Cleaned text column: color
-2025-12-27 13:52:47,412 - INFO - Cleaned text column: fuel_type
-2025-12-27 13:52:47,600 - INFO - Cleaned text column: transmission
-2025-12-27 13:52:47,769 - INFO - Cleaned text column: sales_classification
-2025-12-27 13:52:47,769 - INFO - CSV loading and cleaning completed: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\BMW sales data.csv
-2025-12-27 13:52:47,769 - INFO - shape:(47691, 11)
-2025-12-27 13:52:47,770 - INFO - Rows present in dataframe: 47691
-2025-12-27 13:52:47,770 - INFO - Columns present in dataframe: 11
-2025-12-27 13:52:48,620 - INFO - [BMW sales data] Outliers plot (before) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_outliers\BMW sales data_outliers_before_20251227_1352.png
-2025-12-27 13:52:48,637 - INFO - missing values found:Series([], dtype: int64)
-2025-12-27 13:52:48,638 - INFO - No missing values found
-2025-12-27 13:52:55,985 - INFO - [BMW sales data] Cleaned columns: []
-2025-12-27 13:52:55,985 - INFO - [BMW sales data] Skipped columns: ['model', 'region', 'color', 'fuel_type', 'transmission', 'sales_classification']
-2025-12-27 13:52:56,546 - INFO - [BMW sales data] Missing values handled | numeric=5, text=6, datetime=0
-2025-12-27 13:52:56,913 - INFO - [BMW sales data] AFTER schema saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\BMW sales data_schema_after.json
-2025-12-27 13:52:57,582 - INFO - [BMW sales data] Outliers plot (after) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_outliers\BMW sales data_outliers_after_20251227_1352.png
-2025-12-27 13:52:58,046 - INFO - [BMW sales data] Removed 47676 duplicate rows using keys=['year']
-2025-12-27 13:52:58,046 - ERROR - [BMW sales data] Aborting deduplication — 100.0% rows flagged as duplicates using ['year']
-2025-12-27 13:52:58,046 - INFO - [BMW sales data] Returning cleaned DataFrame with shape (47691, 11)
-2025-12-27 13:52:58,054 - INFO - missing values found:Series([], dtype: int64)
-2025-12-27 13:52:58,054 - INFO - No missing values found
-2025-12-27 13:52:58,270 - INFO - [BMW sales data] Validation completed with status=PASS
-2025-12-27 13:52:58,271 - INFO - [BMW sales data] Validation JSON saved to C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\validation_reports\BMW sales data_validation.json
-2025-12-27 13:52:58,427 - INFO - [BMW sales data] AFTER-cleaning complete. Cleaned CSV saved 
-2025-12-27 13:52:58,427 - INFO - [BMW sales data] Cleaned DataFrame preview
+2026-01-03 12:32:50,109 - INFO - Logger initialized for BMW sales data
+2026-01-03 12:32:50,109 - INFO - Processing: data\BMW sales data.csv
+2026-01-03 12:32:50,266 - INFO - Loaded CSV: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\BMW sales data.csv (utf-8)
+2026-01-03 12:32:50,268 - INFO - Cleaned column names: ['model', 'year', 'region', 'color', 'fuel_type', 'transmission', 'engine_size_l', 'mileage_km', 'price_usd', 'sales_volume', 'sales_classification']
+2026-01-03 12:32:50,560 - INFO - Cleaned text column: model
+2026-01-03 12:32:50,869 - INFO - Cleaned text column: region
+2026-01-03 12:32:51,207 - INFO - Cleaned text column: color
+2026-01-03 12:32:51,534 - INFO - Cleaned text column: fuel_type
+2026-01-03 12:32:51,852 - INFO - Cleaned text column: transmission
+2026-01-03 12:32:52,202 - INFO - Cleaned text column: sales_classification
+2026-01-03 12:32:52,203 - INFO - CSV loading and cleaning completed: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\BMW sales data.csv
+2026-01-03 12:32:52,203 - INFO - shape:(47691, 11)
+2026-01-03 12:32:52,203 - INFO - Rows present in dataframe: 47691
+2026-01-03 12:32:52,203 - INFO - Columns present in dataframe: 11
+2026-01-03 12:32:53,475 - INFO - [BMW sales data] Outliers plot (before) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_outliers\BMW sales data_outliers_before_20260103_1232.png
+2026-01-03 12:32:53,499 - INFO - missing values found:Series([], dtype: int64)
+2026-01-03 12:32:53,499 - INFO - No missing values found
+2026-01-03 12:32:53,653 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_missing_values_output\BMW sales data_missing_values_after_20260103_1156.png
+2026-01-03 12:32:53,654 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_missing_values_output\BMW sales data_missing_values_before_20260103_1156.png
+2026-01-03 12:33:01,521 - INFO - [BMW sales data] Cleaned columns: []
+2026-01-03 12:33:01,521 - INFO - [BMW sales data] Skipped columns: ['model', 'region', 'color', 'fuel_type', 'transmission', 'sales_classification']
+2026-01-03 12:33:02,364 - INFO - [BMW sales data] Missing values handled | numeric=5, text=6, datetime=0
+2026-01-03 12:33:02,885 - INFO - [BMW sales data] AFTER schema saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\BMW sales data_schema_after.json
+2026-01-03 12:33:03,892 - INFO - [BMW sales data] Outliers plot (after) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_outliers\BMW sales data_outliers_after_20260103_1233.png
+2026-01-03 12:33:04,219 - INFO - [BMW sales data] Removed 47676 duplicate rows using keys=['year']
+2026-01-03 12:33:04,219 - ERROR - [BMW sales data] Aborting deduplication — 100.0% rows flagged as duplicates using ['year']
+2026-01-03 12:33:04,219 - INFO - [BMW sales data] Returning cleaned DataFrame with shape (47691, 11)
+2026-01-03 12:33:04,228 - INFO - missing values found:Series([], dtype: int64)
+2026-01-03 12:33:04,229 - INFO - No missing values found
+2026-01-03 12:33:04,502 - INFO - [BMW sales data] Validation completed with status=PASS
+2026-01-03 12:33:04,503 - INFO - [BMW sales data] Validation JSON saved to C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\validation_reports\BMW sales data_validation.json
+2026-01-03 12:33:04,712 - INFO - [BMW sales data] AFTER-cleaning complete. Cleaned CSV saved 
+2026-01-03 12:33:04,712 - INFO - [BMW sales data] Cleaned DataFrame preview

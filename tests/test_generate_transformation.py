@@ -56,7 +56,8 @@ def messy_data():
             raise RuntimeError(f"No CSV files found in {CLEANED_DATA_DIR}")
         file_path = csv_files[0]
 
-    csv_name = file_path.stem
+    clean_name = re.sub(r"_\d{8}_\d{6}$", "", Path(file_path).stem)
+    csv_name = clean_name
     logger = get_logger(csv_name)
     logger.info(f"Processing: {file_path}")
 

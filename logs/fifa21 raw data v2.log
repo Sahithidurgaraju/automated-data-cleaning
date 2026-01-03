@@ -1,0 +1,50 @@
+2026-01-03 12:35:11,709 - INFO - Logger initialized for fifa21 raw data v2
+2026-01-03 12:35:11,710 - INFO - Processing: data\fifa21 raw data v2.csv
+2026-01-03 12:35:12,477 - INFO - Loaded CSV: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\fifa21 raw data v2.csv (utf-8)
+2026-01-03 12:35:12,479 - INFO - Cleaned column names: ['id', 'name', 'longname', 'photourl', 'playerurl', 'nationality', 'age', 'ova', 'pot', 'club', 'contract', 'positions', 'height', 'weight', 'preferred_foot', 'bov', 'best_position', 'joined', 'loan_date_end', 'value', 'wage', 'release_clause', 'attacking', 'crossing', 'finishing', 'heading_accuracy', 'short_passing', 'volleys', 'skill', 'dribbling', 'curve', 'fk_accuracy', 'long_passing', 'ball_control', 'movement', 'acceleration', 'sprint_speed', 'agility', 'reactions', 'balance', 'power', 'shot_power', 'jumping', 'stamina', 'strength', 'long_shots', 'mentality', 'aggression', 'interceptions', 'positioning', 'vision', 'penalties', 'composure', 'defending', 'marking', 'standing_tackle', 'sliding_tackle', 'goalkeeping', 'gk_diving', 'gk_handling', 'gk_kicking', 'gk_positioning', 'gk_reflexes', 'total_stats', 'base_stats', 'w_f', 'sm', 'a_w', 'd_w', 'ir', 'pac', 'sho', 'pas', 'dri', 'def', 'phy', 'hits']
+2026-01-03 12:35:12,657 - INFO - Cleaned text column: name
+2026-01-03 12:35:12,835 - INFO - Cleaned text column: longname
+2026-01-03 12:35:13,034 - INFO - Cleaned text column: photourl
+2026-01-03 12:35:13,229 - INFO - Cleaned text column: playerurl
+2026-01-03 12:35:13,367 - INFO - Cleaned text column: nationality
+2026-01-03 12:35:13,519 - INFO - Cleaned text column: club
+2026-01-03 12:35:13,662 - INFO - Cleaned text column: contract
+2026-01-03 12:35:13,780 - INFO - Cleaned text column: positions
+2026-01-03 12:35:13,890 - INFO - Cleaned text column: height
+2026-01-03 12:35:13,999 - INFO - Cleaned text column: weight
+2026-01-03 12:35:14,107 - INFO - Cleaned text column: preferred_foot
+2026-01-03 12:35:14,214 - INFO - Cleaned text column: best_position
+2026-01-03 12:35:14,341 - INFO - Cleaned text column: joined
+2026-01-03 12:35:14,374 - INFO - Cleaned text column: loan_date_end
+2026-01-03 12:35:14,557 - INFO - Cleaned text column: value
+2026-01-03 12:35:14,721 - INFO - Cleaned text column: wage
+2026-01-03 12:35:14,871 - INFO - Cleaned text column: release_clause
+2026-01-03 12:35:15,027 - INFO - Cleaned text column: w_f
+2026-01-03 12:35:15,158 - INFO - Cleaned text column: sm
+2026-01-03 12:35:15,285 - INFO - Cleaned text column: a_w
+2026-01-03 12:35:15,411 - INFO - Cleaned text column: d_w
+2026-01-03 12:35:15,543 - INFO - Cleaned text column: ir
+2026-01-03 12:35:15,667 - INFO - Cleaned text column: hits
+2026-01-03 12:35:15,667 - INFO - CSV loading and cleaning completed: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\data\fifa21 raw data v2.csv
+2026-01-03 12:35:15,667 - INFO - shape:(18979, 77)
+2026-01-03 12:35:15,667 - INFO - Rows present in dataframe: 18979
+2026-01-03 12:35:15,667 - INFO - Columns present in dataframe: 77
+2026-01-03 12:35:21,788 - INFO - [fifa21 raw data v2] Outliers plot (before) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\fifa21 raw data v2_outliers\fifa21 raw data v2_outliers_before_20260103_1235.png
+2026-01-03 12:35:21,860 - INFO - missing values found:hits    2595
+dtype: int64
+2026-01-03 12:35:21,952 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\fifa21 raw data v2_missing_values_output\fifa21 raw data v2_missing_values_after_20260103_1200.png
+2026-01-03 12:35:21,952 - INFO - Deleted old missing value plot: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\fifa21 raw data v2_missing_values_output\fifa21 raw data v2_missing_values_before_20260103_1159.png
+2026-01-03 12:35:35,292 - INFO - [fifa21 raw data v2] Cleaned columns: ['contract', 'positions', 'joined', 'loan_date_end', 'value', 'wage', 'release_clause']
+2026-01-03 12:35:35,292 - INFO - [fifa21 raw data v2] Skipped columns: ['id', 'name', 'longname', 'photourl', 'playerurl', 'nationality', 'club', 'height', 'weight', 'preferred_foot', 'best_position', 'a_w', 'd_w']
+2026-01-03 12:35:36,320 - INFO - [fifa21 raw data v2] Missing values handled | numeric=64, text=14, datetime=0
+2026-01-03 12:35:41,929 - INFO - [fifa21 raw data v2] AFTER schema saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\fifa21 raw data v2_schema_after.json
+2026-01-03 12:35:48,556 - INFO - [fifa21 raw data v2] Outliers plot (after) saved → C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\fifa21 raw data v2_outliers\fifa21 raw data v2_outliers_after_20260103_1235.png
+2026-01-03 12:35:50,178 - INFO - [fifa21 raw data v2] Removed 0 duplicate rows using keys=['id']
+2026-01-03 12:35:50,179 - INFO - [fifa21 raw data v2] Removed 0 duplicate rows using keys=['id']
+2026-01-03 12:35:50,181 - INFO - [fifa21 raw data v2] Returning cleaned DataFrame with shape (18979, 78)
+2026-01-03 12:35:50,277 - INFO - missing values found:Series([], dtype: int64)
+2026-01-03 12:35:50,277 - INFO - No missing values found
+2026-01-03 12:35:51,714 - INFO - [fifa21 raw data v2] Validation completed with status=PASS
+2026-01-03 12:35:51,716 - INFO - [fifa21 raw data v2] Validation JSON saved to C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\validation_reports\fifa21 raw data v2_validation.json
+2026-01-03 12:35:52,431 - INFO - [fifa21 raw data v2] AFTER-cleaning complete. Cleaned CSV saved 
+2026-01-03 12:35:52,432 - INFO - [fifa21 raw data v2] Cleaned DataFrame preview

@@ -1,0 +1,1039 @@
+{
+    "dataset": "fifa21 raw data v2_cleaned",
+    "columns": {
+        "id": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                },
+                "bins": {
+                    "type": "auto",
+                    "reason": "High cardinality numeric column",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "cast": true,
+                "bins": false
+            }
+        },
+        "name": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "longname": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "photourl": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                },
+                "normalize_delimiters": {
+                    "reason": "Multiple delimiters detected (; / : ,)",
+                    "default": true
+                },
+                "split_multi_values": {
+                    "reason": "Multi-valued text detected (skills/tags)",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_multi_values": true
+            }
+        },
+        "playerurl": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                },
+                "normalize_delimiters": {
+                    "reason": "Multiple delimiters detected (; / : ,)",
+                    "default": true
+                },
+                "split_multi_values": {
+                    "reason": "Multi-valued text detected (skills/tags)",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_multi_values": true
+            }
+        },
+        "nationality": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "age": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "ova": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "pot": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "club": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                },
+                "normalize_delimiters": {
+                    "reason": "Multiple delimiters detected (; / : ,)",
+                    "default": true
+                },
+                "split_multi_values": {
+                    "reason": "Multi-valued text detected (skills/tags)",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_multi_values": true
+            }
+        },
+        "contract": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "positions": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                },
+                "normalize_delimiters": {
+                    "reason": "Multiple delimiters detected (; / : ,)",
+                    "default": true
+                },
+                "split_multi_values": {
+                    "reason": "Multi-valued text detected (skills/tags)",
+                    "default": false
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_multi_values": true
+            }
+        },
+        "height": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "weight": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "preferred_foot": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "bov": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "best_position": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "joined": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "loan_date_end": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "value": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "wage": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "release_clause": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "attacking": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "crossing": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "finishing": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "heading_accuracy": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "short_passing": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "volleys": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "skill": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "dribbling": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "curve": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "fk_accuracy": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "long_passing": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "ball_control": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "movement": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "acceleration": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "sprint_speed": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "agility": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "reactions": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "balance": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "power": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "shot_power": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "jumping": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "stamina": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "strength": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "long_shots": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "mentality": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "aggression": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "interceptions": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "positioning": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "vision": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "penalties": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "composure": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "defending": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "marking": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "standing_tackle": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "sliding_tackle": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "goalkeeping": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "gk_diving": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "gk_handling": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "gk_kicking": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "gk_positioning": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "gk_reflexes": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "total_stats": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "base_stats": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "w_f": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "sm": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "a_w": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "d_w": {
+            "suggested": {
+                "lowercase": {
+                    "reason": "Text column detected",
+                    "default": true
+                },
+                "strip": {
+                    "reason": "Leading/trailing spaces possible",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "lowercase": true,
+                "strip": true
+            }
+        },
+        "ir": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "pac": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "sho": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "pas": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "dri": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "def": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "phy": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "hits": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        },
+        "contract_end": {
+            "suggested": {
+                "cast": {
+                    "type": "float",
+                    "reason": "Numeric column",
+                    "default": true
+                }
+            },
+            "enabled": {
+                "cast": true
+            }
+        }
+    }
+}

@@ -1,0 +1,100 @@
+2026-01-03 12:45:19,928 - INFO - Logger initialized for fifa21 raw data v2_cleaned_20260103_123551
+2026-01-03 12:45:19,928 - INFO - Processing: cleaned_data_output\fifa21 raw data v2_cleaned_20260103_123551.csv
+2026-01-03 12:45:20,227 - INFO - C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\sql_credentials\sql_credentials.json created
+2026-01-03 12:45:20,399 - INFO - [fifa21 raw data v2_cleaned_20260103_123551] Created MySQL database: fifa21_raw_data_v2_cleaned_20260103_123551
+2026-01-03 12:45:20,440 - INFO - Engine(mysql+pymysql://root:***@127.0.0.1:3306/fifa21_raw_data_v2_cleaned_20260103_123551) MySQL connection successful!
+2026-01-03 12:45:25,219 - INFO - [fifa21 raw data v2_cleaned_20260103_123551] Data pushed to DB `fifa21_raw_data_v2_cleaned_20260103_123551` → table `transformed_fifa21 raw data v2_cleaned_20260103_123551`
+2026-01-03 12:45:25,385 - INFO - Table `transformed_fifa21 raw data v2_cleaned_20260103_123551` contains 18979 rows
+2026-01-03 12:45:25,395 - INFO - 
+Data Preview:
+       id               name                      longname                                          photourl                                          playerurl nationality  age  ova  pot                 club  contract   positions height weight preferred_foot  bov best_position  joined  loan_date_end        value    wage  release_clause  attacking  crossing  finishing  heading_accuracy  short_passing  volleys  skill  dribbling  curve  fk_accuracy  long_passing  ball_control  movement  acceleration  sprint_speed  agility  reactions  balance  power  shot_power  jumping  stamina  strength  long_shots  mentality  aggression  interceptions  positioning  vision  penalties  composure  defending  marking  standing_tackle  sliding_tackle  goalkeeping  gk_diving  gk_handling  gk_kicking  gk_positioning  gk_reflexes  total_stats  base_stats  w_f  sm     a_w     d_w  ir  pac  sho  pas  dri  def  phy  hits  contract_end
+0  158023           L. Messi                  Lionel Messi  https://cdn.sofifa.com/players/158/023/21_60.png  http://sofifa.com/player/158023/lionel-messi/2...   Argentina   33   93   93         FC Barcelona    2004.0  RW, ST, CF  170cm   72kg           Left   93            RW   12004         302021  103500000.0  560000     138400000.0        429        85         95                70             91       88    470         96     93           94            91            96       451            91            80       91         94       95    389          86       68       72        69          94        347          44             40           93      95         75         96         91       32               35              24           54          6           11          15              14            8         2231         466    4   4  Medium     Low   5   85   92   91   95   38   65   771        2021.0
+1   20801  Cristiano Ronaldo  C. Ronaldo dos Santos Aveiro  https://cdn.sofifa.com/players/020/801/21_60.png  http://sofifa.com/player/20801/c-ronaldo-dos-s...    Portugal   35   92   92             Juventus    2018.0      ST, LW  187cm   83kg          Right   92            ST  102018         302021   63000000.0  220000      75900000.0        437        84         95                90             82       86    414         88     81           76            77            92       431            87            91       87         95       71    444          94       95       84        78          93        353          63             29           95      82         84         95         84       28               32              24           58          7           11          15              14           11         2221         464    4   5    High     Low   5   89   93   81   89   35   77   562        2022.0
+2  200389           J. Oblak                     Jan Oblak  https://cdn.sofifa.com/players/200/389/21_60.png  http://sofifa.com/player/200389/jan-oblak/210006/    Slovenia   27   91   93       Atltico Madrid    2014.0          GK  188cm   87kg          Right   91            GK  162014         302021  120000000.0  125000     159400000.0         95        13         11                15             43       13    109         12     13           14            40            30       307            43            60       67         88       49    268          59       78       41        78          12        140          34             19           11      65         11         68         57       27               12              18          437         87           92          78              90           90         1413         489    3   1  Medium  Medium   3   87   92   78   90   52   90   150        2023.0
+3  192985       K. De Bruyne               Kevin De Bruyne  https://cdn.sofifa.com/players/192/985/21_60.png  http://sofifa.com/player/192985/kevin-de-bruyn...     Belgium   29   91   91      Manchester City    2015.0     CAM, CM  181cm   70kg          Right   91           CAM  302015         302021  129000000.0  370000     161000000.0        407        94         82                55             94       82    441         88     85           83            93            92       398            77            76       78         91       76    408          91       63       89        74          91        408          76             66           88      94         84         91        186       68               65              53           56         15           13           5              10           13         2304         485    5   4    High    High   4   76   86   93   88   64   78   207        2023.0
+4  190871          Neymar Jr    Neymar da Silva Santos Jr.  https://cdn.sofifa.com/players/190/871/21_60.png  http://sofifa.com/player/190871/neymar-da-silv...      Brazil   28   91   91  Paris Saint-Germain    2017.0     LW, CAM  175cm   68kg          Right   91            LW   32017         302021  132000000.0  270000     166500000.0        408        85         87                62             87       87    448         95     88           89            81            95       453            94            89       96         91       83    357          80       62       81        50          84        356          51             36           87      90         92         93         94       35               30              29           59          9            9          15              15           11         2175         451    5   5    High  Medium   5   91   85   86   94   36   59   595        2022.0
+2026-01-03 12:45:25,396 - INFO - 
+NULL Counts:
+id                  0
+name                0
+longname            0
+photourl            0
+playerurl           0
+nationality         0
+age                 0
+ova                 0
+pot                 0
+club                0
+contract            0
+positions           0
+height              0
+weight              0
+preferred_foot      0
+bov                 0
+best_position       0
+joined              0
+loan_date_end       0
+value               0
+wage                0
+release_clause      0
+attacking           0
+crossing            0
+finishing           0
+heading_accuracy    0
+short_passing       0
+volleys             0
+skill               0
+dribbling           0
+curve               0
+fk_accuracy         0
+long_passing        0
+ball_control        0
+movement            0
+acceleration        0
+sprint_speed        0
+agility             0
+reactions           0
+balance             0
+power               0
+shot_power          0
+jumping             0
+stamina             0
+strength            0
+long_shots          0
+mentality           0
+aggression          0
+interceptions       0
+positioning         0
+vision              0
+penalties           0
+composure           0
+defending           0
+marking             0
+standing_tackle     0
+sliding_tackle      0
+goalkeeping         0
+gk_diving           0
+gk_handling         0
+gk_kicking          0
+gk_positioning      0
+gk_reflexes         0
+total_stats         0
+base_stats          0
+w_f                 0
+sm                  0
+a_w                 0
+d_w                 0
+ir                  0
+pac                 0
+sho                 0
+pas                 0
+dri                 0
+def                 0
+phy                 0
+hits                0
+contract_end        0
+dtype: int64
+2026-01-03 12:45:25,396 - INFO - 
+Row Counts:
+18979
+2026-01-03 12:45:25,397 - INFO - successfully pushed data to sql

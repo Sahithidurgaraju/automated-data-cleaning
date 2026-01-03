@@ -1,0 +1,42 @@
+2026-01-03 11:43:17,749 - INFO - Logger initialized for dataset_cleaned_20260102_102108
+2026-01-03 11:43:17,750 - INFO - Processing: cleaned_data_output\dataset_cleaned_20260102_102108.csv
+2026-01-03 11:43:18,311 - INFO - C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\sql_credentials\sql_credentials.json created
+2026-01-03 11:43:18,464 - INFO - Engine(mysql+pymysql://root:***@127.0.0.1:3306/dataset_cleaned_20260102_102108) MySQL connection successful!
+2026-01-03 11:43:52,950 - INFO - [dataset_cleaned_20260102_102108] Data pushed to DB `dataset_cleaned_20260102_102108` → table `transformed_dataset_cleaned_20260102_102108`
+2026-01-03 11:43:53,482 - INFO - Table `transformed_dataset_cleaned_20260102_102108` contains 89741 rows
+2026-01-03 11:43:53,492 - INFO - 
+Data Preview:
+   unnamed_0                track_id                 artists                                         album_name                  track_name  popularity  duration_ms  explicit  danceability  energy  key  loudness  mode  speechiness  acousticness  instrumentalness  liveness  valence    tempo  time_signature track_genre
+0          0  5SuOikwiRyPMVoIQDJUgSV             Gen Hoshino                                             Comedy                      Comedy          73       230666         0         0.676  0.4610    1    -6.746     0       0.1430        0.0322          0.000001    0.3580    0.715   87.917               4    acoustic
+1          1  4qPNDBW1i3p13qLCt0Ki3A            Ben Woodward                                   Ghost (Acoustic)            Ghost - Acoustic          55       149610         0         0.420  0.1660    1   -17.235     1       0.0763        0.9240          0.000006    0.1010    0.267   77.489               4    acoustic
+2          2  1iJBSr7s7jYXzM8EGcbK5b  Ingrid Michaelson;ZAYN                                     To Begin Again              To Begin Again          57       210826         0         0.438  0.3590    0    -9.734     1       0.0557        0.2100          0.000000    0.1170    0.120   76.332               4    acoustic
+3          3  6lfxq3CG4xtTiEg7opyCyx            Kina Grannis  Crazy Rich Asians (Original Motion Picture Sou...  Can't Help Falling In Love          71       201933         0         0.266  0.0596    0   -18.515     1       0.0363        0.9050          0.000071    0.1320    0.143  181.740               3    acoustic
+4          4  5vjLSffimiIP26QG5WcN2K        Chord Overstreet                                            Hold On                     Hold On          82       198853         0         0.618  0.4430    2    -9.681     1       0.0526        0.4690          0.000000    0.0829    0.167  119.949               4    acoustic
+2026-01-03 11:43:53,493 - INFO - 
+NULL Counts:
+unnamed_0           0
+track_id            0
+artists             0
+album_name          0
+track_name          0
+popularity          0
+duration_ms         0
+explicit            0
+danceability        0
+energy              0
+key                 0
+loudness            0
+mode                0
+speechiness         0
+acousticness        0
+instrumentalness    0
+liveness            0
+valence             0
+tempo               0
+time_signature      0
+track_genre         0
+dtype: int64
+2026-01-03 11:43:53,493 - INFO - 
+Row Counts:
+89741
+2026-01-03 11:43:53,494 - INFO - successfully pushed data to sql
