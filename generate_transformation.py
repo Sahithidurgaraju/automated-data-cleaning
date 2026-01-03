@@ -1,6 +1,8 @@
 import subprocess
 from pathlib import Path
 import os
+import sys
+sys.stdout.reconfigure(encoding='utf-8')
 
 CLEANED_DATA_DIR = Path("cleaned_data_output")
 REPORTS_DIR = Path("reports")
