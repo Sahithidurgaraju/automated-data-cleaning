@@ -88,7 +88,7 @@ class Datatranformer:
                     "reason": "High cardinality numeric column",
                     "default": False
                 }
-                    col_cfg["enabled"]["bins"] = False
+                    col_cfg["enabled"]["bins"] = True
 
             # suggest aggregation
         # ---------- YEAR SPLIT ----------
