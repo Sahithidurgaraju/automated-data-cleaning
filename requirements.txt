@@ -6,3 +6,6 @@ SQLAlchemy
 PyMySQL
 pyarrow
 cryptography
+matplotlib
+seaborn
+pillow
