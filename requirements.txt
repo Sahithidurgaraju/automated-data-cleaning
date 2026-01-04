@@ -2,3 +2,6 @@ pandas
 numpy
 pytest
 streamlit
+SQLAlchemy
+PyMySQL
+pyarrow
