@@ -38,10 +38,11 @@ pipeline {
         stage('Run Streamlit Dashboard Creation') {
             steps {
                 bat '''
-                start /B python -m streamlit run src/etl_dashboard.py --server.port=8501 --server.address=127.0.0.1
-                ping 127.0.0.1 -n 4 > nul
-                echo http://localhost:8501
-                '''
+cd "%WORKSPACE%"
+taskkill /IM streamlit.exe /F
+start cmd /k "python -m streamlit run src/etl_dashboard.py --server.port=8501 --server.address=127.0.0.1"
+echo http://localhost:8501
+'''
 
             }
         }
