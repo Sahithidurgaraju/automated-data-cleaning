@@ -553,11 +553,9 @@ class Datacleaner:
     def clean_text(self, s: pd.Series) -> pd.Series:
         s = s.astype("string")
 
-        # Unicode normalization (SAFE)
-        s = s.apply(
-            lambda x: unicodedata.normalize("NFKC", x)
-            if isinstance(x, str) else x
-        )
+    # Vectorized normalization (much faster than apply)
+        s = s.map(lambda x: unicodedata.normalize("NFKC", x)
+        if pd.notna(x) else x  )
 
         s = (
             s.str.replace(r"\[[^\]]*\]", "", regex=True)

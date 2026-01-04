@@ -9,6 +9,7 @@ from streamlit_carousel import carousel
 from io import BytesIO
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CLEANED_DATA_DIR = PROJECT_ROOT / "cleaned_data_output"
+DATA_DIR = PROJECT_ROOT/"data"
 PLOTS_DIR = PROJECT_ROOT / "plots"
 # from src.config import DATA_DIR,JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR
 class Datadashboard:
@@ -47,14 +48,14 @@ class Datadashboard:
         return pd.read_sql(f"SELECT * FROM `{dbname}`.`{table_name}`", self.engine)
 
 
-    def show_dashboard(self, csvname):
+    def show_dashboard(self, cleaned_csv,plot_csv):
         dataset_dbs = self.get_dataset_databases()
         tables = self.get_tables_from_databases(dataset_dbs)
     # check substring presence instead of exact prefix
-        base = re.sub(r"_\d{8}_\d{6}$", "", Path(csvname).stem).lower().replace(" ","_") # remove timestamp
+        base = cleaned_csv.lower()
         matched = [t for t in tables if base in t["table"].lower()]
         if not matched:
-            st.error(f"No MySQL table contains `{csvname}` in its name")
+            st.error(f"No MySQL table contains `{cleaned_csv}` in its name")
             return
         dbname = matched[0]["db"]
         table_name = matched[0]["table"]
@@ -62,7 +63,7 @@ class Datadashboard:
         if df is None or df.empty:
             st.warning(f"Table `{dbname}.{table_name}` returned no data.")
             return
-        st.header(f"Data Quality Dashboard - {csvname.title()}")
+        st.header(f"Data Quality Dashboard - {plot_csv.title()}")
         # KPI row
         c1, c2, c3 = st.columns(3)
         c1.metric("Total Rows", len(df))
@@ -71,9 +72,9 @@ class Datadashboard:
             st.markdown("**Structural NA in `*_end` is expected.**")
         c3.metric("Total Missing Cells", int(df.isna().sum().sum()))
         #missing values plot
-        base_dir = os.path.abspath("plot")
-        before = list(PLOTS_DIR.glob(f"{csvname}_missing_values_output/{csvname}_missing_values_before_*.png"))
-        after  = list(PLOTS_DIR.glob(f"{csvname}_missing_values_output/{csvname}_missing_values_after_*.png"))
+        base_dir = os.path.abspath("plot")        
+        before = list(PLOTS_DIR.glob(f"{plot_csv}_missing_values_output/{plot_csv}_missing_values_before_*.png"))
+        after  = list(PLOTS_DIR.glob(f"{plot_csv}_missing_values_output/{plot_csv}_missing_values_after_*.png"))
     # 1. Missing values grouped slide ONLY if both exist
         slides= []
         if before and after:
@@ -102,8 +103,8 @@ class Datadashboard:
             st.success("✔ No image slides available")
         #outliers
         outliers = []
-        before_outliers = list(PLOTS_DIR.glob(f"{csvname}_outliers/{csvname}_outliers_before_*.png"))
-        after_outliers = list(PLOTS_DIR.glob(f"{csvname}_outliers/{csvname}_outliers_after_*.png"))        
+        before_outliers = list(PLOTS_DIR.glob(f"{plot_csv}_outliers/{plot_csv}_outliers_before_*.png"))
+        after_outliers = list(PLOTS_DIR.glob(f"{plot_csv}_outliers/{plot_csv}_outliers_after_*.png"))        
         if before_outliers and after_outliers:
             outliers.append(("Outliers (Before vs After)", before_outliers[0].resolve(), after_outliers[0].resolve()))
         if outliers:
@@ -130,7 +131,7 @@ class Datadashboard:
             st.success("✔ No image slides available")
         #bins if present 
         bins = []
-        bn = list(PLOTS_DIR.glob(f"{csvname.lower()}_cleaned_*/{csvname.lower()}_cleaned_*.png"))
+        bn = list(PLOTS_DIR.glob(f"{plot_csv.lower()}_cleaned_*/{plot_csv.lower()}_cleaned_*.png"))
         if bn:
             for i in bn: bins.append(("Bins Distribution", i.resolve()))
             if bins:
@@ -155,27 +156,37 @@ class Datadashboard:
         excel_bytes = buf.getvalue()
 
         c1, c2, c3 = st.columns(3)
-        c1.download_button("⬇ CSV", df.to_csv(index=False).encode(), f"{csvname}.csv", "text/csv")
-        c2.download_button("📊 Excel", excel_bytes, f"{csvname}.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        c3.download_button("📄 Text", df.to_string(), f"{csvname}.txt", "text/plain")
+        c1.download_button("⬇ CSV", df.to_csv(index=False).encode(), f"{plot_csv}.csv", "text/csv")
+        c2.download_button("📊 Excel", excel_bytes, f"{plot_csv}.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
+        c3.download_button("📄 Text", df.to_string(), f"{plot_csv}.txt", "text/plain")
 
         st.dataframe(df)
         st.markdown("### 📊 Key Data Insights")
         st.write(df.describe(include="all"))
 
-    def go_dashboard(self,csvname):
+    # def go_dashboard(self,csvname):
+    #     st.session_state.page = "dashboard"
+    #     st.session_state.csvname = csvname
+    def open_dashboard(self, cleaned_csv, plot_csv):
         st.session_state.page = "dashboard"
-        st.session_state.csvname = csvname
+        st.session_state.cleaned_csv = cleaned_csv
+        st.session_state.plot_csv = plot_csv
     def home_page(self):
         st.title("📁 Available Datasets")
-        for f in CLEANED_DATA_DIR.glob("*.csv"):
-            st.button(f.stem, on_click=self.go_dashboard, args=(f.stem,))
+        for f in DATA_DIR.glob("*.csv"):
+            cleaned_stem = f.stem.lower().replace(" ", "_") + "_cleaned"  # for SQL
+            plot_stem = f.stem  # for plots
+            st.button(f.stem, on_click=self.open_dashboard, args=(cleaned_stem, plot_stem))
 
 if __name__ == "__main__":
     import streamlit as st
     
     if "page" not in st.session_state:
         st.session_state.page = "home"
+    if "cleaned_csv" not in st.session_state:
+        st.session_state.cleaned_csv = None
+    if "plot_csv" not in st.session_state:
+        st.session_state.plot_csv = None
     dashboard = Datadashboard()
     if st.session_state.page == "home":
             dashboard.home_page()
@@ -184,4 +195,4 @@ if __name__ == "__main__":
         if st.sidebar.button("← Back to Home"):
             st.session_state.page = "home"
         else:
-            dashboard.show_dashboard(st.session_state.csvname)
+            dashboard.show_dashboard(st.session_state.cleaned_csv, st.session_state.plot_csv)
