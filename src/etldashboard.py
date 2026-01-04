@@ -1,14 +1,14 @@
 import streamlit as st
 import pandas as pd
 from sqlalchemy import create_engine
-import os,json,glob,pytest
+import os,json,glob,pytest,re
 from pathlib import Path
 import matplotlib.pyplot as plt
 from PIL import Image
 from streamlit_carousel import carousel
 from io import BytesIO
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
-DATA_DIR = PROJECT_ROOT / "data"
+CLEANED_DATA_DIR = PROJECT_ROOT / "cleaned_data_output"
 PLOTS_DIR = PROJECT_ROOT / "plots"
 # from src.config import DATA_DIR,JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR
 class Datadashboard:
@@ -51,7 +51,8 @@ class Datadashboard:
         dataset_dbs = self.get_dataset_databases()
         tables = self.get_tables_from_databases(dataset_dbs)
     # check substring presence instead of exact prefix
-        matched = [t for t in tables if csvname.lower() in t["table"].lower()]
+        base = re.sub(r"_\d{8}_\d{6}$", "", Path(csvname).stem).lower().replace(" ","_") # remove timestamp
+        matched = [t for t in tables if base in t["table"].lower()]
         if not matched:
             st.error(f"No MySQL table contains `{csvname}` in its name")
             return
@@ -167,7 +168,7 @@ class Datadashboard:
         st.session_state.csvname = csvname
     def home_page(self):
         st.title("📁 Available Datasets")
-        for f in DATA_DIR.glob("*.csv"):
+        for f in CLEANED_DATA_DIR.glob("*.csv"):
             st.button(f.stem, on_click=self.go_dashboard, args=(f.stem,))
 
 if __name__ == "__main__":
