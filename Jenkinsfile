@@ -40,7 +40,7 @@ pipeline {
                 bat '''
 cd "%WORKSPACE%"
 taskkill /IM streamlit.exe /F
-start cmd /k "python -m streamlit run src/etl_dashboard.py --server.port=8501 --server.address=127.0.0.1"
+start cmd /k "python -m streamlit run src/etldashboard.py --server.port=8501 --server.address=127.0.0.1"
 echo http://localhost:8501
 '''
 
