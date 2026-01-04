@@ -63,7 +63,7 @@ echo Cleanup complete!
             steps {
                 bat '''
 cd "%WORKSPACE%"
-taskkill /IM streamlit.exe /F
+taskkill /IM streamlit.exe /F || echo No old Streamlit process
 start cmd /k "python -m streamlit run src/etldashboard.py --server.port=8501 --server.address=127.0.0.1"
 echo http://127.0.0.1:8501/
 '''
