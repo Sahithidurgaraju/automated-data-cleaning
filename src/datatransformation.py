@@ -279,8 +279,9 @@ class Datatranformer:
             database = json.load(f)
         engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}")
         clean_name = re.sub(r"_\d{8}_\d{6}$", "", Path(csvname).stem)
+        clean_name = clean_name.replace(" ", "_")
         dbname = clean_name
-        table = f"transformed_{dbname}"
+        table = f"transformed_{dbname}".lower() 
         check_db_query = text(f"SHOW DATABASES LIKE '{dbname}';")        
         with engine.connect() as conn:
             exists = conn.execute(check_db_query).fetchone()
