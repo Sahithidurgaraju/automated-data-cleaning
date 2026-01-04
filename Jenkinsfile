@@ -26,6 +26,7 @@ cd "%WORKSPACE%"
 echo Cleaning old generated & report directories...
 
 rmdir /s /q json_output || echo json_output not found
+rmdir /s /q logs || echo logs not found
 rmdir /s /q cleaned_data_output || echo cleaned_data_output not found
 rmdir /s /q plots || echo plots not found
 rmdir /s /q validation_reports || echo validation_reports not found
@@ -38,6 +39,7 @@ mkdir cleaned_data_output
 mkdir plots
 mkdir validation_reports
 mkdir reports
+mkdir logs
 
 echo Cleanup complete!
 '''
