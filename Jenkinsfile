@@ -13,37 +13,37 @@ pipeline {
                 bat 'python --version'
             }
         }
-        stage('Check streamlit') {
+
+        stage('Install Dependencies') {
             steps {
-                bat 'start /B python -m streamlit run src/etl_dashboard.py --server.port=8501 --server.address=0.0.0.0'
+                bat 'python -m pip install -r requirements.txt'
             }
         }
 
-        // stage('Install Dependencies') {
-        //     steps {
-        //         bat 'python -m pip install -r requirements.txt'
-        //     }
-        // }
+        stage('Run Data Cleaning Process') {
+            steps {
+                bat 'python run_reports.py'
+            }
+        }
+        stage('Run generate transformation') {
+            steps {
+                bat 'python generate_transformation.py'
+            }
+        }
+        stage('Run apply transformation') {
+            steps {
+                bat 'python apply_transformation.py'
+            }
+        }
+        stage('Run Streamlit Dashboard Creation') {
+            steps {
+                bat '''
+                start /B python -m streamlit run src/etl_dashboard.py --server.port=8501 --server.address=127.0.0.1
+                timeout /t 3
+                echo http://localhost:8501
+                '''
 
-        // stage('Run Data Cleaning Process') {
-        //     steps {
-        //         bat 'python run_reports.py'
-        //     }
-        // }
-        // stage('Run generate transformation') {
-        //     steps {
-        //         bat 'python generate_transformation.py'
-        //     }
-        // }
-        // stage('Run apply transformation') {
-        //     steps {
-        //         bat 'python apply_transformation.py'
-        //     }
-        // }
-        // stage('Run Streamlit Dashboard Creation') {
-        //     steps {
-        //         bat 'streamlit run src\\etl_dashboard.py'
-        //     }
-        // }
+            }
+        }
     }
 }
