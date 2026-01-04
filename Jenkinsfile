@@ -13,7 +13,15 @@ pipeline {
                 bat 'python --version'
             }
         }
-
+        stage('Check pip') {
+            steps {
+                bat '''
+                python -m ensurepip --upgrade
+                python -m pip install --upgrade pip setuptools wheel
+                python -m pip --version
+                '''
+            }
+        }
         stage('Install Dependencies') {
             steps {
                 bat 'python -m pip install -r requirements.txt'
