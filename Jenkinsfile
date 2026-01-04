@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Check streamlit') {
             steps {
-                bat 'python -m streamlit run src\\etl_dashboard.py'
+                bat 'python -m streamlit run ".\\src\\etl_dashboard.py"'
             }
         }
 
