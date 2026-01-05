@@ -19,7 +19,18 @@ class Datadashboard:
             database = json.load(f)
 
         self.mysqluri = f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}"
-        self.engine = create_engine(self.mysqluri)
+        if not database["user"] or not database["password"] or not database["localhost"]:
+            st.error("MySQL credentials are missing. Please update `sql_credentials.json` in the project root.")
+            self.engine = None
+        else:
+            try:
+                self.engine = create_engine(self.mysqluri)
+        # Optional: test connection
+                with self.engine.connect() as conn:
+                    st.success("Connected to MySQL successfully!")
+            except Exception as e:
+                    st.error(f"MySQL connection failed: {e}")
+                    self.engine = None
 
     def get_dataset_databases(self):
         # Fetch all databases and filter dataset DBs

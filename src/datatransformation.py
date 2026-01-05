@@ -257,27 +257,38 @@ class Datatranformer:
         return file_path
 
     
-    def get_database_credentials(self,logger):
-        DATABASE_DIR.mkdir(exist_ok=True)
-        database={
-            "user":"root",
-            "password":"root",
-            "localhost":"127.0.0.1",
-            "port":3306
-        }
-        report_path = DATABASE_DIR / f"sql_credentials.json"
-        # report_path.mkdir(exist_ok=True)
-        with open(report_path,"w") as f:
-            json.dump(database, f,indent=4)
-        logger.info(f"{report_path} created")
-        return report_path
+    # def get_database_credentials(self,logger):
+    #     DATABASE_DIR.mkdir(exist_ok=True)
+    #     database={
+    #         "user":"",
+    #         "password":"",
+    #         "localhost":"",
+    #         "port":3306
+    #     }
+    #     report_path = DATABASE_DIR / f"sql_credentials.json"
+    #     with open(report_path,"w") as f:
+    #         json.dump(database, f,indent=4)
+    #     logger.info(f"{report_path} created")
+    #     return report_path
     
 
-    def push_to_sql(self,df,logger,report_path,csvname):
+    def push_to_sql(self,df,logger,csvname):
         df = self.df
-        with open(report_path, "r") as f:
+        with open(DATABASE_DIR / f"sql_credentials.json", "r") as f:
             database = json.load(f)
-        engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}")
+        if not database.get("user") or not database.get("password") or not database.get("localhost"):
+            logger.error("SQL credentials missing or blank. Please update sql_credentials.json")
+            return None, None, None 
+        try:
+            engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}")
+        # Test connection
+            with engine.connect() as conn:
+                logger.info("MySQL connection successful!")
+
+        except Exception as e:
+            logger.error(f"MySQL connection failed: {e}")
+            return None, None, None 
+        
         clean_name = re.sub(r"_\d{8}_\d{6}$", "", Path(csvname).stem)
         clean_name = clean_name.replace(" ", "_")
         dbname = clean_name

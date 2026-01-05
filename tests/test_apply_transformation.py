@@ -85,8 +85,7 @@ def test_push_to_sql(messy_data):
     csvname,df,logger=messy_data
     transformer = Datatranformer(df,csvname)
     len_df = len(df)
-    path = transformer.get_database_credentials(logger)
-    dbname,table,db_engine = transformer.push_to_sql(df,logger,path,csvname)
+    dbname,table,db_engine = transformer.push_to_sql(df,logger,csvname)
     null_count, row_count = transformer.test_sql_data(dbname, table, db_engine, logger)
     logger.info("successfully pushed data to sql")
     assert isinstance(row_count, int), "Row count is not integer!"
@@ -94,15 +93,5 @@ def test_push_to_sql(messy_data):
     assert row_count > 0, "No rows inserted into SQL!"
     assert row_count == len_df, "Row count mismatch after push!"
 
-# @pytest.mark.tc_0003
-# def test_database(messy_data):
-#     csvname,df,logger=messy_data
-#     data = Datadashboard()
-#     # databases = data.get_dataset_databases(logger)
-#     # tables = data.get_tables_from_databases(databases,logger)
-#     # data.load_table(tables,logger)
-#     data.show_dashboard(csvname,logger)
-#     # logger.info(f"{databases}")
-#     # logger.info(f"{tables}")
     
 
