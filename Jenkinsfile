@@ -1,8 +1,5 @@
 pipeline {
     agent any
-     tools {
-        python 'Python3'
-    }
 
     environment {
         VENV_DIR = "venv"
@@ -15,14 +12,6 @@ pipeline {
             }
         }
 
-        stage("Create Virtual Environment") {
-            steps {
-                bat """
-                python -m venv %VENV_DIR%
-                """
-            }
-        }
-
         stage('Check Python') {
             steps {
                 bat 'python --version'
@@ -31,7 +20,6 @@ pipeline {
         stage('Check pip') {
             steps {
                 bat '''
-                call %VENV_DIR%\\Scripts\\activate
                 python -m ensurepip --upgrade
                 python -m pip install --upgrade pip setuptools wheel
                 python -m pip --version
@@ -41,7 +29,6 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 bat '''
-                call %VENV_DIR%\\Scripts\\activate
                 python -m pip install -r requirements.txt'''
             }
         }
@@ -79,7 +66,6 @@ echo Cleanup complete!
         stage('Run Data Cleaning Process') {
             steps {
                 bat'''
-                call %VENV_DIR%\\Scripts\\activate
                 python run_reports.py
                 '''
             }
@@ -87,14 +73,12 @@ echo Cleanup complete!
         stage('Run generate transformation') {
             steps {
                 bat'''
-                call %VENV_DIR%\\Scripts\\activate
                 python generate_transformation.py'''
             }
         }
         stage('Run apply transformation') {
             steps {
                 bat'''
-                call %VENV_DIR%\\Scripts\\activate
                 python apply_transformation.py'''
             }
         }
@@ -113,7 +97,6 @@ echo http://192.168.1.45:8501/
         stage('Run generate metrics pdf ') {
             steps {
                 bat'''
-                call %VENV_DIR%\\Scripts\\activate
                 python etldashboard.py'''
             }
         }
