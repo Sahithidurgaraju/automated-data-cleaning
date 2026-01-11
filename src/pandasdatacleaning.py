@@ -4,18 +4,29 @@ import numpy as np
 import re,os,unicodedata,time,glob,json,seaborn as sns, matplotlib.pyplot as plt
 from datetime import datetime
 from pathlib import Path
-from src.config import DATA_DIR, JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR,VALIDATION_DIR
+from config import DATA_DIR, JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR,VALIDATION_DIR
 # Ignore only RuntimeWarning (common for all-NaN median/mean)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 #pattern checking 
-TEXT_DIRTY_PATTERN = r"\[[^\]]*\]|[†‡*]|[\x00-\x1F\x7F]"
-NUMERIC_PATTERN = r"[\$\€\£\₹(),]|\d+[KMBkmb]$"
-YEAR_PATTERN = r"(19\d{2}|20\d{2})"
-YEAR_RANGE_PATTERN = r"(19\d{2}|20\d{2}).*(19\d{2}|20\d{2})"
+TEXT_DIRTY_PATTERN = TEXT_DIRTY_PATTERN = r"""
+    \[[^\]]*\] |                  # [anything inside brackets]
+    [†‡•★※☞#@$%^&*(){}<>~|] |     # common symbols
+    ["“”'‘’`´] |                  # all quote types
+    [;:,] |                      # separators like ; : ,
+    \d+\s*[KMBkmb] |             # 10K, 5M, 3B etc
+    [\x00-\x1F\x7F-\x9F] |       # all control/non printable chars
+    [^\x00-\x7F] |               # any non-ascii unicode noise
+    \d+[A-Za-z]+ |               # 123abc, 45users, 18kdata
+    [A-Za-z]+\d+ |               # users123, data9, col5text
+    \s{2,}                       # multiple spaces
+"""
+NUMERIC_PATTERN = r"[\$\€\£\₹₹(),]|\d+[KMBkmb]|\d+\s*[KMBkmb]|\d+\-\d+"
+YEAR_PATTERN =  r"(19\d{2}|20\d{2})"
+YEAR_RANGE_PATTERN = r"(19\d{2}|20\d{2})\s*[-to]+\s*(19\d{2}|20\d{2})"
 #cleaning threshold
-TEXT_THRESHOLD = 0.6
-YEAR_THRESHOLD = 0.6
-NUMERIC_THRESHOLD = 0.1
+TEXT_THRESHOLD = 0.2
+YEAR_THRESHOLD = 0.2
+NUMERIC_THRESHOLD = 0.02
 #for checking the id columns
 ID_NAME_KEYWORDS = (
     "id", "uuid", "guid", "hash", "code", "ref", "reference"
@@ -69,44 +80,55 @@ class Datacleaner:
                 logger.error(msg)
             raise FileNotFoundError(msg)
         # Read CSV (encoding fallback)
-        try:
-            self.df = pd.read_csv(csv_path, na_values=[""],
-            keep_default_na=True,encoding=encoding)
-            if logger:
-                logger.info(f"Loaded CSV: {csv_path} ({encoding})")
-        except UnicodeDecodeError:
-            self.df = pd.read_csv(csv_path, encoding="latin1")
-            if logger:
-                logger.warning(f"Encoding fallback to latin1: {csv_path}")
-        # Clean column names
-        self.clean_colnames()
+        for enc in ["utf-8", "cp1252", "latin1"]:
+            try:
+                self.df = pd.read_csv(
+                csv_path,
+                na_values=[""],
+                keep_default_na=True,
+                encoding=enc,
+                engine="c"
+            )
+                if logger:
+                    logger.info(f"Loaded CSV using encoding: {enc}")
+                break
+            except UnicodeDecodeError:
+                continue
 
+    # Clean column names
+        self.clean_colnames()
         if logger:
             logger.info(f"Cleaned column names: {list(self.df.columns)}")
 
-        # Clean TEXT columns using vectorization
-        
+    # Detect star rating columns and convert to numeric FAST
+        for col in self.df.select_dtypes(include=["object", "string"]).columns:
+        # If many values are stars, treat as rating
+            if self.df[col].astype(str).str.count("★").mean() > 0.2:
+                self.df[col] = self.df[col].astype(str).str.count("★").astype("Int64")
+                if logger:
+                    logger.info(f"[Transform] {col} star ratings converted to numeric")
+
+    # Clean text columns + fix mojibake/unicode issues
         text_cols = self.df.select_dtypes(include=["object", "string"]).columns
 
         for col in text_cols:
-            s = self.df[col]
+            s = self.df[col].astype("string")
 
-    # unicode fixes (vectorized)
+        # Vectorized unicode fixes
             s = (
-            s.astype("string")
-         .str.replace("â€ ", "", regex=False)
-         .str.replace("â€¡", "", regex=False)
-         .str.replace("Ã©", "é", regex=False)
-    )
+            s.str.replace("â˜…", "★", regex=False)
+             .str.replace("â€¦", "…", regex=False)
+             .str.replace("â€ ", "", regex=False)
+             .str.replace("â€¡", "", regex=False)
+             .str.replace("Ã©", "é", regex=False)
+        )
 
-    # APPLY ONCE 
             self.df[col] = self.clean_text(s)
-
             if logger:
                 logger.info(f"Cleaned text column: {col}")
 
         if logger:
-            logger.info(f"CSV loading and cleaning completed: {csv_path}")
+            logger.info(f"CSV loading and cleaning completed")
 
         return self.df
     def shape(self, csvname,logger):
@@ -426,7 +448,7 @@ class Datacleaner:
                 old_file.unlink()
             except Exception as e:
                 print(f"Failed to delete {old_file}: {e}")
-        df_to_export.to_csv(file_output_dir, index=False)
+        df_to_export.to_csv(file_output_dir, index=False, encoding="utf-8")
         self.logs.append(f"Data Exported to csv:{file_output_dir}")
         return file_output_dir
 
@@ -550,28 +572,28 @@ class Datacleaner:
             return False
         return pd.to_datetime(s, errors="coerce").notna().mean() >= 0.6
 
-    def clean_text(self, s: pd.Series) -> pd.Series:
+    def clean_text(self, s: pd.Series):
         s = s.astype("string")
 
-    # Vectorized normalization (much faster than apply)
+    # Fix mojibake like Youâ€™re → You're using latin1 decode
+        # s = s.str.encode("latin1", errors="ignore").str.decode("utf-8", errors="replace")
         s = s.map(lambda x: unicodedata.normalize("NFKC", x)
         if pd.notna(x) else x  )
 
         s = (
-            s.str.replace(r"\[[^\]]*\]", "", regex=True)
-             .str.replace(r"[†‡*]", "", regex=True)
-             .str.replace(r"[\x00-\x1F\x7F]", "", regex=True)
-             .str.replace(r"[^\x20-\x7E]", "", regex=True)  # remove all non-printable ascii
-             .str.encode("ascii", "ignore").str.decode("ascii")  #  remove garbage
-             .str.replace("“", '"', regex=False)
-             .str.replace("”", '"', regex=False)
-             .str.replace("‘", "'", regex=False)
-             .str.replace("’", "'", regex=False)
-             .str.replace("–", "-", regex=False)
-             .str.replace("—", "-", regex=False)
-             .str.replace(r"\s+", " ", regex=True)
-             .str.strip()
-        )
+        s.str.replace(r"\[[^\]]*\]", "", regex=True) 
+        .str.replace(r"[†‡*]", "", regex=True) 
+        .str.replace(r"[\x00-\x1F\x7F]", "", regex=True) 
+        .str.replace("“", '"', regex=False) 
+        .str.replace("”", '"', regex=False) 
+        .str.replace("‘", "'", regex=False) 
+        .str.replace("’", "'", regex=False) 
+        .str.replace("–", "-", regex=False) 
+        .str.replace("—", "-", regex=False) 
+        .str.replace(r"[�Ãâ€™©]", "", regex=True) 
+        .str.replace(r"\s+", " ", regex=True) 
+        .str.strip()
+    )
         return s
 
     def clean_numeric(self, s: pd.Series) -> pd.Series:
@@ -597,12 +619,16 @@ class Datacleaner:
 
     def extract_year(self, s: pd.Series):
         s = s.astype(str)
-        s = s.str.replace(r"[–—−]", "-", regex=True)
-        s = s.str.replace(r"(\d{4})(?=\d{4})", r"\1-", regex=True)
+        s = (
+        s.str.replace("~", "-", regex=False)
+         .str.replace(r"[–—−]", "-", regex=True)
+         .str.replace(r"\s*-\s*", "-", regex=True)
+         .str.replace(r"(\d{4})(?=\d{4})", r"\1-", regex=True)
+    )
 
         years = s.str.findall(YEAR_PATTERN)
         start = years.str[0].astype("Int64")
-        end = years.str[-1].where(years.str.len() > 1).astype("Int64")
+        end = years.str[-1].mask(years.str.len() <= 1).astype("Int64")
 
         return start, end
 
@@ -633,14 +659,14 @@ class Datacleaner:
             # YEAR 
             if year_presence_ratio >= YEAR_THRESHOLD and year_range_ratio >= YEAR_THRESHOLD:                
                 y1, y2 = self.extract_year(s)
-                self.df[col] = y1
+                self.df[f"{col}_start"] = y1
                 if y2.notna().any():
                     self.df[f"{col}_end"] = y2
                 cleaned_cols.append(col)
                 continue
 
             #  NUMERIC 
-            if numeric_ratio >= NUMERIC_THRESHOLD:
+            if numeric_ratio >= NUMERIC_THRESHOLD and not s.str.contains(r"[A-Za-z]", na=False).any():
                 self.df[col] = self.clean_numeric(s)
                 cleaned_cols.append(col)
                 continue
@@ -673,7 +699,7 @@ class Datacleaner:
     # purely numeric 
         pure_numeric = s.str.match(r"^\d+(\.\d+)?$", na=False).mean()
 
-        return has_letters >= 0.6 and pure_numeric < 0.2
+        return has_letters >= 0.3 and pure_numeric < 0.8
     
     def _detect_column_type(self, s: pd.Series) -> str:
         s_non_null = s.dropna()
@@ -835,57 +861,72 @@ class Datacleaner:
         "executed": False,
         "aborted": False,
         "keys": None,
-        "removed": 0
+        "removed": 0,
+        "removed_pct": 0.0
     }
         if self.df is None:
             self.deduplication_status["reason"] = "No data loaded"
-            logger.warning(f"[{csvname}] No dataframe loaded")
-            return None
+            # logger.warning(f"[{csvname}] No dataframe loaded")
+            return self.df, self.deduplication_status
 
         before = len(self.df)
         if subset is None:
-            self.deduplication_status["reason"] = "No valid deduplication keys"
             subset = self.derive_duplicate_subset(csvname)
         subset = [c for c in subset if c in self.df.columns]
         if not subset:
-                logger.warning(
-                f"[{csvname}] Duplicate subset empty after filtering — skipping deduplication"
-            )
-                return self.df
+                # logger.warning(
+                # f"[{csvname}] Duplicate subset empty after filtering — skipping deduplication"
+    # )          
+                self.deduplication_status.update({
+        "executed": False,
+        "aborted": True,
+        "reason": "No explicit deduplication keys provided"
+    })
+                return self.df, self.deduplication_status 
         data = self.df.drop_duplicates(subset=subset, keep=keep)
         removed = before - len(data)
+        removed_pct = round((removed / max(before, 1)) * 100, 2)
         self.deduplication_status["keys"] = subset
         self.deduplication_status["removed"] = removed
-        logger.info(
-                f"[{csvname}] Removed {removed} duplicate rows "
-                f"using keys={subset}"
-        )
-        removal_ratio = removed / before
-        if removal_ratio > 0.3:
-            logger.error(
-            f"[{csvname}] Aborting deduplication — "
-            f"{removal_ratio:.1%} rows flagged as duplicates using {subset}"
-        )
+        # logger.info(
+        #         f"[{csvname}] Removed {removed} duplicate rows "
+        #         f"using keys={subset}"
+        # )
+        removal_ratio = (removed / before)*100
+        if removal_ratio > 0.05:
+            # logger.error(
+            # f"[{csvname}] Aborting deduplication — "
+            # f"{removal_ratio:.2f}% rows flagged as duplicates using {subset}")
             self.deduplication_status.update({
             "executed": False,
             "aborted": True,
             "keys": subset,
             "removed": 0,
-            "reason": f"Aborted: {removal_ratio:.1%} rows would be removed"
+            "reason": f"Aborted: {removal_ratio:.2f}% rows would be removed"
         })
-            return self.df
+            return self.df, self.deduplication_status
         self.deduplication_status.update({
         "executed": True,
         "aborted": False,
         "keys": subset,
-        "removed": removed
+        "removed": removed,
+        "removed_pct": removed_pct
     })
-        logger.info(
-        f"[{csvname}] Removed {removed} duplicate rows using keys={subset}"
-    )
+        if removed == 0 and removed_pct == 0:
+            self.deduplication_status.update({
+        "executed": True,
+        "aborted": False,
+        "keys": subset,
+        "removed": removed,
+        "removed_pct": removed_pct,
+        "reason": "no duplication rows found"
+    })
+    #     logger.info(
+    #     f"[{csvname}] Removed {removed} duplicate rows using keys={subset}"
+    # )
 
         self.df = data
-        return data
+        return self.df, self.deduplication_status 
     
     def matches_pattern(self, col, pattern):
         return pattern.startswith("*") and col.endswith(pattern[1:])
@@ -1004,7 +1045,7 @@ class Datacleaner:
             False,
             f"Found {total_nulls - structural_nulls} unexpected null values"
         )
-    # 5️⃣ Row drop guard
+    # Row drop guard
         if rows_before:
             drop_ratio = (rows_before - len(df)) / rows_before
             passed = drop_ratio <= 0.3
