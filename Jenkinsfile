@@ -102,14 +102,6 @@ echo http://192.168.1.45:8501/
         }
     }
     post {
-        success {
-            echo "Python pipeline executed successfully"
-        }
-        failure {
-            echo "Python pipeline failed"
-        }
-}
-    post {
     success {
         emailext(
             subject: "Dashboard Reports - Jenkins Build #${BUILD_NUMBER}",
