@@ -109,4 +109,23 @@ echo http://192.168.1.45:8501/
             echo "Python pipeline failed"
         }
 }
+    post {
+    success {
+        emailext(
+            subject: "Dashboard Reports - Build #${BUILD_NUMBER}",
+            body: """
+Hello,
+
+The Jenkins job completed successfully.
+Please find the dashboard reports attached.
+
+Job: ${JOB_NAME}
+Build: ${BUILD_NUMBER}
+""",
+            to: "yourmail@gmail.com",
+            attachmentsPattern: "dashboard_reports/**/*.*"
+        )
+    }
+}
+
 }
