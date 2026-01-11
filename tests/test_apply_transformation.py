@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 import logging
-from src.pandasdatacleaning import Datacleaner
 from src.datatransformation import Datatranformer
 from src.etldashboard import Datadashboard
 import warnings
@@ -57,37 +56,33 @@ def messy_data():
     logger = get_logger(csv_name)
     logger.info(f"Processing: {file_path}")
 
-    df = pd.read_csv(file_path)
+    df = pd.read_csv(file_path,encoding="utf-8")
 
     return csv_name, df, logger
 
 #here onwards testing of before cleaning of messy data starts:
 #testing column name has any issues like white spaces, unicode characters, upper characters
 
+       
 @pytest.mark.tc_0001
-def test_transformation(messy_data):
+def test_push_to_sql(messy_data):
     csvname,df,logger=messy_data
     transformer = Datatranformer(df,csvname)
-    df_c,report= transformer.apply_transformations(df,csvname,logger)
+    len_df = len(df)
+    df_c= transformer.apply_transformations(df,csvname,logger)
+    logger.info(f"{df_c.head(10)}")
+    dbname,table,db_engine = transformer.push_to_sql(df_c,logger,csvname)
+    null_count, row_count = transformer.test_sql_data(dbname, table, db_engine, logger)
+    logger.info("successfully pushed data to sql")
     assert df_c is not None, "Transformation returned None!"
     assert not df_c.empty, "Transformed DataFrame is empty!"
     assert isinstance(df_c, pd.DataFrame), "Output is not a DataFrame"
-    logger.info(f"{df_c.head(10)}")
     if not df_c.filter(like="_bin").empty:
         file = transformer.plot_all_bins(df_c,csvname,logger)
         assert file.is_file(), "Bin plot was not saved as file!"
         logger.info("Bin plotting successful")
     else:
         logger.info("No bins to plot — skipping (acceptable)")
-    
-@pytest.mark.tc_0002
-def test_push_to_sql(messy_data):
-    csvname,df,logger=messy_data
-    transformer = Datatranformer(df,csvname)
-    len_df = len(df)
-    dbname,table,db_engine = transformer.push_to_sql(df,logger,csvname)
-    null_count, row_count = transformer.test_sql_data(dbname, table, db_engine, logger)
-    logger.info("successfully pushed data to sql")
     assert isinstance(row_count, int), "Row count is not integer!"
     assert isinstance(null_count, int), "Null count is not integer!"
     assert row_count > 0, "No rows inserted into SQL!"

@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 import logging
-from src.pandasdatacleaning import Datacleaner
 from src.datatransformation import Datatranformer
 import warnings
 import re
@@ -15,6 +14,7 @@ matplotlib.use("Agg")
 from pandarallel import pandarallel
 pandarallel.initialize(nb_workers=1, progress_bar=False)
 from src.config import DATA_DIR,JSON_DIR,CLEANED_DATA_DIR
+from src.pandasdatacleaning import Datacleaner
 # Ignore only RuntimeWarning (common for all-NaN median/mean)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 pd.set_option('display.max_columns', None)  # show all columns
