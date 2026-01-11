@@ -103,7 +103,7 @@ echo http://192.168.1.45:8501/
     }
     post {
     success {
-        mail(
+        emailext(
             to: "sahithi251999@gmail.com",
             subject: "Dashboard Reports - Jenkins Build #${BUILD_NUMBER}",
             body: """
@@ -124,7 +124,7 @@ Jenkins
     }
 
     failure {
-        mail(
+        emailext(
             to: "sahithi251999@gmail.com",
             subject: "❌ Jenkins Build Failed - ${JOB_NAME} #${BUILD_NUMBER}",
             body: "The pipeline failed. Please check Jenkins logs."
