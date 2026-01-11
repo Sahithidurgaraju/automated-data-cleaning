@@ -46,7 +46,7 @@ rmdir /s /q validation_reports || echo validation_reports not found
 rmdir /s /q transformed_cleaned_data_output || echo transformed_cleaned_data_output not found
 rmdir /s /q test-reports || echo test-reports not found
 rmdir /s /q reports || echo reports not found
-rmdir /s /q dasboard_reports || echo dashboard reports not found
+rmdir /s /q dashboard_reports || echo dashboard reports not found
 rmdir /s /q htmlcov || echo coverage report not found
 
 mkdir json_output
@@ -97,7 +97,7 @@ echo http://192.168.1.45:8501/
         stage('Run generate metrics pdf ') {
             steps {
                 bat'''
-                python etldashboard.py'''
+                python dashboard_pdf.py'''
             }
         }
     }
