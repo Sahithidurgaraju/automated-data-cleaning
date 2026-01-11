@@ -112,20 +112,33 @@ echo http://192.168.1.45:8501/
     post {
     success {
         emailext(
-            subject: "Dashboard Reports - Build #${BUILD_NUMBER}",
+            subject: "Dashboard Reports - Jenkins Build #${BUILD_NUMBER}",
             body: """
 Hello,
 
-The Jenkins job completed successfully.
+The Jenkins pipeline has completed successfully.
+
 Please find the dashboard reports attached.
 
 Job: ${JOB_NAME}
-Build: ${BUILD_NUMBER}
+Build: #${BUILD_NUMBER}
+
+Regards,
+Jenkins
 """,
-            to: "yourmail@gmail.com",
+            to: "sahithi251999@gmail.com",
             attachmentsPattern: "dashboard_reports/**/*.*"
         )
     }
+
+    failure {
+        emailext(
+            subject: "❌ Jenkins Build Failed - ${JOB_NAME} #${BUILD_NUMBER}",
+            body: "The pipeline failed. Please check Jenkins logs.",
+            to: "sahithi251999@gmail.com"
+        )
+    }
 }
+
 
 }
