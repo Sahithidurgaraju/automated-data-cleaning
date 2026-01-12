@@ -64,6 +64,10 @@ for folder in os.listdir(PLOTS_DIR):
             upload_name = f"{safe_folder}__{safe_file}"
 
             with open(local_path, "rb") as f:
+                UPLOAD_HEADERS = {
+                    "Authorization": f"token {GITHUB_TOKEN}",
+                    "Content-Type": "application/octet-stream"
+                }
                 r = requests.post(
                     upload_url,
                     headers=HEADERS,
