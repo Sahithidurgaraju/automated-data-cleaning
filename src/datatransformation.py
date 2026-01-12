@@ -71,11 +71,11 @@ class Datatranformer:
     def push_to_sql(self,df,logger,csvname):
         with open(DATABASE_DIR / f"sql_credentials.json", "r") as f:
             database = json.load(f)
-        if not database.get("user") or not database.get("password") or not database.get("localhost"):
+        if not database.get("user") or not database.get("password") or not database.get("host"):
             logger.error("SQL credentials missing or blank. Please update sql_credentials.json")
             return None, None, None 
         try:
-            engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}")
+            engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}")
         # Test connection
             with engine.connect() as conn:
                 logger.info("MySQL connection successful!")
@@ -101,7 +101,7 @@ class Datatranformer:
 
         #  Create new DB engine pointing to the fresh DB
         db_engine = create_engine(
-            f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}/{dbname}"
+            f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}/{dbname}"
         )
         bin_cols = [c for c in df.columns if c.endswith("_bin")]
         if bin_cols:
