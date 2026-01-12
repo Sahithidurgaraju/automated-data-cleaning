@@ -8,7 +8,6 @@ from PIL import Image
 from datetime import datetime
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-from streamlit_carousel import carousel
 from io import BytesIO
 from logger_config import get_logger 
 from pandasdatacleaning import Datacleaner
@@ -36,12 +35,22 @@ def sql_query(dbname, table_name):
     with open(credential_file) as f:
         database = json.load(f)
 
-    mysqluri = f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}"
-    if not database["user"] or not database["password"] or not database["localhost"]:
+    mysqluri = (
+    f"mysql+pymysql://{database['user']}:{database['password']}"
+    f"@{database['host']}:{database['port']}/{database['dbname']}"
+)
+
+    if not database["user"] or not database["password"] or not database["host"]:
         st.error("MySQL credentials are missing. Please update `sql_credentials.json` in the project root.")
         engine = None
     else:
-        engine = create_engine(mysqluri)
+        engine = create_engine(mysqluri,connect_args={
+        "ssl": {
+            "ca": r"C:\Users\LENOVO\Downloads\isrgrootx1.pem"
+        }
+    },
+    pool_pre_ping=True
+)
     return pd.read_sql(f"SELECT * FROM `{dbname}`.`{table_name}`", engine)
 
 @st.cache_data(show_spinner=False)
@@ -58,13 +67,23 @@ class Datadashboard:
         with open(credential_file) as f:
             database = json.load(f)
 
-        self.mysqluri = f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}"
-        if not database["user"] or not database["password"] or not database["localhost"]:
+
+        self.mysqluri = (
+    f"mysql+pymysql://{database['user']}:{database['password']}"
+    f"@{database['host']}:{database['port']}/{database['dbname']}"
+)
+        if not database["user"] or not database["password"] or not database["host"]:
             st.error("MySQL credentials are missing. Please update `sql_credentials.json` in the project root.")
             self.engine = None
         else:
             try:
-                self.engine = create_engine(self.mysqluri)
+                self.engine = create_engine(self.mysqluri,connect_args={
+        "ssl": {
+            "ca": r"C:\Users\LENOVO\Downloads\isrgrootx1.pem"
+        }
+    },
+    pool_pre_ping=True
+)
         # Optional: test connection
                 with self.engine.connect() as conn:
                     st.success("Connected to MySQL successfully!")
@@ -82,18 +101,42 @@ class Datadashboard:
         except Exception as e:
             raise e
     
-    def get_tables_from_databases(self,dataset_dbs):
-        # Collect all tables from dataset DBs
+    # def get_tables_from_databases(self,dataset_dbs):
+    #     # Collect all tables from dataset DBs
+    #     tables = []
+    #     try:
+    #         for db in dataset_dbs:
+    #             tbls = pd.read_sql(f"SHOW TABLES FROM `{db}`", self.engine)
+    #             for t in tbls.iloc[:, 0]:
+    #                 tables.append({"db": db, "table": t})
+    #         return tables
+    #     except Exception as e:
+
+    #         raise e
+    def get_tables_from_database(self, dbname):
         tables = []
         try:
-            for db in dataset_dbs:
-                tbls = pd.read_sql(f"SHOW TABLES FROM `{db}`", self.engine)
-                for t in tbls.iloc[:, 0]:
-                    tables.append({"db": db, "table": t})
-            return tables
-        except Exception as e:
+            query = f"""
+            SELECT table_name
+            FROM information_schema.tables
+            WHERE table_schema = '{dbname}'
+              AND table_type = 'BASE TABLE'
+              AND LEFT(table_name, 12) = 'transformed_';
+        """
 
+            df = pd.read_sql(query, self.engine)
+
+        # normalize column names
+            df.columns = df.columns.str.lower().str.strip()
+
+            for t in df["table_name"]:
+                tables.append(t)
+
+            return tables
+
+        except Exception as e:
             raise e
+
     def find_images(self, assets, must_contain):
         results = []
         for a in assets:
@@ -265,16 +308,17 @@ class Datadashboard:
 
     
     def show_dashboard(self, cleaned_csv,plot_csv,csvname,logger):
-        dataset_dbs = self.get_dataset_databases()
-        tables = self.get_tables_from_databases(dataset_dbs)
+        # dataset_dbs = self.get_dataset_databases()
+        tables = self.get_tables_from_database("test")
+        dbname = "test"
     # check substring presence instead of exact prefix
-        base = cleaned_csv.lower()
-        matched = [t for t in tables if base in t["table"].lower()]
+        base = "transformed_" + cleaned_csv.lower()
+        matched = [t for t in tables if base in t.lower()]
         if not matched:
-            st.error(f"No MySQL table contains `{cleaned_csv}` in its name")
+            st.error(f"No MySQL table contains `{base}` in its name")
             return
-        dbname = matched[0]["db"]
-        table_name = matched[0]["table"]
+        # dbname = matched[0]["db"]
+        table_name = base
         df = self.load_table(dbname, table_name)
         if df is None or df.empty:
             st.warning(f"Table `{dbname}.{table_name}` returned no data.")
