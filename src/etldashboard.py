@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd,numpy as np
 from sqlalchemy import create_engine
-import os,json,glob,pytest,re
+import os,json,glob,pytest,re,requests
 from pathlib import Path
 import matplotlib.pyplot as plt
 from PIL import Image
@@ -17,6 +17,19 @@ CLEANED_DATA_DIR = PROJECT_ROOT / "cleaned_data_output"
 DATA_DIR = PROJECT_ROOT/"data"
 PLOTS_DIR = PROJECT_ROOT / "plots"
 DASHBOARD_DIR =  PROJECT_ROOT/"dashboard_reports"
+
+OWNER = "Sahithidurgaraju"
+REPO = "automated-data-cleaning"
+RELEASE_TAG = "latest-images"
+
+@st.cache_data(ttl=300)
+def get_release_assets():
+    url = f"https://api.github.com/repos/{OWNER}/{REPO}/releases/tags/{RELEASE_TAG}"
+    r = requests.get(url)
+    if r.status_code != 200:
+        return []
+    return r.json().get("assets", [])
+
 @st.cache_data(show_spinner=False)
 def sql_query(dbname, table_name):
     credential_file = os.path.join(os.path.dirname(__file__), "..", "sql_credentials", "sql_credentials.json")
@@ -81,6 +94,14 @@ class Datadashboard:
         except Exception as e:
 
             raise e
+    def find_images(self, assets, must_contain):
+        results = []
+        for a in assets:
+            name = a["name"].lower()
+            if all(key.lower() in name for key in must_contain):
+                results.append(a["browser_download_url"])
+        return results
+
 
     def load_table(self, dbname, table_name):
         return sql_query(dbname, table_name)
@@ -273,83 +294,45 @@ class Datadashboard:
         ].values[0]
         
 
-        #missing values plot
-        base_dir = os.path.abspath("plot")        
-        before = list(PLOTS_DIR.glob(f"{plot_csv}_missing_values_output/{plot_csv}_missing_values_before_*.png"))
-        after  = list(PLOTS_DIR.glob(f"{plot_csv}_missing_values_output/{plot_csv}_missing_values_after_*.png"))
-    # 1. Missing values grouped slide ONLY if both exist
-        slides= []
-        if before and after:
-           slides.append(("Missing Values (Before vs After)", before[0].resolve(), after[0].resolve()))
-        if slides:
-            if len(slides) == 1:
-                title, *img_paths = slides[0]
-                st.markdown(f"## {title}")
-                if len(img_paths) == 2:  # missing before/after
-                    col1, col2 = st.columns(2)
-                    img1 = Image.open(img_paths[0]).resize((900, 600))
-                    img2 = Image.open(img_paths[1]).resize((900, 600))
-                    col1.image(img1)
-                    col2.image(img2)
-                else:  # single image slide
-                    img = Image.open(img_paths[0]).resize((900, 600))
-                    st.image(img)
-                    st.markdown("**ℹ Structural NA is expected if shown in *_end column**")
-            else:
-                idx = st.slider("Slide", 0, len(slides)-1, 0)
-                title, img_path = slides[idx]
-                st.markdown(f"## {title}")
-                img = Image.open(img_path).resize((900, 600))
-                st.image(img)
+        #missing values plot       
+        assets = get_release_assets()
+        plot_csv = plot_csv.replace(" ","_")
+        before_url = self.find_images(assets,[plot_csv, "missing_values_output", "before"])
+        after_url = self.find_images(assets,[plot_csv, "missing_values_output", "after"])
+
+        if before_url and after_url:
+            st.markdown("## Missing Values (Before vs After)")
+            col1, col2 = st.columns(2)
+            col1.image(before_url, use_column_width=True)
+            col2.image(after_url, use_column_width=True)
         else:
-            st.success("✔ No image slides available")
-        #outliers
-        outliers = []
-        before_outliers = list(PLOTS_DIR.glob(f"{plot_csv}_outliers/{plot_csv}_outliers_before_*.png"))
-        after_outliers = list(PLOTS_DIR.glob(f"{plot_csv}_outliers/{plot_csv}_outliers_after_*.png"))        
-        if before_outliers and after_outliers:
-            outliers.append(("Outliers (Before vs After)", before_outliers[0].resolve(), after_outliers[0].resolve()))
-        if outliers:
-            if len(outliers) == 1:
-                title, *img_paths = outliers[0]
-                st.markdown(f"## {title}")
-                if len(img_paths) == 2:  # missing before/after
-                    col1, col2 = st.columns(2)
-                    img1 = Image.open(img_paths[0]).resize((900, 600))
-                    img2 = Image.open(img_paths[1]).resize((900, 600))
-                    col1.image(img1)
-                    col2.image(img2)
-                else:  # single image slide
-                    img = Image.open(img_paths[0]).resize((900, 600))
-                    st.image(img)
-                    st.markdown("**ℹ Structural NA is expected if shown in year*_end column**")
-            else:
-                idx = st.slider("Slide", 0, len(outliers)-1, 0)
-                title, img_path = outliers[idx]
-                st.markdown(f"## {title}")
-                img = Image.open(img_path).resize((900, 600))
-                st.image(img)
+            st.success("✔ No missing-values images available")
+
+        before_out = self.find_images(assets,[plot_csv, "outliers", "before"])
+
+        after_out = self.find_images(assets,[plot_csv, "outliers", "after"])
+
+        if before_out and after_out:
+            st.markdown("## Outliers (Before vs After)")
+            col1, col2 = st.columns(2)
+            col1.image(before_out[0], use_column_width=True)
+            col2.image(after_out[0], use_column_width=True)
         else:
-            st.success("✔ No image slides available")
-        #bins if present 
-        bins = []
-        bn = list(PLOTS_DIR.glob(f"{plot_csv.lower()}_cleaned_*/{plot_csv.lower()}_cleaned_*.png"))
-        if bn:
-            for i in bn: bins.append(("Bins Distribution", i.resolve()))
-            if bins:
-    # If only 1 slide → show normally (no slider error)
-                if len(bins) == 1:
-                    title, img_path = bins[0]  # 
-                    st.markdown(f"## {title}")
-                    st.image(Image.open(img_path).resize((900, 600)))
-                else:
-                    idx = st.slider("Slide", 0, len(bins)-1, 0)
-                    title, img_path = bins[idx]  # 
-                    st.markdown(f"## {title}")
-                    st.image(Image.open(img_path).resize((900, 600)))
+            st.success("✔ No outliers images available")
+
+#         #bins if present 
+        bins = self.find_images(assets,[plot_csv, "cleaned_bins"])
+
+        if bins:
+            st.markdown("## Bins Distribution")
+            if len(bins) == 1:
+                st.image(bins[0], use_column_width=True)
             else:
-                st.info("✔ No bins images found")
-        #bins if present 
+                idx = st.slider("Slide", 0, len(bins)-1, 0)
+                st.image(bins[idx], use_column_width=True)
+        else:
+            st.info("✔ No bins images found")
+
         st.markdown(f"## Data")
         
 
@@ -532,7 +515,7 @@ class Datadashboard:
         st.title("📁 Available Datasets")
         for f in DATA_DIR.glob("*.csv"):
             cleaned_stem = f.stem.lower().replace(" ", "_") + "_cleaned"  # for SQL
-            plot_stem = f.stem  # for plots
+            plot_stem = f.stem.replace(" ", "_")  # for plots
             logger = logger
             st.button(f.stem, on_click=self.open_dashboard, args=(cleaned_stem, plot_stem,f.name,logger))
             # st.write("Found CSV file in folder:", f.name)
