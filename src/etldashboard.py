@@ -8,7 +8,6 @@ from PIL import Image
 from datetime import datetime
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-from streamlit_carousel import carousel
 from io import BytesIO
 from logger_config import get_logger 
 from pandasdatacleaning import Datacleaner
@@ -40,6 +39,7 @@ def sql_query(dbname, table_name):
     f"mysql+pymysql://{database['user']}:{database['password']}"
     f"@{database['host']}:{database['port']}/{database['dbname']}"
 )
+
     if not database["user"] or not database["password"] or not database["host"]:
         st.error("MySQL credentials are missing. Please update `sql_credentials.json` in the project root.")
         engine = None
@@ -66,6 +66,7 @@ class Datadashboard:
         credential_file = os.path.join(os.path.dirname(__file__), "..", "sql_credentials", "sql_credentials.json")
         with open(credential_file) as f:
             database = json.load(f)
+
 
         self.mysqluri = (
     f"mysql+pymysql://{database['user']}:{database['password']}"

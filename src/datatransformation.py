@@ -75,12 +75,16 @@ class Datatranformer:
             logger.error("SQL credentials missing or blank. Please update sql_credentials.json")
             return None, None, None 
         try:
+
             engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}", connect_args={
         "ssl": {
             "ca": r"C:\Users\LENOVO\Downloads\isrgrootx1.pem"
         }
     },
     pool_pre_ping=True)
+
+            engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}")
+
         # Test connection
             with engine.connect() as conn:
                 logger.info("MySQL connection successful!")
@@ -108,6 +112,7 @@ class Datatranformer:
             
         #  Create new DB engine pointing to the fresh DB
         db_engine = create_engine(
+
             f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}/{dbname}", connect_args={
         "ssl": {
             "ca": r"C:\Users\LENOVO\Downloads\isrgrootx1.pem"
@@ -116,6 +121,7 @@ class Datatranformer:
     pool_pre_ping=True)
         with db_engine.begin() as conn:
             conn.execute(text(f"DROP TABLE IF EXISTS {table}"))
+
         bin_cols = [c for c in df.columns if c.endswith("_bin")]
         if bin_cols:
             df = df.drop(columns=bin_cols)
