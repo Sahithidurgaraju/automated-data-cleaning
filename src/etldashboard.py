@@ -35,8 +35,8 @@ def sql_query(dbname, table_name):
     with open(credential_file) as f:
         database = json.load(f)
 
-    mysqluri = f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}"
-    if not database["user"] or not database["password"] or not database["localhost"]:
+    mysqluri = f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}"
+    if not database["user"] or not database["password"] or not database["host"]:
         st.error("MySQL credentials are missing. Please update `sql_credentials.json` in the project root.")
         engine = None
     else:
@@ -57,8 +57,8 @@ class Datadashboard:
         with open(credential_file) as f:
             database = json.load(f)
 
-        self.mysqluri = f"mysql+pymysql://{database['user']}:{database['password']}@{database['localhost']}:{database['port']}"
-        if not database["user"] or not database["password"] or not database["localhost"]:
+        self.mysqluri = f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}"
+        if not database["user"] or not database["password"] or not database["host"]:
             st.error("MySQL credentials are missing. Please update `sql_credentials.json` in the project root.")
             self.engine = None
         else:
