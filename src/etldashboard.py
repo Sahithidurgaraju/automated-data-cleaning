@@ -8,7 +8,6 @@ from PIL import Image
 from datetime import datetime
 from reportlab.lib.pagesizes import A4
 from reportlab.pdfgen import canvas
-from streamlit_carousel import carousel
 from io import BytesIO
 from logger_config import get_logger 
 from pandasdatacleaning import Datacleaner
