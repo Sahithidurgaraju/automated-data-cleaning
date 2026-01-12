@@ -82,18 +82,15 @@ echo Cleanup complete!
                 python apply_transformation.py'''
             }
         }
-        stage('Run Streamlit Dashboard Creation') {
-            steps {
-                bat '''
-cd "%WORKSPACE%"
-taskkill /IM streamlit.exe /F || echo No old Streamlit process
-start cmd /k "python -m streamlit run src/etldashboard.py --server.port=8501 --server.address=127.0.0.1"
-ping 127.0.0.1 -n 4 > nul
-echo http://192.168.1.45:8501/
-'''
-
-            }
+        stage('Upload plots to GitHub Release') {
+    steps {
+        withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
+            bat '''
+            python cleanup_and_upload_plots_to_github_release.py
+            '''
         }
+    }
+}
         stage('Run generate metrics pdf ') {
             steps {
                 bat'''
@@ -126,7 +123,7 @@ Jenkins
     failure {
         emailext(
             to: "sahithi251999@gmail.com",
-            subject: "❌ Jenkins Build Failed - ${JOB_NAME} #${BUILD_NUMBER}",
+            subject: "Jenkins Build Failed - ${JOB_NAME} #${BUILD_NUMBER}",
             body: "The pipeline failed. Please check Jenkins logs."
         )
     }
