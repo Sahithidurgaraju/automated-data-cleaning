@@ -86,7 +86,7 @@ echo Cleanup complete!
     steps {
         withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
             bat '''
-            python cleanup_and_upload_plots_to_github_release.py
+            python cleanup_upload_images.py
             '''
         }
     }
