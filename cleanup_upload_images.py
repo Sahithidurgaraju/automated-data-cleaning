@@ -59,7 +59,9 @@ for folder in os.listdir(PLOTS_DIR):
             local_path = os.path.join(folder_path, file)
 
             # Keep folder name in release
-            upload_name = f"{folder}/{file}"
+            safe_folder = folder.replace(" ", "_")
+            safe_file = file.replace(" ", "_")
+            upload_name = f"{safe_folder}__{safe_file}"
 
             with open(local_path, "rb") as f:
                 r = requests.post(
