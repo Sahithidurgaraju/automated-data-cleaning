@@ -10,3 +10,5 @@ matplotlib
 seaborn
 pillow
 reportlab
+openpyxl
+
