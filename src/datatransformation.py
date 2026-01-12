@@ -78,7 +78,7 @@ class Datatranformer:
 
             engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}", connect_args={
         "ssl": {
-            "ca": r"C:\Users\LENOVO\Downloads\isrgrootx1.pem"
+            "ca": "certs/isrgrootx1.pem"
         }
     },
     pool_pre_ping=True)
@@ -115,7 +115,7 @@ class Datatranformer:
 
             f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}/{dbname}", connect_args={
         "ssl": {
-            "ca": r"C:\Users\LENOVO\Downloads\isrgrootx1.pem"
+            "ca": "certs/isrgrootx1.pem"
         }
     },
     pool_pre_ping=True)
