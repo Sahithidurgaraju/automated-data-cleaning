@@ -46,7 +46,7 @@ def sql_query(dbname, table_name):
     else:
         engine = create_engine(mysqluri,connect_args={
         "ssl": {
-            "ca": r"C:\Users\LENOVO\Downloads\isrgrootx1.pem"
+            "ca": "certs/isrgrootx1.pem"
         }
     },
     pool_pre_ping=True
@@ -79,7 +79,7 @@ class Datadashboard:
             try:
                 self.engine = create_engine(self.mysqluri,connect_args={
         "ssl": {
-            "ca": r"C:\Users\LENOVO\Downloads\isrgrootx1.pem"
+            "ca": "certs/isrgrootx1.pem"
         }
     },
     pool_pre_ping=True
