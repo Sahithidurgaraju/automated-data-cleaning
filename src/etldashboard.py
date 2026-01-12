@@ -102,6 +102,25 @@ class Datadashboard:
                 results.append(a["browser_download_url"])
         return results
 
+    def find_dashboard_pdf(self, assets, cleaned_csv):
+        matches = []
+        csvname = cleaned_csv + "_dashboard"
+        for asset in assets:
+            name = asset["name"].lower()
+
+            if (
+                csvname.lower() in name
+            and "cleaned_dashboard" in name
+            and name.endswith(".pdf")
+        ):
+                matches.append(asset)
+
+    # If multiple PDFs exist, return the latest one
+        if matches:
+            matches.sort(key=lambda x: x["name"], reverse=True)
+            return matches[0]["browser_download_url"]
+
+        return matches
 
     def load_table(self, dbname, table_name):
         return sql_query(dbname, table_name)
@@ -353,14 +372,31 @@ class Datadashboard:
     f"Total rows after cleaning: {len(df)}",
     f"Total columns: {len(df.columns)}"
 ]
-        st.markdown(f"## Dashboard Report")
-        self.download_dashboard(
-        csvname=csvname,
-        summary_df=summary_df,
-        quality_score=quality_score,
-            insights=insights,
-        output_dir=DASHBOARD_DIR
+        st.markdown("## 📄 Dashboard Report")
+
+        pdf_url = self.find_dashboard_pdf(assets, cleaned_csv)
+        if pdf_url:
+            st.success("✅ Dashboard report available")
+
+            st.markdown(
+                f"🔗 **[Download Dashboard Report (PDF)]({pdf_url})**"
     )
+
+    # Optional inline view
+            st.components.v1.iframe(
+        pdf_url,
+        height=800,
+        scrolling=True
+    )
+        else:
+            st.info("ℹ Dashboard report not generated yet")
+    #     self.download_dashboard(
+    #     csvname=csvname,
+    #     summary_df=summary_df,
+    #     quality_score=quality_score,
+    #         insights=insights,
+    #     output_dir=DASHBOARD_DIR
+    # )
 
     def generate_pdf(self,csvname, summary_df, quality_score, insights, output_dir=DASHBOARD_DIR):
         os.makedirs(output_dir, exist_ok=True)
