@@ -88,10 +88,9 @@ echo Cleanup complete!
                 python dashboard_pdf.py'''
             }
         }
-    }
-    stage('Upload plots to GitHub Release') {
-    steps {
-        withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
+       stage('Upload plots to GitHub Release') {
+            steps {
+            withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
             bat '''
             python cleanup_upload_images.py
             '''
