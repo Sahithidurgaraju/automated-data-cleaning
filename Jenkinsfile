@@ -82,7 +82,14 @@ echo Cleanup complete!
                 python apply_transformation.py'''
             }
         }
-        stage('Upload plots to GitHub Release') {
+        stage('Run generate metrics pdf ') {
+            steps {
+                bat'''
+                python dashboard_pdf.py'''
+            }
+        }
+    }
+    stage('Upload plots to GitHub Release') {
     steps {
         withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
             bat '''
@@ -91,13 +98,6 @@ echo Cleanup complete!
         }
     }
 }
-        stage('Run generate metrics pdf ') {
-            steps {
-                bat'''
-                python dashboard_pdf.py'''
-            }
-        }
-    }
     post {
     success {
         emailext(
