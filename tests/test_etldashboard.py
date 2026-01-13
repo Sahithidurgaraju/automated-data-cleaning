@@ -75,15 +75,14 @@ def test_save_pdf_metrics(messy_data):
     plot_csv, csvname,df,logger=messy_data
     cleaner = Datacleaner(df,csvname) 
     dashboard = Datadashboard()
-    dataset_dbs = dashboard.get_dataset_databases()
-    tables = dashboard.get_tables_from_databases(dataset_dbs)
-    base = csvname
-    matched = [t for t in tables if base in t["table"].lower()]
+    tables = dashboard.get_tables_from_database("test")
+    dbname = "test"
+    base = "transformed_" + csvname.lower()
+    matched = [t for t in tables if base in t.lower()]
     if not matched:
         logger.error(f"No MySQL table contains `{csvname}` in its name")
         return
-    dbname = matched[0]["db"]
-    table_name = matched[0]["table"]
+    table_name = base
     df_after= dashboard.load_table(dbname, table_name)
     logger.info(f"{df.head()}")
     df_before = pd.read_csv(DATA_DIR/plot_csv)

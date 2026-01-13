@@ -13,9 +13,10 @@ from pathlib import Path
 import json
 # from src.pandasdatacleaning import Datacleaner
 from sqlalchemy import create_engine,text
-from src.config import DATA_DIR, JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR,VALIDATION_DIR,DATABASE_DIR,CLEANED_TRANFORM_DATA_DIR
+from src.config import DATA_DIR, JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR,VALIDATION_DIR,DATABASE_DIR,CLEANED_TRANFORM_DATA_DIR,CA_PATH
 # Ignore only RuntimeWarning (common for all-NaN median/mean)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 class Datatranformer:
@@ -78,13 +79,11 @@ class Datatranformer:
 
             engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}", connect_args={
         "ssl": {
-            "ca": "certs/isrgrootx1.pem"
+            "ca": str(CA_PATH)
         }
     },
-    pool_pre_ping=True)
-
-            engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}")
-
+    pool_pre_ping=True
+    )
         # Test connection
             with engine.connect() as conn:
                 logger.info("MySQL connection successful!")
@@ -115,7 +114,7 @@ class Datatranformer:
 
             f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}/{dbname}", connect_args={
         "ssl": {
-            "ca": "certs/isrgrootx1.pem"
+            "ca": str(CA_PATH)
         }
     },
     pool_pre_ping=True)
