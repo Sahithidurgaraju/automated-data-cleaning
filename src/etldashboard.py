@@ -11,6 +11,7 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 from logger_config import get_logger 
 from pandasdatacleaning import Datacleaner
+import pyarrow
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CLEANED_DATA_DIR = PROJECT_ROOT / "cleaned_data_output"
 DATA_DIR = PROJECT_ROOT/"data"
