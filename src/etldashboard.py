@@ -422,16 +422,8 @@ class Datadashboard:
         if pdf_url:
             st.success("✅ Dashboard report available")
 
-            st.markdown(
-                f"🔗 **[Download Dashboard Report (PDF)]({pdf_url})**"
-    )
+            st.markdown(f"🔗 **[Click here to download Dashboard Report (PDF)]({pdf_url})**")
 
-    # Optional inline view
-            st.components.v1.iframe(
-        pdf_url,
-        height=800,
-        scrolling=True
-    )
         else:
             st.info("ℹ Dashboard report not generated yet")
     #     self.download_dashboard(
