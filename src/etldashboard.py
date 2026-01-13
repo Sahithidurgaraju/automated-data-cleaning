@@ -584,7 +584,21 @@ class Datadashboard:
         st.session_state.logger = logger
         # st.write("CSV stored in session:", st.session_state.csvname)
     def home_page(self,logger):
-        st.title("📁 Available Datasets")
+        st.title("📊 Automated Multi-Dataset ETL & Analytics Dashboard")
+
+    # Short description
+        st.caption(
+        "An end-to-end pipeline that ingests multiple CSV files, "
+        "performs data cleaning and transformation, loads the results "
+        "into a cloud SQL database, and provides interactive dashboards "
+        "and data quality reports per dataset."
+    )
+
+        st.markdown("---")
+
+    # Dataset section
+        st.subheader("📁 Available Datasets")
+        st.write("Select a dataset below to explore its dashboard and quality reports.")
         for f in DATA_DIR.glob("*.csv"):
             cleaned_stem = f.stem.lower().replace(" ", "_") + "_cleaned"  # for SQL
             plot_stem = f.stem.replace(" ", "_")  # for plots
