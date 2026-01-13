@@ -308,7 +308,7 @@ class Datatranformer:
             if enabled.get("strip"):
                 df[col] = df[col].astype(str).str.strip()
 
-            if enabled.get("normalize_delimiters"):
+            if enabled.get("normalize_delimiters") and not df[col].astype(str).str.contains(r"https?://").any():
                 df[col] = df[col].astype(str).str.replace(r"[;:/]", ",", regex=True)
 
         # YEAR RANGE SPLIT
