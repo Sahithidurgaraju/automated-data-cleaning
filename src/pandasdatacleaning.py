@@ -83,7 +83,7 @@ class Datacleaner:
         for enc in ["utf-8", "cp1252", "latin1"]:
             try:
                 self.df = pd.read_csv(
-                csv_path,
+                csv_path,sep=";",
                 na_values=[""],
                 keep_default_na=True,
                 encoding=enc,
