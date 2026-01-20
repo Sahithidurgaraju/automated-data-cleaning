@@ -182,19 +182,39 @@ class Datadashboard:
         df_after = pd.DataFrame(df)
         return rows_columns_count(df_before,df_after)
 
-    def make_arrow_safe(df: pd.DataFrame) -> pd.DataFrame:
+    def make_arrow_safe(self, df: pd.DataFrame) -> pd.DataFrame:
         df = df.copy()
+
         for col in df.columns:
             if df[col].dtype == "object":
-            # replace placeholder strings
-                df[col] = df[col].replace("-", np.nan)
+            # normalize everything to string first
+                df[col] = df[col].astype(str)
 
-            # try numeric conversion if possible
-                try:
-                    df[col] = pd.to_numeric(df[col])
-                except Exception:
-                    pass
+            # remove common non-numeric placeholders
+                df[col] = (
+                df[col]
+                .str.strip()
+                .replace(
+                    {
+                        "-": np.nan,
+                        "–": np.nan,
+                        "—": np.nan,
+                        "": np.nan,
+                        "nan": np.nan,
+                        "None": np.nan,
+                    }
+                )
+            )
+
+            # remove % sign if present
+                if df[col].str.contains("%", na=False).any():
+                    df[col] = df[col].str.replace("%", "", regex=False)
+
+            # attempt numeric conversion
+                df[col] = pd.to_numeric(df[col], errors="ignore")
+
         return df
+
 
     def cleaning_score(self,df_before,df_after,dedupe_status,csvname,dbname,table_name):
         """
@@ -367,8 +387,8 @@ class Datadashboard:
         data, dedupe_status = cleaner.remove_duplicates(csvname,logger)
         summary_df,quality_score = self.cleaning_score(df_before,df,dedupe_status,csvname,dbname,table_name)
         
-        safe_df = make_arrow_safe(summary_df)
-        st.dataframe(safe_df.reset_index(drop=True), width="stretch")
+        safe_df = self.make_arrow_safe(summary_df)
+        st.dataframe(safe_df.reset_index(drop=True), use_container_width=True)
 
         score = summary_df.loc[
         summary_df["Metric"] == "Overall Cleaning improvement Score",
