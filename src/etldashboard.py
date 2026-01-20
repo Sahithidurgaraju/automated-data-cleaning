@@ -350,7 +350,23 @@ class Datadashboard:
 
         return summary_df,quality_score
 
-    
+    def prepare_preview_and_full(self, df, preview_rows=1000, max_text_len=500):
+    # full data (for download only)
+        full_df = df.copy()
+
+    # preview data (safe for display)
+        preview_df = df.head(preview_rows).copy()
+
+    # sanitize preview only (Arrow safety)
+        for col in preview_df.select_dtypes(include=["object","string"]).columns:
+            preview_df[col] = (
+            preview_df[col]
+            .astype(str)
+            .str.slice(0, max_text_len)
+        )
+
+        return preview_df, full_df
+
     def show_dashboard(self, cleaned_csv,plot_csv,csvname,logger):
         # dataset_dbs = self.get_dataset_databases()
         tables = self.get_tables_from_database("test")
@@ -451,17 +467,40 @@ class Datadashboard:
 
         st.markdown(f"## Data")
         
+        preview_df, full_df = self.prepare_preview_and_full(df)
+        st.dataframe(preview_df, use_container_width=True)
+        c1.download_button(
+    "⬇ Download CSV (Full Data)",
+    full_df.to_csv(index=False),
+    f"{plot_csv}.csv",
+    "text/csv"
+)
 
+# Excel (FULL DATA)
         buf = BytesIO()
-        df.to_excel(buf, index=False)
-        excel_bytes = buf.getvalue()
+        try:
+            full_df.to_excel(buf, index=False)
+            excel_bytes = buf.getvalue()
+        except Exception:
+            excel_bytes = None
 
-        c1, c2, c3 = st.columns(3)
-        c1.download_button("⬇ CSV", df.to_csv(index=False).encode(), f"{plot_csv}.csv", "text/csv")
-        c2.download_button("📊 Excel", excel_bytes, f"{plot_csv}.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
-        c3.download_button("📄 Text", df.to_string(), f"{plot_csv}.txt", "text/plain")
+        if excel_bytes:
+            c2.download_button(
+        "📊 Download Excel (Full Data)",
+        excel_bytes,
+        f"{plot_csv}.xlsx",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+        else:
+            c2.warning("Excel export not available")
 
-        st.dataframe(df)
+# Text (FULL DATA but streamed safely)
+        c3.download_button(
+    "📄 Download Text (Full Data)",
+    full_df.to_csv(sep="\t", index=False),
+    f"{plot_csv}.txt",
+    "text/plain"
+)
         st.markdown("### 📊 Key Data Insights")
         st.write(df.describe(include="all"))
         insights = [
