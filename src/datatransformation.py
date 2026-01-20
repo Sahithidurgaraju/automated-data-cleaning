@@ -11,12 +11,14 @@ import time
 import glob
 from pathlib import Path
 import json
+from pandas.api.types import is_string_dtype, is_categorical_dtype
+import pycountry #for autodetecting the countries
+from rapidfuzz import process, fuzz #for correcting the typos
 # from src.pandasdatacleaning import Datacleaner
 from sqlalchemy import create_engine,text
-from src.config import DATA_DIR, JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR,VALIDATION_DIR,DATABASE_DIR,CLEANED_TRANFORM_DATA_DIR,CA_PATH
+from src.config import DATA_DIR, JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR,VALIDATION_DIR,DATABASE_DIR,CLEANED_TRANFORM_DATA_DIR
 # Ignore only RuntimeWarning (common for all-NaN median/mean)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
 
 
 class Datatranformer:
@@ -79,11 +81,11 @@ class Datatranformer:
 
             engine = create_engine(f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}", connect_args={
         "ssl": {
-            "ca": str(CA_PATH)
+            "ca": "certs/isrgrootx1.pem"
         }
     },
-    pool_pre_ping=True
-    )
+    pool_pre_ping=True)
+
         # Test connection
             with engine.connect() as conn:
                 logger.info("MySQL connection successful!")
@@ -114,7 +116,7 @@ class Datatranformer:
 
             f"mysql+pymysql://{database['user']}:{database['password']}@{database['host']}:{database['port']}/{dbname}", connect_args={
         "ssl": {
-            "ca": str(CA_PATH)
+            "ca": "certs/isrgrootx1.pem"
         }
     },
     pool_pre_ping=True)
@@ -173,15 +175,58 @@ class Datatranformer:
 
         for col in df.columns:
             col_cfg = {"enabled": {}}
+            s = df[col]
 
         # TEXT COLUMNS
-            if df[col].dtype == "object":
-                col_cfg["enabled"]["lowercase"] = True
-                col_cfg["enabled"]["strip"] = True
-                col_cfg["enabled"]["normalize_delimiters"] = (
-                df[col].astype(str).str.contains(r"[;:/]").any()
-                and not df[col].astype(str).str.contains(r"https?://").any()
-            )
+            if is_string_dtype(df[col]) or is_categorical_dtype(df[col]) or df[col].dtype=="object":
+                s_str = s.astype("string")
+                col_cfg["enabled"].update({
+                "lowercase": True,
+                "strip": True,
+                "normalize_delimiters": (
+                    s_str.str.contains(r"[;|/]").any()
+                    and not s_str.str.contains(r"https?://").any()
+                ),
+                "split_year": False
+            })      
+                if not self.is_country_column(col, s_str):
+                    logger.info(f"[Skip] '{col}' is not a country column")
+                else:
+                    ref = self.load_country_reference()
+
+                    s_clean = self.clean_country_noise(s_str)
+                    stats = self.country_representation_stats(s_clean)
+                    logger.info(
+        f"[Country] '{col}' stats: "
+        f"code_ratio={stats['code_ratio']:.2f}, "
+        f"name_ratio={stats['name_ratio']:.2f}"
+    )
+
+    # Dominant codes → fix code typos only
+                    if stats["code_ratio"] >= 0.97 and stats["name_ratio"] <= 0.05:
+                        col_cfg["enabled"]["normalize_country_codes"] = True
+                        col_cfg["enabled"]["normalize_country_names"] = False
+                        logger.info(
+            f"[Enable] '{col}' dominant country CODES "
+            f"(code_ratio={stats['code_ratio']:.2f})"
+        )
+
+    # Name-heavy or mixed → fix NAME typos only
+                    elif stats["name_ratio"] >= 0.5:
+                        col_cfg["enabled"]["normalize_country_names"] = True
+                        col_cfg["enabled"]["normalize_country_codes"] = False
+                        logger.info(
+            f"[Enable] '{col}' fixing country NAME typos "
+            f"(name_ratio={stats['name_ratio']:.2f})"
+        )
+
+    # Truly mixed → do nothing
+                    else:
+                        col_cfg["enabled"]["normalize_country_codes"] = False
+                        col_cfg["enabled"]["normalize_country_names"] = False
+                        logger.info(
+            f"[Skip] '{col}' mixed country representations → no normalization"
+        )
 
             # YEAR RANGE SPLIT DETECTION
                 if df[col].astype(str).str.contains(r"https?://").any():
@@ -205,7 +250,7 @@ class Datatranformer:
                         logger.info(f"[Skip] '{col}' has no year range → skipping split")
         # NUMERIC COLUMNS
             if pd.api.types.is_numeric_dtype(df[col]):
-                if col.lower().startswith("year") or col.lower().startswith("year_"):
+                if col.lower().startswith("year") or col.lower().startswith("year_")or col.lower().endswith("year") :
                     col_cfg["enabled"]["cast_int"] = True
                 else:
                     col_cfg["enabled"]["cast_float"] = True
@@ -223,7 +268,6 @@ class Datatranformer:
         # DATE DETECTION
             if df[col].astype(str).str.contains(r"\d{4}-\d{2}-\d{2}").mean() > 0.3:
                 col_cfg["enabled"]["cast_datetime"] = True
-                col_cfg["enabled"]["extract_date_parts"] = True
 
         # BOOLEAN DETECTION
             if set(df[col].dropna().astype(str).str.lower().unique()) <= {"true","false","yes","no","1","0"}:
@@ -287,6 +331,7 @@ class Datatranformer:
 
         for col, cfg in config["columns"].items():
             enabled = cfg["enabled"]
+            ref = self.load_country_reference()
 
         # CASTING
             if enabled.get("cast_int"):
@@ -308,8 +353,37 @@ class Datatranformer:
             if enabled.get("strip"):
                 df[col] = df[col].astype(str).str.strip()
 
-            if enabled.get("normalize_delimiters") and not df[col].astype(str).str.contains(r"https?://").any():
+            if enabled.get("normalize_delimiters"):
                 df[col] = df[col].astype(str).str.replace(r"[;:/]", ",", regex=True)
+
+            # ---- COUNTRY APPLY ----
+            if enabled.get("normalize_country_codes") or enabled.get("normalize_country_names"):
+
+    # 1️⃣ Clean noise FIRST
+                df[col] = (
+                df[col].astype(str)
+              .str.strip()
+              .str.upper()
+              .str.replace(r"[^\w\s\-\.]", "", regex=True)
+              .str.replace(r"\.$", "", regex=True)
+              .str.replace(r"\d+$", "", regex=True)
+    )
+
+    # 2️⃣ Normalize codes
+            if enabled.get("normalize_country_codes"):
+                df[col] = self.normalize_country_codes(df[col], ref["codes"])
+                df[col] = df[col].str.upper()   # GUARANTEE CODE FORMAT
+
+                if logger:
+                    logger.info(f"[Apply] Country CODE normalization on '{col}'")
+
+    # 3️⃣ Normalize names
+            if enabled.get("normalize_country_names"):
+                df[col] = self.normalize_country_names(df[col], ref["names"])
+                df[col] = df[col].str.upper()   #GUARANTEE NAME FORMAT
+
+                if logger:
+                    logger.info(f"[Apply] Country NAME normalization on '{col}'")
 
         # YEAR RANGE SPLIT
             if enabled.get("split_year")and not df[col].astype(str).str.contains("https?://").any():
@@ -383,3 +457,144 @@ class Datatranformer:
         df_to_export.to_csv(file_output_dir, index=False, encoding="utf-8")
         logger.info(f"Data Exported to csv:{file_output_dir}")
         return file_output_dir
+    
+    def load_country_reference(self):
+        names = set()
+        codes = set()
+
+        for c in pycountry.countries:
+            names.add(c.name.upper())
+
+            if hasattr(c, "common_name"):
+                names.add(c.common_name.upper())
+
+            if hasattr(c, "official_name"):
+                names.add(c.official_name.upper())
+
+            codes.add(c.alpha_2.upper())
+            codes.add(c.alpha_3.upper())
+
+        return {
+        "names": sorted(names),
+        "codes": sorted(codes),
+    }
+
+    def is_country_column(self, col: str, s: pd.Series) -> bool:
+        col_l = col.lower()
+        COUNTRY_KEYS = {
+    "country", "nation", "nationality", "citizenship","iso", "iso2", "iso3", "country_code", "nation_code"
+        }
+
+    # country-like values only
+        tokens = set(re.split(r"[_\s]+", col_l))
+
+        if not tokens & COUNTRY_KEYS:
+            return False
+
+        s = s.dropna().astype(str).str.strip()
+        if s.empty:
+            return False
+
+        total = len(s)
+
+        code_matches = s.str.fullmatch(
+        r"[A-Za-z]{2,3}", na=False
+    ).sum()
+
+        name_matches = s.str.fullmatch(
+        r"[A-Za-z]{4,}(?:\s[A-Za-z]{2,})*", na=False
+    ).sum()
+
+        token_ratio = (code_matches + name_matches) / total
+
+        return token_ratio >= 0.5
+    
+    def country_typo_ratio(self,s: pd.Series, vocab, threshold=85) -> float:
+        s = s.dropna().astype(str)
+        if s.empty:
+            return 0.0
+
+        uniques = s.unique()
+
+        matches = [
+            process.extractOne(v, vocab, scorer=fuzz.WRatio)
+        for v in uniques
+    ]
+
+        typo_count = sum(
+        1 for m in matches if m and m[1] < threshold
+    )
+
+        return typo_count / max(len(uniques), 1)
+
+    def normalize_country_names(self, s: pd.Series, valid_names, threshold=90):
+        s_clean = s.copy()
+        replace_map = {}
+
+        for v in s_clean.unique():
+        # only long strings → names
+            if len(v) < 4:
+                continue
+
+            match = process.extractOne(v, valid_names, scorer=fuzz.WRatio)
+            if match and match[1] >= threshold:
+                replace_map[v] = match[0]
+
+        return s_clean.replace(replace_map)
+
+
+    def normalize_country_codes(self, s: pd.Series, valid_codes, threshold=90):
+        valid_codes = {c.upper() for c in valid_codes}
+        replace_map = {}
+
+        for v in pd.unique(s):
+            if len(v) > 3:
+                continue
+
+            if v in valid_codes:
+                continue
+
+            match = process.extractOne(v, valid_codes, scorer=fuzz.WRatio)
+            if match and match[1] >= threshold:
+                replace_map[v] = match[0]
+
+        return s.replace(replace_map)
+
+    def country_representation_stats(self, s: pd.Series) -> dict:
+        s = (
+        s.dropna()
+         .astype(str)
+         .str.strip()
+         .str.upper()
+    )
+
+        uniques = pd.unique(s)
+        if len(uniques) == 0:
+            return {"code_ratio": 0.0, "name_ratio": 0.0}
+
+        total = len(uniques)
+
+        code_like = sum(
+        1 for v in uniques
+        if re.fullmatch(r"[A-Z]{2,3}\.?", v)
+    )
+
+        name_like = sum(
+        1 for v in uniques
+        if re.fullmatch(r"[A-Z][A-Z\s\-]{3,}", v)
+    )
+
+        return {
+        "code_ratio": code_like / total,
+        "name_ratio": name_like / total
+    }
+
+    def clean_country_noise(self, s: pd.Series) -> pd.Series:
+        return (
+        s.astype(str)
+         .str.strip()
+         .str.upper()
+         .str.replace(r"[^\w\s\-\.]", "", regex=True)
+         .str.replace(r"\.$", "", regex=True)     # US. → US
+         .str.replace(r"\d+$", "", regex=True)    # Italy1 → Italy
+    )

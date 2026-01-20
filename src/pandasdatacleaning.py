@@ -23,6 +23,7 @@ TEXT_DIRTY_PATTERN = TEXT_DIRTY_PATTERN = r"""
 NUMERIC_PATTERN = r"[\$\€\£\₹₹(),]|\d+[KMBkmb]|\d+\s*[KMBkmb]|\d+\-\d+"
 YEAR_PATTERN =  r"(19\d{2}|20\d{2})"
 YEAR_RANGE_PATTERN = r"(19\d{2}|20\d{2})\s*[-to]+\s*(19\d{2}|20\d{2})"
+BAD_ENCODING_PATTERN = re.compile(r"[Ã�Â�]")
 #cleaning threshold
 TEXT_THRESHOLD = 0.2
 YEAR_THRESHOLD = 0.2
@@ -39,6 +40,11 @@ class Datacleaner:
         self.logs = []
         self.column_mapping = {}  
         self.csvname = csvname
+    def has_bad_encoding_columns(self,df):
+        return any(
+        BAD_ENCODING_PATTERN.search(col)
+        for col in df.columns
+    )
 
     #cleaning column names
     def clean_colnames(self):
@@ -83,12 +89,14 @@ class Datacleaner:
         for enc in ["utf-8", "cp1252", "latin1"]:
             try:
                 self.df = pd.read_csv(
-                csv_path,sep=";",
-                na_values=[""],
-                keep_default_na=True,
-                encoding=enc,
-                engine="c"
-            )
+    csv_path,
+    sep=None,
+    encoding=enc,                 # latin1 / cp1252
+    engine="python",               # IMPORTANT
+    keep_default_na=True,
+    na_values=["", "NA", "N/A", "None", "null", "-", "?","Nan", "Inf", "Not Applicable"],
+    skip_blank_lines=True
+)
                 if logger:
                     logger.info(f"Loaded CSV using encoding: {enc}")
                 break
@@ -97,6 +105,7 @@ class Datacleaner:
 
     # Clean column names
         self.clean_colnames()
+        self.df = self.fix_column_encoding_if_needed(self.df)
         if logger:
             logger.info(f"Cleaned column names: {list(self.df.columns)}")
 
@@ -131,6 +140,26 @@ class Datacleaner:
             logger.info(f"CSV loading and cleaning completed")
 
         return self.df
+    def fix_column_encoding_if_needed(self,df):
+        if self.has_bad_encoding_columns(df):
+            df.columns = (
+            df.columns
+            .astype(str)
+            .str.encode("latin1", errors="ignore")
+            .str.decode("utf-8", errors="ignore")
+            .str.strip()
+            .str.lower()
+            .str.replace(r"[^\w]+", "_", regex=True)
+        )
+        else:
+        # normal cleanup only
+            df.columns = (
+            df.columns
+            .str.strip()
+            .str.lower()
+            .str.replace(r"[^\w]+", "_", regex=True)
+        )
+        return df
     def shape(self, csvname,logger):
         if self.df is None:
             logger.warning(f"[{csvname}] No dataframe loaded")
@@ -154,7 +183,7 @@ class Datacleaner:
         "nan", "NaN", "NAN",
         "null", "NULL",
         "none", "None", "NONE",
-        "-", "--", "—","<NA>","   ",'   ','',' '
+        "-", "--", "—","<NA>","   ",'   ','',' ', "Nan", "Inf", "Not Applicable"
 
     ]
         df.replace("", np.nan, inplace=True)
@@ -631,6 +660,26 @@ class Datacleaner:
         end = years.str[-1].mask(years.str.len() <= 1).astype("Int64")
 
         return start, end
+    def is_year_only_column(self, s: pd.Series) -> bool:
+        s = s.dropna().astype(str).str.strip()
+        if s.empty:
+            return False
+
+    # ❌ block real dates (yyyy-mm-dd, dd/mm/yyyy, etc.)
+        date_like_ratio = s.str.contains(
+        r"\d{4}[-/]\d{1,2}[-/]\d{1,2}|\d{1,2}[-/]\d{1,2}[-/]\d{2,4}",
+        regex=True
+    ).mean()
+        if date_like_ratio > 0.1:
+            return False
+
+    # ✅ detect single year OR year range with ANY junk between
+        year_or_range_ratio = s.str.contains(
+        r"\b(19\d{2}|20\d{2})\b(\s*[^0-9]{1,10}\s*\b(19\d{2}|20\d{2})\b)?",
+        regex=True
+    ).mean()
+
+        return year_or_range_ratio >= 0.8
 
     def standard_data(self, csvname=None, logger=None) -> pd.DataFrame:
         cleaned_cols, skipped_cols = [], []
@@ -643,18 +692,38 @@ class Datacleaner:
                 self.df[col] = s.astype("string").str.strip()
                 skipped_cols.append(col)
                 continue
-
+            s_raw = s.copy()
+            s_str = s.astype(str)
+            s_str = s_str.replace(
+            ["", " ", "nan", "null", "none", "nat", "na", "-", "--"],
+            pd.NA
+        )
             #  DIRTY RATIOS 
             text_ratio = self.dirty_ratio(s, TEXT_DIRTY_PATTERN)
             numeric_ratio = self.dirty_ratio(s, NUMERIC_PATTERN)
             year_range_ratio = self.dirty_ratio(s, YEAR_RANGE_PATTERN)
             year_presence_ratio = self.dirty_ratio(s, YEAR_PATTERN)
+            numeric_ratio = self.dirty_ratio(s_str, NUMERIC_PATTERN)
+            has_letters = s_str.str.contains(r"[A-Za-z]", na=False).any()
+            currency_like = s_str.str.contains(r"[$€£₹]", regex=True, na=False).mean() >= 0.2
+            if not self.is_year_only_column(s):
+                parsed = pd.to_datetime(
+            self.clean_text(s_str),
+    errors="coerce",
+    infer_datetime_format=True
+)
 
-            # DATE 
-            if self.is_date_column(s) and text_ratio >= TEXT_THRESHOLD:
-                self.df[col] = pd.to_datetime(self.clean_text(s), errors="coerce")
-                cleaned_cols.append(col)
-                continue
+                date_ratio = parsed.notna().mean()
+                non_null_ratio = s_str.notna().mean()
+
+                if date_ratio >= 0.2 and non_null_ratio >= 0.5:
+                    self.df[col] = parsed.where(
+                    parsed.notna(),
+        pd.NA
+    ).dt.strftime("%Y-%m-%d")
+
+                    cleaned_cols.append(col)
+                    continue
 
             # YEAR 
             if year_presence_ratio >= YEAR_THRESHOLD and year_range_ratio >= YEAR_THRESHOLD:                
@@ -666,8 +735,8 @@ class Datacleaner:
                 continue
 
             #  NUMERIC 
-            if numeric_ratio >= NUMERIC_THRESHOLD and not s.str.contains(r"[A-Za-z]", na=False).any():
-                self.df[col] = self.clean_numeric(s)
+            if numeric_ratio >= NUMERIC_THRESHOLD and (not has_letters or currency_like):
+                self.df[col] = self.clean_numeric(s_str)
                 cleaned_cols.append(col)
                 continue
 
@@ -682,6 +751,10 @@ class Datacleaner:
                     self.df[col] = s.astype("string").str.strip()
                     skipped_cols.append(col)
                     continue
+                       
+ 
+            self.df[col] = s_str.str.strip()
+            skipped_cols.append(col)
         if logger:
             logger.info(f"[{csvname}] Cleaned columns: {cleaned_cols}")
             logger.info(f"[{csvname}] Skipped columns: {skipped_cols}")
