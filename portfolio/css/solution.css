@@ -1,0 +1,123 @@
+/* =========================
+   COLOR SYSTEM
+========================= */
+:root {
+  --header-footer-bg: #CFE8F6;
+  --main-bg: #FFF9F0;
+  --text-main: #0B2C4D;
+}
+
+/* =========================
+   BASE
+========================= */
+body {
+  margin: 0;
+  font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+  color: var(--text-main);
+  background-color: var(--main-bg);
+}
+
+/* =========================
+   HEADER & FOOTER
+========================= */
+.header-section,
+.footer-section {
+  background-color: var(--header-footer-bg);
+}
+
+/* =========================
+   MAIN CONTENT
+========================= */
+.main-section {
+  background-color: var(--main-bg);
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* =========================
+   NAME TITLE (ARIAL)
+========================= */
+.name-title {
+  font-family: Arial, Helvetica, sans-serif;
+  color: var(--text-main);
+}
+
+/* =========================
+   HEADINGS
+========================= */
+h1, h2, h3, h5 {
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+/* =========================
+   TEXT
+========================= */
+p, .lead {
+  line-height: 1.7;
+}
+
+/* =========================
+   BADGES
+========================= */
+.project-badge {
+  display: inline-block;
+  background-color: var(--text-main);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  margin: 4px;
+}
+
+/* =========================
+   IMAGE
+========================= */
+.arch-img {
+  max-width: 600px;   /* medium size */
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(11, 44, 77, 0.15);
+}
+
+/* =========================
+   BUTTONS
+========================= */
+.btn-primary {
+  background-color: var(--text-main);
+  border-color: var(--text-main);
+}
+
+.btn-outline-primary {
+  color: var(--text-main);
+  border-color: var(--text-main);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--text-main);
+  color: #ffffff;
+}
+/* =========================
+   PROJECT LINK
+========================= */
+.project-link {
+  font-weight: 600;
+  color: var(--text-main);
+  text-decoration: none;
+}
+
+.project-link:hover {
+  text-decoration: underline;
+}
+/* =========================
+   FOOTER LINKS
+========================= */
+#contact a {
+  color: var(--text-main);
+  font-weight: 500;
+  text-decoration: none;
+}
+
+#contact a:hover {
+  text-decoration: underline;
+}
