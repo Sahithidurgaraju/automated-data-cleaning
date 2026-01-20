@@ -1,17 +1,17 @@
-pandas==2.1.4
-numpy==1.26.4
-streamlit==1.32.2
-pyarrow==14.0.2
-SQLAlchemy==2.0.25
-PyMySQL==1.1.0
-cryptography==41.0.7
-matplotlib==3.8.2
-seaborn==0.13.1
-pillow==10.2.0
-reportlab==4.0.8
-openpyxl==3.1.2
-pycountry==22.3.5
-rapidfuzz==3.6.1
-pytest==7.4.4
+pandas
+numpy
+streamlit
+pyarrow
+SQLAlchemy
+PyMySQL
+cryptography
+matplotlib
+seaborn
+pillow
+reportlab
+openpyxl
+pycountry
+rapidfuzz
+pytest
 
 
