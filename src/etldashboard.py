@@ -389,9 +389,8 @@ class Datadashboard:
         data, dedupe_status = cleaner.remove_duplicates(csvname,logger)
         summary_df,quality_score = self.cleaning_score(df_before,df,dedupe_status,csvname,dbname,table_name)
         
-        safe_df = self.make_arrow_safe(summary_df)
-        pa.Table.from_pandas(summary_df)
-        st.dataframe(safe_df.reset_index(drop=True), use_container_width=True)
+        # safe_df = self.make_arrow_safe(summary_df)
+        st.dataframe(summary_df, use_container_width=True)
 
         score = summary_df.loc[
         summary_df["Metric"] == "Overall Cleaning improvement Score",
