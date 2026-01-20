@@ -175,7 +175,7 @@ class Datadashboard:
     DATA_DIR / csvname,
     sep=None,                    # auto-detect ; , \t
     engine="python",             # REQUIRED for messy CSVs
-    encoding="latin1",encoding_errors="ignore",           # handles � Ê ë etc.
+    encoding="utf-8",encoding_errors="ignore",           # handles � Ê ë etc.
     keep_default_na=True,
     skip_blank_lines=True
 )
@@ -381,7 +381,7 @@ class Datadashboard:
     DATA_DIR / csvname,
     sep=None,                    # auto-detect ; , \t
     engine="python",             # REQUIRED for messy CSVs
-    encoding="latin1",          # handles � Ê ë etc.
+    encoding="utf-8",          # handles � Ê ë etc.
     keep_default_na=True,
     skip_blank_lines=True
 )

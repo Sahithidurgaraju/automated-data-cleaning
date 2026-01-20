@@ -172,7 +172,9 @@ class Datatranformer:
         "dataset": csvname,
         "columns": {}
     }
-
+        unnamed_cols = [c for c in df.columns if c.lower().startswith("unnamed")]
+        if unnamed_cols:
+            df = df.drop(columns=unnamed_cols)
         for col in df.columns:
             col_cfg = {"enabled": {}}
             s = df[col]
