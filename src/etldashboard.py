@@ -468,7 +468,8 @@ class Datadashboard:
         st.markdown(f"## Data")
         
         preview_df, full_df = self.prepare_preview_and_full(df)
-        st.dataframe(preview_df, use_container_width=True)
+        
+        c1, c2, c3 = st.columns(3)
         c1.download_button(
     "⬇ Download CSV (Full Data)",
     full_df.to_csv(index=False),
@@ -501,6 +502,7 @@ class Datadashboard:
     f"{plot_csv}.txt",
     "text/plain"
 )
+        st.dataframe(preview_df, use_container_width=True)
         st.markdown("### 📊 Key Data Insights")
         st.write(df.describe(include="all"))
         insights = [
