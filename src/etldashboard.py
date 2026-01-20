@@ -352,8 +352,8 @@ class Datadashboard:
         cleaner = Datacleaner(df_before,csvname)
         data, dedupe_status = cleaner.remove_duplicates(csvname,logger)
         summary_df,quality_score = self.cleaning_score(df_before,df,dedupe_status,csvname,dbname,table_name)
-        df["Before (%)"] = df["Before (%)"].astype(str)
-        df["After (%)"] = df["After (%)"].astype(str)
+        df["Before (%)"] = df["Before (%)"].astype(str).replace("-", np.nan)
+        df["After (%)"] = df["After (%)"].astype(str).replace("-", np.nan)
         st.dataframe(summary_df, width="stretch")
 
         score = summary_df.loc[
