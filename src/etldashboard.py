@@ -321,8 +321,8 @@ class Datadashboard:
             dup_before + 0.0 ,
             rows_before,
             columns_before,
-            '-',
-            '-'
+            ' ',
+            ' '
         ],
         "After (%)": [
             null_after,
@@ -330,8 +330,8 @@ class Datadashboard:
             dup_after,
             rows_after,
             columns_after,
-            '-',
-            '-'
+            ' ',
+            ' '
 
         ],
         "Improved (%)": [
