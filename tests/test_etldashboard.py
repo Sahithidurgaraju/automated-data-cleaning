@@ -22,7 +22,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 pd.set_option('display.max_columns', None)  # show all columns
 pd.set_option('display.width', None)  
 pd.set_option('display.max_rows', None)  # show all rows
-PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+PROJECT_ROOT = Path(__file__).resolve().parent.parent
 # Assuming get_logger is defined somewhere
 # from your_logging_module import get_logger
 LOG_DIR = PROJECT_ROOT/"logs"
