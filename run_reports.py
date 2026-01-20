@@ -19,6 +19,6 @@ for csv_file in csv_files:
     env = os.environ.copy()
     env["PYTEST_CURRENT_CSV"] = str(DATA_DIR / csv_file)
     
-    cmd = f'python -m pytest tests/testdatacleaning.py --html="{report_name}" --self-contained-html'
+    cmd = f'python -m pytest tests/testdatacleaningpipeline.py --html="{report_name}" --self-contained-html'
     
     subprocess.run(cmd, shell=True, env=env)

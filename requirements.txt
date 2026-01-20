@@ -11,4 +11,6 @@ seaborn
 pillow
 reportlab
 openpyxl
+pycountry 
+rapidfuzz
 
