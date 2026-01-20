@@ -381,8 +381,8 @@ class Datadashboard:
         if before_url and after_url:
             st.markdown("## Missing Values (Before vs After)")
             col1, col2 = st.columns(2)
-            col1.image(before_url, use_column_width=True)
-            col2.image(after_url, use_column_width=True)
+            col1.image(before_url, use_container_width=True)
+            col2.image(after_url, use_container_width=True)
         else:
             st.success("✔ No missing-values images available")
 
@@ -393,8 +393,8 @@ class Datadashboard:
         if before_out and after_out:
             st.markdown("## Outliers (Before vs After)")
             col1, col2 = st.columns(2)
-            col1.image(before_out[0], use_column_width=True)
-            col2.image(after_out[0], use_column_width=True)
+            col1.image(before_out[0], use_container_width=True)
+            col2.image(after_out[0], use_container_width=True)
         else:
             st.success("✔ No outliers images available")
 
@@ -404,10 +404,10 @@ class Datadashboard:
         if bins:
             st.markdown("## Bins Distribution")
             if len(bins) == 1:
-                st.image(bins[0], use_column_width=True)
+                st.image(bins[0], use_container_width=True)
             else:
                 idx = st.slider("Slide", 0, len(bins)-1, 0)
-                st.image(bins[idx], use_column_width=True)
+                st.image(bins[idx], use_container_width=True)
         else:
             st.info("✔ No bins images found")
 
@@ -423,7 +423,7 @@ class Datadashboard:
         c2.download_button("📊 Excel", excel_bytes, f"{plot_csv}.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         c3.download_button("📄 Text", df.to_string(), f"{plot_csv}.txt", "text/plain")
 
-        st.dataframe(df)
+        st.dataframe(df.reset_index(drop=True))
         st.markdown("### 📊 Key Data Insights")
         st.write(df.describe(include="all"))
         insights = [
