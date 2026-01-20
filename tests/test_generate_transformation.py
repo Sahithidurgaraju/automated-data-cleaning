@@ -1,7 +1,6 @@
 import os
 import pandas as pd
 import logging
-from src.datatransformation import Datatranformer
 import warnings
 import re
 import pytest
@@ -15,6 +14,7 @@ from pandarallel import pandarallel
 pandarallel.initialize(nb_workers=1, progress_bar=False)
 from src.config import DATA_DIR,JSON_DIR,CLEANED_DATA_DIR
 from src.pandasdatacleaning import Datacleaner
+from src.datatransformation import Datatranformer
 # Ignore only RuntimeWarning (common for all-NaN median/mean)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 pd.set_option('display.max_columns', None)  # show all columns
@@ -61,7 +61,22 @@ def messy_data():
     logger = get_logger(csv_name)
     logger.info(f"Processing: {file_path}")
 
-    df = pd.read_csv(file_path)
+    for enc in ["utf-8", "cp1252", "latin1"]:
+        try:
+
+            df = pd.read_csv(
+        file_path,
+        na_values=["", "NA", "N/A", "None", "null", "-", "?","Nan", "Inf", "Not Applicable"],
+        sep=None,          
+    engine="python", encoding=enc,           
+    keep_default_na=True,
+    skip_blank_lines=True
+)
+            if logger:
+                logger.info(f"Loaded CSV using encoding: {enc}")
+            break
+        except UnicodeDecodeError:
+                continue
 
     return csv_name, df, logger
 
@@ -78,3 +93,5 @@ def test_save_transformation(messy_data):
     assert os.path.exists(json_path), f"JSON config file was NOT created: {json_path}"
     assert Path(json_path).is_file(), f"Expected JSON file but got directory: {json_path}"
     assert os.path.getsize(json_path) > 0, f"JSON file is empty: {json_path}"
+
+

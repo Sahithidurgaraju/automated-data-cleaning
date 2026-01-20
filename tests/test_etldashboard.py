@@ -62,11 +62,24 @@ def messy_data():
     plot_csv = Path(file_path).name
     logger = get_logger(csv_name)
     logger.info(f"Processing: {file_path}")
+    for enc in ["utf-8", "cp1252", "latin1"]:
+        try:
 
-    df = pd.read_csv(file_path)
-    
+            df = pd.read_csv(
+        file_path,
+        na_values=["", "NA", "N/A", "None", "null", "-", "?","Nan", "Inf", "Not Applicable"],
+        sep=None,          
+    engine="python", encoding=enc,           
+    keep_default_na=True,
+    skip_blank_lines=True
+)
+            if logger:
+                logger.info(f"Loaded CSV using encoding: {enc}")
+            break
+        except UnicodeDecodeError:
+                continue
+
     return plot_csv, csv_name, df, logger
-
 #here onwards testing of before cleaning of messy data starts:
 #testing column name has any issues like white spaces, unicode characters, upper characters
 
@@ -85,7 +98,14 @@ def test_save_pdf_metrics(messy_data):
     table_name = base
     df_after= dashboard.load_table(dbname, table_name)
     logger.info(f"{df.head()}")
-    df_before = pd.read_csv(DATA_DIR/plot_csv)
+    df_before = pd.read_csv(
+    DATA_DIR / plot_csv,
+    sep=None,                    # auto-detect ; , \t
+    engine="python",             # REQUIRED for messy CSVs
+    encoding="latin1",           # handles � Ê ë etc.
+    keep_default_na=True,
+    skip_blank_lines=True
+)
     logger.info(f"{plot_csv}")
     data, dedupe_status = cleaner.remove_duplicates(plot_csv,logger)
     logger.info(f"{dedupe_status}")

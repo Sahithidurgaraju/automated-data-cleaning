@@ -59,12 +59,22 @@ def messy_data():
     csv_name = file_path.stem
     logger = get_logger(csv_name)
     logger.info(f"Processing: {file_path}")
+    for enc in ["utf-8", "cp1252", "latin1"]:
+        try:
 
-    df = pd.read_csv(
+            df = pd.read_csv(
         file_path,
-        na_values=["", "NA", "N/A", "None", "null", "-", "?"],
-        keep_default_na=True
-    )
+        na_values=["", "NA", "N/A", "None", "null", "-", "?","Nan", "Inf", "Not Applicable"],
+        sep=None,          
+    engine="python", encoding=enc,           
+    keep_default_na=True,
+    skip_blank_lines=True
+)
+            if logger:
+                logger.info(f"Loaded CSV using encoding: {enc}")
+            break
+        except UnicodeDecodeError:
+                continue
 
     return csv_name, df, logger
 
@@ -113,7 +123,6 @@ def test_handle_missing(messy_data):
         assert null_ratio <= 0.3, (
             f"Column '{col}' has high null ratio {null_ratio:.1%}"
         )
-
 
 @pytest.mark.tc_0004
 def test_pipeline(messy_data):

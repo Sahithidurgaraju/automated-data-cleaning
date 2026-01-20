@@ -72,6 +72,7 @@ def test_push_to_sql(messy_data):
     df_c= transformer.apply_transformations(df,csvname,logger)
     logger.info(f"{df_c.head(10)}")
     dbname,table,db_engine = transformer.push_to_sql(df_c,logger,csvname)
+    logger.info(f"{dbname,table,db_engine}")
     null_count, row_count = transformer.test_sql_data(dbname, table, db_engine, logger)
     logger.info("successfully pushed data to sql")
     assert df_c is not None, "Transformation returned None!"
@@ -88,5 +89,4 @@ def test_push_to_sql(messy_data):
     assert row_count > 0, "No rows inserted into SQL!"
     assert row_count == len_df, "Row count mismatch after push!"
 
-    
 
