@@ -56,7 +56,22 @@ def messy_data():
     logger = get_logger(csv_name)
     logger.info(f"Processing: {file_path}")
 
-    df = pd.read_csv(file_path,encoding="utf-8")
+    for enc in ["utf-8", "cp1252", "latin1"]:
+        try:
+
+            df = pd.read_csv(
+        file_path,
+        na_values=["", "NA", "N/A", "None", "null", "-", "?","Nan", "Inf", "Not Applicable"],
+        sep=None,          
+    engine="python", encoding=enc,           
+    keep_default_na=True,
+    skip_blank_lines=True
+)
+            if logger:
+                logger.info(f"Loaded CSV using encoding: {enc}")
+            break
+        except UnicodeDecodeError:
+                continue
 
     return csv_name, df, logger
 
