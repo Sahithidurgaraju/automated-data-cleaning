@@ -182,6 +182,20 @@ class Datadashboard:
         df_after = pd.DataFrame(df)
         return rows_columns_count(df_before,df_after)
 
+    def make_arrow_safe(df: pd.DataFrame) -> pd.DataFrame:
+        df = df.copy()
+        for col in df.columns:
+            if df[col].dtype == "object":
+            # replace placeholder strings
+                df[col] = df[col].replace("-", np.nan)
+
+            # try numeric conversion if possible
+                try:
+                    df[col] = pd.to_numeric(df[col])
+                except Exception:
+                    pass
+        return df
+
     def cleaning_score(self,df_before,df_after,dedupe_status,csvname,dbname,table_name):
         """
     Returns a REAL cleaning score based on actual improvements.
@@ -352,9 +366,9 @@ class Datadashboard:
         cleaner = Datacleaner(df_before,csvname)
         data, dedupe_status = cleaner.remove_duplicates(csvname,logger)
         summary_df,quality_score = self.cleaning_score(df_before,df,dedupe_status,csvname,dbname,table_name)
-        df["Before (%)"] = df["Before (%)"].astype(str).replace("-", np.nan)
-        df["After (%)"] = df["After (%)"].astype(str).replace("-", np.nan)
-        st.dataframe(summary_df, width="stretch")
+        
+        safe_df = make_arrow_safe(summary_df)
+        st.dataframe(safe_df.reset_index(drop=True), width="stretch")
 
         score = summary_df.loc[
         summary_df["Metric"] == "Overall Cleaning improvement Score",
