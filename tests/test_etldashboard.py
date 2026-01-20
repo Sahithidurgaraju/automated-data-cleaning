@@ -23,16 +23,8 @@ pd.set_option('display.max_columns', None)  # show all columns
 pd.set_option('display.width', None)  
 pd.set_option('display.max_rows', None)  # show all rows
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-import os
-from pathlib import Path
-import pandas as pd
-import pytest
-
 # Assuming get_logger is defined somewhere
 # from your_logging_module import get_logger
-
-PROJECT_ROOT = Path(__file__).resolve().parent.parent
 LOG_DIR = PROJECT_ROOT/"logs"
 DATA_DIR = PROJECT_ROOT/"data"
 @pytest.fixture
