@@ -271,7 +271,7 @@ class Datadashboard:
 
     # DELIMITER NOISE
 
-        NOISE_PATTERN = r"[;:/~—]"
+        NOISE_PATTERN = r"[;:/~]"
 
         s_before = df_before.select_dtypes(include=["object","string"]).stack().dropna().astype("string")
         s_after  = df_after.select_dtypes(include=["object","string"]).stack().dropna().astype("string")
