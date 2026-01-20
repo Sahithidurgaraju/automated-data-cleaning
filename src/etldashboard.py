@@ -11,7 +11,7 @@ from reportlab.pdfgen import canvas
 from io import BytesIO
 from logger_config import get_logger 
 from pandasdatacleaning import Datacleaner
-import pyarrow
+import pyarrow as pa
 PROJECT_ROOT = Path(__file__).resolve().parent.parent
 CLEANED_DATA_DIR = PROJECT_ROOT / "cleaned_data_output"
 DATA_DIR = PROJECT_ROOT/"data"
@@ -388,6 +388,7 @@ class Datadashboard:
         summary_df,quality_score = self.cleaning_score(df_before,df,dedupe_status,csvname,dbname,table_name)
         
         safe_df = self.make_arrow_safe(summary_df)
+        pa.Table.from_pandas(summary_df)
         st.dataframe(safe_df.reset_index(drop=True), use_container_width=True)
 
         score = summary_df.loc[
