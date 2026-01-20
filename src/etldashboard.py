@@ -423,7 +423,7 @@ class Datadashboard:
         c2.download_button("📊 Excel", excel_bytes, f"{plot_csv}.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
         c3.download_button("📄 Text", df.to_string(), f"{plot_csv}.txt", "text/plain")
 
-        st.dataframe(df.reset_index(drop=True))
+        st.dataframe(df)
         st.markdown("### 📊 Key Data Insights")
         st.write(df.describe(include="all"))
         insights = [
