@@ -352,7 +352,7 @@ class Datadashboard:
         cleaner = Datacleaner(df_before,csvname)
         data, dedupe_status = cleaner.remove_duplicates(csvname,logger)
         summary_df,quality_score = self.cleaning_score(df_before,df,dedupe_status,csvname,dbname,table_name)
-        st.dataframe(summary_df, use_container_width=True)
+        st.dataframe(summary_df, width="stretch")
 
         score = summary_df.loc[
         summary_df["Metric"] == "Overall Cleaning improvement Score",
@@ -381,8 +381,8 @@ class Datadashboard:
         if before_url and after_url:
             st.markdown("## Missing Values (Before vs After)")
             col1, col2 = st.columns(2)
-            col1.image(before_url, use_container_width=True)
-            col2.image(after_url, use_container_width=True)
+            col1.image(before_url, width="stretch")
+            col2.image(after_url, width="stretch")
         else:
             st.success("✔ No missing-values images available")
 
@@ -393,8 +393,8 @@ class Datadashboard:
         if before_out and after_out:
             st.markdown("## Outliers (Before vs After)")
             col1, col2 = st.columns(2)
-            col1.image(before_out[0], use_container_width=True)
-            col2.image(after_out[0], use_container_width=True)
+            col1.image(before_out[0], width="stretch")
+            col2.image(after_out[0], width="stretch")
         else:
             st.success("✔ No outliers images available")
 
@@ -404,10 +404,10 @@ class Datadashboard:
         if bins:
             st.markdown("## Bins Distribution")
             if len(bins) == 1:
-                st.image(bins[0], use_container_width=True)
+                st.image(bins[0], width="stretch")
             else:
                 idx = st.slider("Slide", 0, len(bins)-1, 0)
-                st.image(bins[idx], use_container_width=True)
+                st.image(bins[idx], width="stretch")
         else:
             st.info("✔ No bins images found")
 
