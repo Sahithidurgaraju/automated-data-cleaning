@@ -528,7 +528,7 @@ class Datadashboard:
 )
         st.dataframe(preview_df, use_container_width=True)
         st.markdown("### 📊 Key Data Insights")
-        st.write(df.describe(include="all"))
+        st.write(df.describe())
         insights = [
     f"Final data quality score: {quality_score}",
     f"Total rows after cleaning: {len(df)}",
