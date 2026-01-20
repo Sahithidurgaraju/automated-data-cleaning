@@ -170,14 +170,16 @@ class Datadashboard:
         return sql_query(dbname, table_name)
     
     def rows_columns_count(self, csvname,dbname,table_name):
+
         df_before = pd.read_csv(
     DATA_DIR / csvname,
     sep=None,                    # auto-detect ; , \t
     engine="python",             # REQUIRED for messy CSVs
-    encoding="latin1",           # handles � Ê ë etc.
+    encoding="latin1",encoding_errors="ignore",           # handles � Ê ë etc.
     keep_default_na=True,
     skip_blank_lines=True
 )
+    
         df = self.load_table(dbname, table_name)
         df_after = pd.DataFrame(df)
         return rows_columns_count(df_before,df_after)
@@ -379,7 +381,7 @@ class Datadashboard:
     DATA_DIR / csvname,
     sep=None,                    # auto-detect ; , \t
     engine="python",             # REQUIRED for messy CSVs
-    encoding="latin1",           # handles � Ê ë etc.
+    encoding="latin1", encoding_errors="ignore",          # handles � Ê ë etc.
     keep_default_na=True,
     skip_blank_lines=True
 )
