@@ -271,7 +271,7 @@ class Datadashboard:
 
     # DELIMITER NOISE
 
-        NOISE_PATTERN = r"[;:/~—]"
+        NOISE_PATTERN = r"[;:|/]"
 
         s_before = df_before.select_dtypes(include=["object","string"]).stack().dropna().astype("string")
         s_after  = df_after.select_dtypes(include=["object","string"]).stack().dropna().astype("string")
@@ -528,7 +528,7 @@ class Datadashboard:
 )
         st.dataframe(preview_df, use_container_width=True)
         st.markdown("### 📊 Key Data Insights")
-        st.write(df.describe(include="all"))
+        st.write(df.describe())
         insights = [
     f"Final data quality score: {quality_score}",
     f"Total rows after cleaning: {len(df)}",
