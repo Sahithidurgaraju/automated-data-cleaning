@@ -186,7 +186,7 @@ class Datatranformer:
                 "lowercase": True,
                 "strip": True,
                 "normalize_delimiters": (
-                    s_str.str.contains(r"[;|/]").any()
+                    s_str.str.contains(r"[;:|/]").any()
                     and not s_str.str.contains(r"https?://").any()
                 ),
                 "split_year": False

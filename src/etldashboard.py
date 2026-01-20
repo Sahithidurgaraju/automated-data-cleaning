@@ -101,7 +101,45 @@ class Datadashboard:
             return dataset_dbs
         except Exception as e:
             raise e
-    
+    def read_csv_with_fallback(self, file_path):
+        file_path = Path(file_path)
+        encodings = ["utf-8", "cp1252", "latin1"]
+
+
+        for enc in encodings:
+            try:
+                df = pd.read_csv(
+                file_path,
+                sep=None,
+                engine="python",
+                encoding=enc,
+                na_values=["", "NA", "N/A", "None", "null", "-", "?", "Nan", "Inf", "Not Applicable"],
+                keep_default_na=True,
+                skip_blank_lines=True
+            )
+
+                # if logger:
+                #     logger.info(f"Loaded CSV using encoding: {enc}")
+            # basic sanity check
+                if df.empty or df.shape[1] < 2:
+                    raise ValueError("CSV appears invalid after parsing")
+
+                return df
+
+            except UnicodeDecodeError:
+                continue
+
+    # if all encodings fail
+        st.error(
+        "❌ Unable to read CSV file. "
+        "The file may be corrupted or use an unsupported encoding."
+    )
+
+        # if logger:
+        #     logger.info(f"CSV load failed")
+
+        st.stop()
+
     # def get_tables_from_databases(self,dataset_dbs):
     #     # Collect all tables from dataset DBs
     #     tables = []
@@ -171,14 +209,7 @@ class Datadashboard:
     
     def rows_columns_count(self, csvname,dbname,table_name):
 
-        df_before = pd.read_csv(
-    DATA_DIR / csvname,
-    sep=None,                    # auto-detect ; , \t
-    engine="python",             # REQUIRED for messy CSVs
-    encoding="utf-8",encoding_errors="ignore",           # handles � Ê ë etc.
-    keep_default_na=True,
-    skip_blank_lines=True
-)
+        df_before = self.read_csv_with_fallback(DATA_DIR/csvname)
     
         df = self.load_table(dbname, table_name)
         df_after = pd.DataFrame(df)
@@ -240,7 +271,7 @@ class Datadashboard:
 
     # DELIMITER NOISE
 
-        NOISE_PATTERN = r"[;:/~–—]"
+        NOISE_PATTERN = r"[;:/~—]"
 
         s_before = df_before.select_dtypes(include=["object","string"]).stack().dropna().astype("string")
         s_after  = df_after.select_dtypes(include=["object","string"]).stack().dropna().astype("string")
@@ -393,14 +424,7 @@ class Datadashboard:
             st.markdown("**Structural NA in `*_end` is expected.**")
         c3.metric("Total Missing Cells", int(df.isna().sum().sum()))        
         st.markdown(f"## Data Validation Report ")        
-        df_before = pd.read_csv(
-    DATA_DIR / csvname,
-    sep=None,                    # auto-detect ; , \t
-    engine="python",             # REQUIRED for messy CSVs
-    encoding="utf-8",          # handles � Ê ë etc.
-    keep_default_na=True,
-    skip_blank_lines=True
-)
+        df_before = self.read_csv_with_fallback(DATA_DIR/csvname)
         cleaner = Datacleaner(df_before,csvname)
         data, dedupe_status = cleaner.remove_duplicates(csvname,logger)
         summary_df,quality_score = self.cleaning_score(df_before,df,dedupe_status,csvname,dbname,table_name)
