@@ -38,24 +38,7 @@ ID_NAME_KEYWORDS = (
 OWNER = "Sahithidurgaraju"
 REPO = "automated-data-cleaning"
 RELEASE_TAG = "json-output"
-# JSON_DIR = "json_output"
 # =================================
-
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-
-if not GITHUB_TOKEN:
-    raise RuntimeError("GITHUB_TOKEN not found")
-
-# ---------- Headers ----------
-API_HEADERS = {
-    "Authorization": f"token {GITHUB_TOKEN}",
-    "Accept": "application/vnd.github.v3+json"
-}
-
-UPLOAD_HEADERS = {
-    "Authorization": f"token {GITHUB_TOKEN}",
-    "Content-Type": "application/octet-stream"
-}
 #datacleaner class starts 
 class Datacleaner:
     def __init__(self, df,csvname):
