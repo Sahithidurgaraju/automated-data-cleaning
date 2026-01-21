@@ -1,0 +1,13 @@
+{
+    "imbd_title_id": "text",
+    "original_titl\u00ea": "text",
+    "release_year": "datetime",
+    "genr\u00eb": "text",
+    "duration": "integer",
+    "country": "text",
+    "content_rating": "category",
+    "director": "text",
+    "income": "integer",
+    "votes": "float",
+    "score": "float"
+}

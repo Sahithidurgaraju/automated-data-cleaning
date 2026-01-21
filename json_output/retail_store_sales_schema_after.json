@@ -1,0 +1,13 @@
+{
+    "transaction_id": "text",
+    "customer_id": "category",
+    "category": "category",
+    "item": "category",
+    "price_per_unit": "float",
+    "quantity": "integer",
+    "total_spent": "float",
+    "payment_method": "category",
+    "location": "category",
+    "transaction_date": "datetime",
+    "discount_applied": "boolean"
+}
