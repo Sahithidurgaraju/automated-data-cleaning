@@ -1,4 +1,4 @@
-## CSV ETL AUTOMATION 
+## Automated Multi CSV - Dataset ETL & Analytics Dashboard
 ## (Data Cleaning --> Cleaning Validation --> Transformation --> MYSQL)
 
 ## Project Summary:
