@@ -702,7 +702,7 @@ class Datadashboard:
         st.session_state.logger = logger
         # st.write("CSV stored in session:", st.session_state.csvname)
     def home_page(self,logger):
-        st.title("📊 Automated Multi-Dataset ETL & Analytics Dashboard")
+        st.title("📊 Automated Multi CSV - Dataset ETL & Analytics Dashboard")
 
     # Short description
         st.caption(
