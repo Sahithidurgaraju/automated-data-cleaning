@@ -314,7 +314,7 @@ class Datacleaner:
         logger.warning(f"[{csvname}] Unknown missing value strategy: {strategy}")
         return self.df
 
-    def load_schema(self,csvname,headers=API_HEADERS):
+    def load_schema(self,csvname):
         """
         Loads the schema configuration from a JSON file for the given CSV file.
         """
@@ -322,7 +322,7 @@ class Datacleaner:
         base = os.path.splitext(os.path.basename(csvname))[0]
         asset_name = f"{base}_schema_after.json"
         release_url = f"https://api.github.com/repos/{OWNER}/{REPO}/releases/tags/{RELEASE_TAG}"
-        r = requests.get(release_url, headers=headers)
+        r = requests.get(release_url)
         r.raise_for_status()
         release = r.json()
 
@@ -336,16 +336,10 @@ class Datacleaner:
             raise FileNotFoundError(f"{asset_name} not found in GitHub release")
 
     # 3️⃣ Download asset (IMPORTANT: octet-stream)
-        download_headers = {
-        "Authorization": f"token{GITHUB_TOKEN}",
-        "Accept": "application/octet-stream",
-    }
+        schema_resp = requests.get(asset["browser_download_url"])
+        schema_resp.raise_for_status()
 
-        resp = requests.get(asset["url"], headers=download_headers)
-        resp.raise_for_status()
-
-    # 4️⃣ Parse JSON
-        return json.loads(resp.content)
+        return schema_resp.json()
 
 
     def get_outlier_columns(self, df, schema):
@@ -1171,7 +1165,7 @@ class Datacleaner:
         self.load_csv(csvname,logger)
         rows_before = len(self.df) 
         self.shape(csvname,logger)
-        self.plot_outliers(csvname, logger,when="before", cleanup_old=True)
+        self.plot_outliers(csvname, logger, when="before", cleanup_old=True)
         self.plot_missing_values(csvname, self.df, logger, show_plot=False,when="before",cleanup_old=True)
         self.standard_data(csvname,logger)
         self.handle_missing(csvname,logger,strategy=strategy)
@@ -1203,8 +1197,8 @@ class Datacleaner:
     repo= REPO,
     release_tag= RELEASE_TAG,
     json_dir= JSON_DIR,
-    api_headers= API_HEADERS,
-    upload_headers= UPLOAD_HEADERS
+    api_headers= None,
+    upload_headers= None
 ):
         """
     Creates (if needed) a GitHub release, deletes old assets,
@@ -1213,7 +1207,7 @@ class Datacleaner:
 
     # ---------- Step 1: Get or create release ----------
         release_url = f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{release_tag}"
-        resp = requests.get(release_url, headers=api_headers)
+        resp = requests.get(release_url)
         logger.info(resp)
         logger.info(release_url)
         logger.info(api_headers)
@@ -1221,7 +1215,7 @@ class Datacleaner:
             print("Release not found. Creating release...")
             resp = requests.post(
             f"https://api.github.com/repos/{owner}/{repo}/releases",
-            headers=api_headers,
+            
             json={
                 "tag_name": release_tag,
                 "name": "json-output",
@@ -1239,7 +1233,7 @@ class Datacleaner:
 
     # ---------- Step 2: Delete old assets ----------
         for asset in release.get("assets", []):
-            del_resp = requests.delete(asset["url"], headers=api_headers)
+            del_resp = requests.delete(asset["url"])
             if del_resp.status_code == 204:
                 print(f"Deleted old asset: {asset['name']}")
             else:
