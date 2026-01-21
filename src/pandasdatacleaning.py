@@ -319,7 +319,7 @@ class Datacleaner:
         Loads the schema configuration from a JSON file for the given CSV file.
         """
         JSON_DIR.mkdir(exist_ok=True)
-        base = os.path.splitext(os.path.basename(csvname))[0]
+        base = os.path.splitext(os.path.basename(csvname))[0].replace(" ","_")
         asset_name = f"{base}_schema_after.json"
         release_url = f"https://api.github.com/repos/{OWNER}/{REPO}/releases/tags/{RELEASE_TAG}"
         r = requests.get(release_url)
