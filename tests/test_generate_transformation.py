@@ -89,6 +89,8 @@ def test_save_transformation(messy_data):
     cleaner = Datacleaner(df,csvname) 
     transformer = Datatranformer(df,csvname)
     json_path = transformer.save_config_file(df,csvname,logger)
+    uploaded = cleaner.upload_jsons_to_github_release(logger)
+    logger.info(f"{uploaded}")
     assert json_path is not None, "JSON path returned None!"
     assert os.path.exists(json_path), f"JSON config file was NOT created: {json_path}"
     assert Path(json_path).is_file(), f"Expected JSON file but got directory: {json_path}"

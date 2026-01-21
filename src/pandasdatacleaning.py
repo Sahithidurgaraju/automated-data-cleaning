@@ -4,6 +4,8 @@ import numpy as np
 import re,os,unicodedata,time,glob,json,seaborn as sns, matplotlib.pyplot as plt
 from datetime import datetime
 from pathlib import Path
+import requests
+from urllib.parse import quote
 from config import DATA_DIR, JSON_DIR,CLEANED_DATA_DIR,PLOTS_DIR,VALIDATION_DIR
 # Ignore only RuntimeWarning (common for all-NaN median/mean)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -32,7 +34,28 @@ NUMERIC_THRESHOLD = 0.02
 ID_NAME_KEYWORDS = (
     "id", "uuid", "guid", "hash", "code", "ref", "reference"
 )
+# #============ CONFIG ============
+OWNER = "Sahithidurgaraju"
+REPO = "automated-data-cleaning"
+RELEASE_TAG = "json-output"
+# JSON_DIR = "json_output"
+# =================================
 
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+
+if not GITHUB_TOKEN:
+    raise RuntimeError("GITHUB_TOKEN not found")
+
+# ---------- Headers ----------
+API_HEADERS = {
+    "Authorization": f"token {GITHUB_TOKEN}",
+    "Accept": "application/vnd.github.v3+json"
+}
+
+UPLOAD_HEADERS = {
+    "Authorization": f"token {GITHUB_TOKEN}",
+    "Content-Type": "application/octet-stream"
+}
 #datacleaner class starts 
 class Datacleaner:
     def __init__(self, df,csvname):
@@ -308,13 +331,38 @@ class Datacleaner:
         logger.warning(f"[{csvname}] Unknown missing value strategy: {strategy}")
         return self.df
 
-    def load_schema(self,csvname):
+    def load_schema(self,csvname,headers=API_HEADERS):
         """
         Loads the schema configuration from a JSON file for the given CSV file.
         """
         JSON_DIR.mkdir(exist_ok=True)
         base = os.path.splitext(os.path.basename(csvname))[0]
-        return json.load(open(JSON_DIR / f"{base}_schema_after.json"))
+        asset_name = f"{base}_schema_after.json"
+        release_url = f"https://api.github.com/repos/{OWNER}/{REPO}/releases/tags/{RELEASE_TAG}"
+        r = requests.get(release_url, headers=headers)
+        r.raise_for_status()
+        release = r.json()
+
+    # 2️⃣ Find the asset
+        asset = next(
+        (a for a in release["assets"] if a["name"] == asset_name),
+        None,
+    )
+
+        if not asset:
+            raise FileNotFoundError(f"{asset_name} not found in GitHub release")
+
+    # 3️⃣ Download asset (IMPORTANT: octet-stream)
+        download_headers = {
+        "Authorization": f"token{GITHUB_TOKEN}",
+        "Accept": "application/octet-stream",
+    }
+
+        resp = requests.get(asset["url"], headers=download_headers)
+        resp.raise_for_status()
+
+    # 4️⃣ Parse JSON
+        return json.loads(resp.content)
 
 
     def get_outlier_columns(self, df, schema):
@@ -380,7 +428,7 @@ class Datacleaner:
 
         else:
         # AFTER cleaning → use schema
-            schema = self.load_schema(csvname)
+            schema = self.load_schema(csvname.replace(" ","_"))
             outlier_cols = self.get_outlier_columns(self.df, schema)
 
             if not outlier_cols:
@@ -889,7 +937,7 @@ class Datacleaner:
     
     def derive_duplicate_subset(self, csvname):
         df = self.df
-        schema = self.load_schema(csvname)
+        schema = self.load_schema(csvname.replace(" ","_"))
 
     # Strong ID columns (highest priority)
         id_cols = [
@@ -1033,7 +1081,7 @@ class Datacleaner:
 
     #  Schema check
         try:
-            schema = self.load_schema(csvname)
+            schema = self.load_schema(csvname.replace(" ","_"))
             expected = set(schema.keys())
             actual = set(df.columns)
             assert expected.issubset(actual)
@@ -1134,7 +1182,7 @@ class Datacleaner:
 
         return results
 
-
+    
     def datacleaning_pipeline(self, csvname, logger,cleanup_old=False, strategy=None,show_plot=False):
     
         self.load_csv(csvname,logger)
@@ -1166,3 +1214,87 @@ class Datacleaner:
             json.dump(results, f, indent=2)
 
         logger.info(f"[{csvname}] Validation JSON saved to {path}")
+
+    def upload_jsons_to_github_release(self,logger,
+    owner=OWNER,
+    repo= REPO,
+    release_tag= RELEASE_TAG,
+    json_dir= JSON_DIR,
+    api_headers= API_HEADERS,
+    upload_headers= UPLOAD_HEADERS
+):
+        """
+    Creates (if needed) a GitHub release, deletes old assets,
+    and uploads all JSON files from a directory as release assets.
+    """
+
+    # ---------- Step 1: Get or create release ----------
+        release_url = f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{release_tag}"
+        resp = requests.get(release_url, headers=api_headers)
+        logger.info(resp)
+        logger.info(release_url)
+        logger.info(api_headers)
+        if resp.status_code == 404:
+            print("Release not found. Creating release...")
+            resp = requests.post(
+            f"https://api.github.com/repos/{owner}/{repo}/releases",
+            headers=api_headers,
+            json={
+                "tag_name": release_tag,
+                "name": "json-output",
+                "draft": False,
+                "prerelease": False,
+            },
+        )
+
+        resp.raise_for_status()
+        logger.info(f"{resp.raise_for_status()}")
+        release = resp.json()
+        logger.info(release)
+        upload_url = release["upload_url"].split("{")[0]
+        print(f"Using upload URL: {upload_url}")
+
+    # ---------- Step 2: Delete old assets ----------
+        for asset in release.get("assets", []):
+            del_resp = requests.delete(asset["url"], headers=api_headers)
+            if del_resp.status_code == 204:
+                print(f"Deleted old asset: {asset['name']}")
+            else:
+                print(f"Failed to delete asset: {asset['name']}")
+
+    # ---------- Step 3: Upload JSON files ----------
+        if not os.path.exists(JSON_DIR):
+            print("⚠ JSON directory not found. Nothing to upload.")
+            return 0
+
+        uploaded = 0
+
+        for root, _, files in os.walk(JSON_DIR):
+            for file in files:
+                if not file.lower().endswith(".json"):
+                    continue
+
+                local_path = os.path.join(root, file)
+
+            # Flatten path into asset name
+                rel_path = os.path.relpath(local_path, json_dir)
+                safe_name = rel_path.replace(os.sep, "_").replace(" ", "_")
+
+                encoded_name = quote(safe_name)
+                final_upload_url = f"{upload_url}?name={encoded_name}"
+
+                with open(local_path, "rb") as f:
+                    r = requests.post(
+                    final_upload_url,
+                    headers=upload_headers,
+                    data=f.read(),
+                )
+
+                if r.status_code in (200, 201):
+                    print(f"Uploaded: {safe_name}")
+                    uploaded += 1
+                else:
+                    print(f"Failed: {safe_name} → {r.status_code} | {r.text}")
+
+        print(f"Uploaded {uploaded} JSON files successfully")
+        return uploaded

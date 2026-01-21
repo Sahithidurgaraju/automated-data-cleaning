@@ -85,7 +85,9 @@ def test_pipeline(messy_data):
     csvname,df,logger=messy_data
     cleaner = Datacleaner(df,csvname) 
     df_clean = cleaner.datacleaning_pipeline(csvname=csvname,cleanup_old=True,strategy="auto",show_plot=False,logger=logger) 
+    uploaded = cleaner.upload_jsons_to_github_release(logger)
     logger.info(f"[{csvname}] AFTER-cleaning complete. Cleaned CSV saved ")
     logger.info(f"[{csvname}] Cleaned DataFrame preview")
+    logger.info(f"{uploaded}")
     assert not df_clean.empty
     assert len(df_clean) > 0
