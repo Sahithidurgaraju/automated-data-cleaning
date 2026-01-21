@@ -1,29 +1,32 @@
-## CSV ETL AUTOMATION (Data Cleaning --> Cleaning Validation --> Transformation --> MYSQL)
+## CSV ETL AUTOMATION 
+## (Data Cleaning --> Cleaning Validation --> Transformation --> MYSQL)
 
 ## Project Summary:
 
-An automated analytics-focused ETL pipeline built in Python to clean, transform, and load large multi-CSV datasets into MySQL, followed by structural validation reports exported to JSON.
-Designed to run efficiently on a laptop without crashing or increasing rows, using vectorized Pandas column operations and batched SQL inserts.
+This project implements a fully automated, analytics-focused ETL pipeline built in Python to clean, validate, transform, and load large multi-CSV datasets into a MySQL-compatible distributed database (TiDB Cloud). The pipeline is optimized for local execution on laptops, using vectorized Pandas operations, chunk-based processing, and batched SQL inserts to ensure high performance, memory safety, and execution stability — even for large datasets. All stages (cleaning, validation, transformation, and database ingestion) run end-to-end without manual intervention, generating structured artifacts and validation reports automatically.
 
 ## Key Features:
 
-•	Supports multiple CSV files and stores cleaned data by CSV filename
+•	Supports multiple CSV files in a single run
 
-•	Automatically creates MySQL database per CSV name if missing
+•    Automatically creates one database per dataset (based on CSV filename) if missing
 
-•	Normalizes multi-value cells (; → ,) without exploding rows
+•    Normalizes multi-value cells (; → ,) without exploding rows
 
-•	Uses vectorized Pandas string operations instead of slow row loops
+•    Uses vectorized Pandas column operations instead of row-wise loops
 
-•	Experimented with parallel text cleaning, Swifter, and chunk processing
+•    Batched SQL inserts for safe local execution
 
-•	Validated column-wise NULL %, row count match, and transform integrity inside MySQL
+•    Internal database-level validation using set-based SQL queries
 
-•	Exports validation status JSON (pass/fail) with specific failure reasons
+•    Exports machine-readable validation reports (JSON) with pass/fail status and failure reasons
 
-•	Execution optimized to process 1L rows × 60 columns in ~2 minutes across multiple CSVs
+•    Designed to process 1L rows × 60 columns in ~2 minutes across multiple CSVs
+
+•    Fully automated artifact lifecycle management (old outputs are replaced per dataset)
 
 ## Repository Structure
+
 data/                      → Input CSV files
 
 cleaned_data_output/       → Cleaned CSV outputs (same filename preserved)
@@ -34,15 +37,21 @@ plots/                     → missing plots, outliers, bins histogram
 
 logs/                      → dataset wise logs 
 
-json_output                → here detect the column types and apply column types, transformation json 
+json_output/               → Auto-generated schema & transformation metadata
 
-sql_credentials            → my sql workbench credentials   # here can replace with user's credentials
+sql_credentials/            → Database connection configuration  
 
-run_reports.py             → Executes cleaning + generates validation JSON
+src/etldashboard.py         → Streamlit dashboard  
 
-generate_transformation.py → Generates user-editable transformation config JSON
+run_reports.py             → Cleaning + validation execution  
 
-apply_transformation.py    → Applies transforms + pushes final data to MySQL
+generate_transformation.py → Auto-generate transformation configs 
+
+apply_transformation.py    → Apply transforms & push to database
+
+run_pipeline.py            → Single entry-point for full automation 
+
+Jenkinsfile                → CI pipeline configuration  
 
 ## Project Architecture:
 
@@ -69,15 +78,17 @@ apply_transformation.py    → Applies transforms + pushes final data to MySQL
 
 ## Technologies & Skills Used:
 
-•	Python (Pandas, NumPy, SQLAlchemy, PyMySQL,Pytest)
+•	Python: Pandas, NumPy, SQLAlchemy, PyMySQL, Pytest
 
-•	MySQL (Set-based aggregation validation, internal scans)
+•	Database: TiDB Cloud (MySQL-compatible)
 
-•	Matplotlib (Binning visualization, scalable figure sizing)
+•	Visualization: Matplotlib
 
-•	JSON automation (Dynamic validation & transform config generation)
+•	Automation: Jenkins CI
 
-•	Optimized processing using vectorized column operations for speed and memory safety
+•	Config & Reporting: JSON-based validation and metadata
+
+•	Optimization: Vectorized operations, chunking, batched inserts
 
 ## Binning Visualization Support:
 
@@ -107,7 +118,7 @@ apply_transformation.py    → Applies transforms + pushes final data to MySQL
 
 ## Run this command to install everything:
 
-pip install pandas numpy sqlalchemy pymysql cryptography pytest
+pip install pandas numpy pytest streamlit SQLAlchemy PyMySQL pyarrow cryptography matplotlib seaborn pillow reportlab openpyxl pycountry rapidfuzz
 
 ## Run the project in this sequence
 
@@ -123,7 +134,7 @@ pip install pandas numpy sqlalchemy pymysql cryptography pytest
    - Produces a user-editable `transform_config.json` file for each dataset.
 
 4. Apply transformations and push to MySQL:
-   - Transformations (casting, binning, filtering, groupby if enabled) are applied to the cleaned data.
+   - Transformations (casting, binning, MLops if enabled) are applied to the cleaned data.
    - Final transformed datasets are inserted into MySQL using batched SQL writes for laptop-safe execution.
 
 
@@ -145,6 +156,32 @@ python apply_transformation.py       # Step 3: Apply transformations (bins, grou
 
 -Installing it ensures secure connectivity and avoids auth runtime errors.
 
+## Database Backend
+
+- This project uses TiDB Cloud, a MySQL-compatible distributed database.
+
+    - Connection via SQLAlchemy + PyMySQL
+
+    - Standard MySQL SQL syntax
+
+- Works unchanged with:
+
+    - MySQL
+
+    - TiDB Cloud
+
+    - Amazon RDS MySQL
+
+    - Azure MySQL
+
+- TiDB Cloud provides:
+
+    - Serverless operation
+
+    - Horizontal scalability
+
+    - Production-like database behavior
+  
 ## Automatic Artifact Management:
 
 •	The pipeline processes input CSV files placed in the data/ folder.
@@ -271,13 +308,66 @@ These NULLs are expected, acceptable, and excluded from failure assertions, as t
 
 git clone https://github.com/Sahithidurgaraju/automated-data-cleaning
 
+## CI Automation (Jenkins)
+
+The repository includes a Jenkinsfile to enable:
+
+- Automated dependency installation
+
+- Full ETL pipeline execution
+
+- Test execution
+
+- Artifact archival (reports, plots, logs)
+
+- This allows scheduled or trigger-based ETL runs in CI environments.
+  
+## Dashboard Visualization
+
+After pipeline execution, launch the dashboard:
+
+       streamlit run src/etldashboard.py
+The dashboard provides:
+
+- Dataset-wise validation status
+
+- Missing value summaries
+
+- Bin distribution insights
+
+- Overall dataset health metrics
+
+The dashboard is read-only and does not trigger ETL execution.
+
 ## Future Enhancements
 
-- Add scheduling support for automated daily ETL runs 
+-Support for Excel file automation (.xlsx, .xls) alongside CSV ingestion:
 
-- Cloud execution support (AWS Lambda, Airflow)
+   - Multi-sheet handling
 
-- MySQL → BI dashboard connectors (Metabase, Power BI, Tableau)
+   - Schema inference per sheet
+
+   - Large Excel file chunked processing
+
+- Cloud-native deployment support:
+
+   - Containerization using Docker
+
+   - Execution on cloud compute (AWS EC2 / Azure VM / GCP Compute Engine)
+
+   - Managed database integrations (RDS, Cloud SQL)
+
+- Scheduled and event-driven ETL execution
+
+   - Cron-based scheduling
+
+   - CI-triggered runs (Jenkins)
+
+- BI and analytics integrations
+
+   - Direct connectors to Metabase, Power BI, Tableau
+
+- Schema drift detection and automated alerts
 
 ## Author
 
