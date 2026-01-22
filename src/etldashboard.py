@@ -716,7 +716,7 @@ class Datadashboard:
 
     # Dataset section
         st.subheader("📁 Available Demo Datasets")
-        st.write("Select a demo dataset below to explore its dashboard and quality reports.")
+        st.write("Select a Demo dataset below to explore its dashboard and quality reports.")
         for f in DATA_DIR.glob("*.csv"):
             cleaned_stem = f.stem.lower().replace(" ", "_") + "_cleaned"  # for SQL
             plot_stem = f.stem.replace(" ", "_")  # for plots
