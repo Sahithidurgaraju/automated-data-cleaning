@@ -866,7 +866,7 @@ class Datacleaner:
 
     def apply_schema_from_json(self, csvname: str, stage="after", logger=None) -> pd.DataFrame:
         JSON_DIR.mkdir(exist_ok=True)
-        base = Path(csvname).stem
+        base = Path(csvname).stem.replace(" ", "_")
         schema_path = JSON_DIR / f"{base}_schema_after.json"
 
         with open(schema_path, "r") as f:
