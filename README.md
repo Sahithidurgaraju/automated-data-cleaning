@@ -55,8 +55,6 @@ The pipeline is **optimized for local execution on laptops**, leveraging **vecto
 
 **apply_transformation.py**    → Apply transforms & push to database
 
-**run_pipeline.py**           → Single entry-point for full datacleaning automation 
-
 **Jenkinsfile**                → CI pipeline configuration  
 
 ## Project Architecture:
@@ -193,7 +191,7 @@ The token is used to:
 
 ## Run this command to install everything:
 
-      pip install pandas numpy pytest streamlit SQLAlchemy PyMySQL pyarrow cryptography matplotlib seaborn pillow reportlab openpyxl pycountry rapidfuzz
+      pip install -r requirements.txt
 
 ## Run the project in this sequence
 
@@ -218,11 +216,17 @@ The token is used to:
 
 ## After that run these commands:
 
-python run_reports.py         # Step 1: Clean data & generate validation JSON 
+python run_reports.py                # Step 1: Clean data & generate validation JSON 
 
 python generate_transformation.py    # Step 2: Generate user-editable transform config JSON
 
-python apply_transformation.py       # Step 3: Apply transformations (bins, groupby, filters if enabled) and push to MySQL
+python apply_transformation.py       # Step 3: Apply transformations (bins, MLops if enabled) and push to MySQL
+
+python dashboard_pdf.py              # Step 4: Generate data quality report
+
+python cleanup_upload_images.py      # Step 5: cleanup old images and upload new images in github releases artifacts
+
+> ⚠️ Step 5 requires a valid `GITHUB_TOKEN` to upload artifacts to GitHub Releases.
 
 ## MySQL Connection Note
 
