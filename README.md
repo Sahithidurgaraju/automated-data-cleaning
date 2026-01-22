@@ -105,6 +105,11 @@ The pipeline is **optimized for local execution on laptops**, leveraging **vecto
 
 • **Uses only vectorized count-based summaries for plotting**, avoiding row-wise operations and ensuring efficient visualization even for large datasets  
 
+## 📂 Dataset Notes
+
+• This project uses **publicly available and demo datasets** representing a variety of real-world data quality patterns (missing values, mixed formats, outliers, and high-cardinality fields).
+
+• Datasets are used **solely for demonstration and educational purposes** to showcase pipeline design, performance optimization, and validation logic.
 
 ## How a user will run this project:
 
@@ -453,6 +458,7 @@ These **NULL values are expected, acceptable, and explicitly excluded from failu
 ## MySQL Push:
 
 <img width="1918" height="577" alt="image" src="https://github.com/user-attachments/assets/39d070d9-4154-437b-a4c4-3266cd7f5b55" />
+
 ## CI Automation (Jenkins)
 
 **The repository includes a Jenkinsfile to enable**:
@@ -553,7 +559,9 @@ After completing the full ETL pipeline and loading the cleaned, validated data i
 
 ## Author
 
-**Sahithi** — Developer of the ETL Automation Pipeline
+**Sahithi** — Aspiring Data Engineer
+
+Developer of the ETL Automation Pipeline
 
 ## Usage Notice
 
