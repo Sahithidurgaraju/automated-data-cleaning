@@ -1,6 +1,6 @@
 pandas
 numpy
-streamlit
+streamlit>=1.32
 altair>=5.0.0
 pyarrow
 SQLAlchemy
