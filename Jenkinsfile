@@ -65,10 +65,11 @@ echo Cleanup complete!
 
         stage('Run Data Cleaning Process') {
             steps {
+                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]) {
                 bat'''
                 python run_reports.py
                 '''
-            }
+            }}
         }
         stage('Run generate transformation') {
             steps {
