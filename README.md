@@ -559,7 +559,9 @@ After completing the full ETL pipeline and loading the cleaned, validated data i
 
 ## Author
 
-**Sahithi** — Developer of the ETL Automation Pipeline
+**Sahithi** — Aspiring Data Engineer
+
+Developer of the ETL Automation Pipeline
 
 ## Usage Notice
 
