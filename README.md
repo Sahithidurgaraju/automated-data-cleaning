@@ -105,6 +105,11 @@ The pipeline is **optimized for local execution on laptops**, leveraging **vecto
 
 • **Uses only vectorized count-based summaries for plotting**, avoiding row-wise operations and ensuring efficient visualization even for large datasets  
 
+## 📂 Dataset Notes
+
+• This project uses **publicly available and demo datasets** representing a variety of real-world data quality patterns (missing values, mixed formats, outliers, and high-cardinality fields).
+
+• Datasets are used **solely for demonstration and educational purposes** to showcase pipeline design, performance optimization, and validation logic.
 
 ## How a user will run this project:
 
