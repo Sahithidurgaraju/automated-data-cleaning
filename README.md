@@ -453,8 +453,6 @@ These **NULL values are expected, acceptable, and explicitly excluded from failu
 ## MySQL Push:
 
 <img width="1918" height="577" alt="image" src="https://github.com/user-attachments/assets/39d070d9-4154-437b-a4c4-3266cd7f5b55" />
-
-
 ## CI Automation (Jenkins)
 
 **The repository includes a Jenkinsfile to enable**:
@@ -486,6 +484,42 @@ These **NULL values are expected, acceptable, and explicitly excluded from failu
 - Overall dataset health metrics
 
 **The dashboard is read-only and does not trigger ETL execution.**
+
+## 📈 BI Validation (Like Power BI & Tableau)
+
+After completing the full ETL pipeline and loading the cleaned, validated data into **MySQL (TiDB Cloud)**, the final datasets were tested in **Power BI and Tableau** to verify **analytics readiness and downstream usability**.
+
+### What Was Validated
+
+• **Schema consistency and data types**, ensuring fields were correctly interpreted by BI tools without manual fixes  
+
+• **Row count integrity**, confirming no row loss or unintended duplication during cleaning and transformation  
+
+• **NULL handling and structural NULL logic**, validating that expected structural NULLs did not break visualizations or aggregations  
+
+• **Numeric aggregation correctness**, ensuring measures behaved correctly in filters, bins, and groupings  
+
+• **End-to-end compatibility**, demonstrating that the pipeline output is immediately usable for dashboarding and reporting  
+
+### Outcome
+
+• The datasets loaded seamlessly into **Power BI and Tableau** without additional preprocessing  
+
+• Visualizations rendered correctly, confirming **clean schema design and transformation integrity**  
+
+• This validation step confirms the pipeline produces **analytics-ready data**, suitable for real-world BI and decision-making workflows  
+
+> The screenshots below demonstrate successful dashboard creation and data exploration using the pipeline outputs.
+
+### Power BI Validation
+
+![powerbi_validation_with_cleaned_data](https://github.com/user-attachments/assets/f6b4b45f-5cff-47fd-ab2d-ecde8f414ad3)
+
+
+### Tableau Validation
+
+![Tableau_validation_with_cleaned_data](https://github.com/user-attachments/assets/2887bf6c-418a-4d3c-a3f2-064aa4b28b0b)
+
 
 ## Future Enhancements
 
