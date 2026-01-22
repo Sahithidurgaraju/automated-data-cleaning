@@ -115,6 +115,61 @@ Jenkinsfile                → CI pipeline configuration
 •	Cryptography → required for secure MySQL authentication (caching_sha2_password)
 
 •	Pytest → automated testing & report generation
+## 🔐 GitHub Token Requirement
+
+This project integrates with the **GitHub Releases API** to automatically manage JSON artifacts generated during the ETL process, including:
+
+- Schema validation outputs  
+- Transformation configuration files  
+- Dataset-level validation reports  
+
+To enable this functionality, a **GitHub Personal Access Token (PAT)** is required.
+
+---
+
+### Why the GitHub Token Is Required
+
+The token is used to:
+- Create or access GitHub releases
+- Delete outdated dataset-specific JSON artifacts
+- Upload newly generated JSON files as versioned release assets
+- Avoid unauthenticated API rate limits during automation
+
+---
+
+### 📌 When a GitHub Token Is Required
+
+| Execution Mode | GitHub Token Required |
+|---------------|----------------------|
+| Full ETL pipeline execution (local or CI) | ✅ Yes |
+| Jenkins / automated pipeline runs | ✅ Yes |
+| Test suite execution | ✅ Yes |
+| Streamlit dashboard (read-only analytics) | ❌ No |
+
+> The Streamlit dashboard does **not** perform GitHub uploads and will run without a GitHub token.
+
+---
+
+###  How to Set Up the GitHub Token
+
+#### Step 1: Create a GitHub Personal Access Token
+
+1. Go to **GitHub → Settings → Developer settings → Personal access tokens**
+2. Generate a token with the following permissions:
+   - **Contents: Read & Write**
+   - **Releases: Read & Write**
+3. Copy the token and store it securely
+
+---
+
+#### Step 2: Set the Token as an Environment Variable
+
+- Linux / macOS
+    ```bash
+    export GITHUB_TOKEN=your_token_here
+
+- Windows powershell
+   setx GITHUB_TOKEN "your_token_here"
 
 ## Run this command to install everything:
 
