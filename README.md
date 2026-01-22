@@ -453,6 +453,7 @@ These **NULL values are expected, acceptable, and explicitly excluded from failu
 ## MySQL Push:
 
 <img width="1918" height="577" alt="image" src="https://github.com/user-attachments/assets/39d070d9-4154-437b-a4c4-3266cd7f5b55" />
+
 ## CI Automation (Jenkins)
 
 **The repository includes a Jenkinsfile to enable**:
