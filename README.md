@@ -3,7 +3,7 @@
 
 ## Project Summary:
 
-**This project implements a fully automated, analytics-focused ETL pipeline built in Python** to clean, validate, transform, and load **large multi-CSV datasets** into a **MySQL-compatible distributed database (TiDB Cloud)**.
+This project implements a fully automated, analytics-focused ETL pipeline built in Python to **clean, validate, transform, and load large multi-CSV datasets** into a **MySQL-compatible distributed database (TiDB Cloud)**.
 
 The pipeline is **optimized for local execution on laptops**, leveraging **vectorized Pandas operations, chunk-based processing, and batched SQL inserts** to deliver **high performance, memory safety, and execution stability**, even when processing large, wide datasets.
 
