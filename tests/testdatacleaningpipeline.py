@@ -35,19 +35,20 @@ DATA_DIR = PROJECT_ROOT / "data"
 LOG_DIR = PROJECT_ROOT/"logs"
 
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+
 if not GITHUB_TOKEN:
     raise RuntimeError("GITHUB_TOKEN not found")
 
 # ---------- Headers ----------
 API_HEADERS = {
     "Authorization": f"token {GITHUB_TOKEN}",
-    "Accept": "application/vnd.github.v3+json"
+    "Accept": "application/vnd.github.v3+json",
 }
-
 UPLOAD_HEADERS = {
     "Authorization": f"token {GITHUB_TOKEN}",
-    "Content-Type": "application/octet-stream"
+    "Content-Type": "application/octet-stream",
 }
+
 
 @pytest.fixture
 def messy_data():
@@ -95,14 +96,12 @@ def messy_data():
 #here onwards testing of before cleaning of messy data starts:
 #testing column name has any issues like white spaces, unicode characters, upper characters
 
-@pytest.mark.tc_0004
+@pytest.mark.tc_0001
 def test_pipeline(messy_data):
     csvname,df,logger=messy_data
     cleaner = Datacleaner(df,csvname) 
-    df_clean = cleaner.datacleaning_pipeline(csvname=csvname,cleanup_old=True,strategy="auto",show_plot=False,logger=logger) 
-    uploaded = cleaner.upload_jsons_to_github_release(logger, api_headers=API_HEADERS,upload_headers=UPLOAD_HEADERS) 
+    df_clean = cleaner.datacleaning_pipeline(csvname=csvname,api_headers=API_HEADERS,upload_headers=UPLOAD_HEADERS,cleanup_old=True,strategy="auto",show_plot=False,logger=logger) 
     logger.info(f"[{csvname}] AFTER-cleaning complete. Cleaned CSV saved ")
     logger.info(f"[{csvname}] Cleaned DataFrame preview")
-    logger.info(f"{uploaded}")
     assert not df_clean.empty
     assert len(df_clean) > 0

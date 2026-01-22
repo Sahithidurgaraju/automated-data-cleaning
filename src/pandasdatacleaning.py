@@ -39,6 +39,7 @@ OWNER = "Sahithidurgaraju"
 REPO = "automated-data-cleaning"
 RELEASE_TAG = "json-output"
 # =================================
+
 #datacleaner class starts 
 class Datacleaner:
     def __init__(self, df,csvname):
@@ -1161,7 +1162,7 @@ class Datacleaner:
 
     
     def datacleaning_pipeline(self, csvname, logger,api_headers=None, upload_headers=None, cleanup_old=False, strategy=None,show_plot=False):
-    
+        api_headers,upload_headers = self.build_github_headers()
         self.load_csv(csvname,logger)
         rows_before = len(self.df) 
         self.shape(csvname,logger)
@@ -1170,7 +1171,7 @@ class Datacleaner:
         self.standard_data(csvname,logger)
         self.handle_missing(csvname,logger,strategy=strategy)
         self.detect_and_save_schema(df=self.df, csvname=csvname,stage="after", logger=logger)
-        self.upload_jsons_to_github_release(logger, api_headers=None,upload_headers=None)
+        self.upload_jsons_to_github_release(logger=logger,csvname=csvname, api_headers=api_headers,upload_headers=upload_headers)
         self.apply_schema_from_json(csvname=csvname,stage="after",logger=logger)
         self.remove_irrelevant_columns(csvname,logger)
         self.plot_outliers(csvname,logger,when="after", cleanup_old=True)
@@ -1192,8 +1193,26 @@ class Datacleaner:
             json.dump(results, f, indent=2)
 
         logger.info(f"[{csvname}] Validation JSON saved to {path}")
+    import os
 
-    def upload_jsons_to_github_release(self,logger,
+    def build_github_headers(self):
+        token = os.environ.get("GITHUB_TOKEN")
+        if not token:
+            return None, None
+
+        api_headers = {
+        "Authorization": f"token {token}",
+        "Accept": "application/vnd.github+json",
+    }
+
+        upload_headers = {
+        "Authorization": f"token {token}",
+        "Content-Type": "application/octet-stream",
+    }
+
+        return api_headers, upload_headers
+
+    def upload_jsons_to_github_release(self,logger,csvname,
     owner=OWNER,
     repo= REPO,
     release_tag= RELEASE_TAG,
@@ -1207,23 +1226,24 @@ class Datacleaner:
     """
 
     # ---------- Step 1: Get or create release ----------
+        api_headers,upload_headers = self.build_github_headers()
         release_url = f"https://api.github.com/repos/{owner}/{repo}/releases/tags/{release_tag}"
-        resp = requests.get(release_url)
+        resp = requests.get(release_url, headers=api_headers)
         logger.info(resp)
         logger.info(release_url)
         logger.info(api_headers)
         if resp.status_code == 404:
             print("Release not found. Creating release...")
             resp = requests.post(
-            f"https://api.github.com/repos/{owner}/{repo}/releases",
-            
-            json={
-                "tag_name": release_tag,
-                "name": "json-output",
-                "draft": False,
-                "prerelease": False,
-            },
-        )
+    f"https://api.github.com/repos/{owner}/{repo}/releases",
+    headers=api_headers,
+    json={
+        "tag_name": release_tag,
+        "name": "json-output",
+        "draft": False,
+        "prerelease": False,
+    },
+)
 
         resp.raise_for_status()
         logger.info(f"{resp.raise_for_status()}")
@@ -1234,15 +1254,17 @@ class Datacleaner:
 
     # ---------- Step 2: Delete old assets ----------
         for asset in release.get("assets", []):
-            del_resp = requests.delete(asset["url"])
-            if del_resp.status_code == 204:
-                print(f"Deleted old asset: {asset['name']}")
-            else:
-                print(f"Failed to delete asset: {asset['name']}")
+            if asset["name"].startswith(csvname.replace(" ", "_")):
+                del_resp = requests.delete(asset["url"], headers=api_headers)
+                logger.info(f"{del_resp}")
+                if del_resp.status_code == 204:
+                    logger.info(f"Deleted old asset: {asset['name']}")
+                else:
+                    logger.info(f"Failed to delete asset: {asset['name']}")
 
     # ---------- Step 3: Upload JSON files ----------
         if not os.path.exists(JSON_DIR):
-            print("⚠ JSON directory not found. Nothing to upload.")
+            logger.info("⚠ JSON directory not found. Nothing to upload.")
             return 0
 
         uploaded = 0
@@ -1263,16 +1285,16 @@ class Datacleaner:
 
                 with open(local_path, "rb") as f:
                     r = requests.post(
-                    final_upload_url,
-                    headers=upload_headers,
-                    data=f.read(),
-                )
+    final_upload_url,
+    headers=upload_headers,
+    data=f.read(),
+)
 
                 if r.status_code in (200, 201):
-                    print(f"Uploaded: {safe_name}")
+                    logger.info(f"Uploaded: {safe_name}")
                     uploaded += 1
                 else:
-                    print(f"Failed: {safe_name} → {r.status_code} | {r.text}")
+                    logger.info(f"Failed: {safe_name} → {r.status_code} | {r.text}")
 
-        print(f"Uploaded {uploaded} JSON files successfully")
+        logger.info(f"Uploaded {uploaded} JSON files successfully")
         return uploaded
