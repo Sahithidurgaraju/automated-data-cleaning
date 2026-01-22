@@ -1160,7 +1160,7 @@ class Datacleaner:
         return results
 
     
-    def datacleaning_pipeline(self, csvname, logger,cleanup_old=False, strategy=None,show_plot=False):
+    def datacleaning_pipeline(self, csvname, logger,api_headers=None, upload_headers=None, cleanup_old=False, strategy=None,show_plot=False):
     
         self.load_csv(csvname,logger)
         rows_before = len(self.df) 
@@ -1170,6 +1170,7 @@ class Datacleaner:
         self.standard_data(csvname,logger)
         self.handle_missing(csvname,logger,strategy=strategy)
         self.detect_and_save_schema(df=self.df, csvname=csvname,stage="after", logger=logger)
+        self.upload_jsons_to_github_release(logger, api_headers=None,upload_headers=None)
         self.apply_schema_from_json(csvname=csvname,stage="after",logger=logger)
         self.remove_irrelevant_columns(csvname,logger)
         self.plot_outliers(csvname,logger,when="after", cleanup_old=True)
