@@ -3,55 +3,61 @@
 
 ## Project Summary:
 
-This project implements a fully automated, analytics-focused ETL pipeline built in Python to clean, validate, transform, and load large multi-CSV datasets into a MySQL-compatible distributed database (TiDB Cloud). The pipeline is optimized for local execution on laptops, using vectorized Pandas operations, chunk-based processing, and batched SQL inserts to ensure high performance, memory safety, and execution stability — even for large datasets. All stages (cleaning, validation, transformation, and database ingestion) run end-to-end without manual intervention, generating structured artifacts and validation reports automatically.
+**This project implements a fully automated, analytics-focused ETL pipeline built in Python** to clean, validate, transform, and load **large multi-CSV datasets** into a **MySQL-compatible distributed database (TiDB Cloud)**.
 
-## Key Features:
+The pipeline is **optimized for local execution on laptops**, leveraging **vectorized Pandas operations, chunk-based processing, and batched SQL inserts** to deliver **high performance, memory safety, and execution stability**, even when processing large, wide datasets.
 
-•	Supports multiple CSV files in a single run
+**All stages of the pipeline — data cleaning, validation, transformation, and database ingestion — run end-to-end without manual intervention**, automatically generating **structured artifacts, validation reports, and analytics-ready outputs** suitable for downstream analysis and dashboarding.
 
-•    Automatically creates one database per dataset (based on CSV filename) if missing
 
-•    Normalizes multi-value cells (; → ,) without exploding rows
+## 🚀 Key Features
 
-•    Uses vectorized Pandas column operations instead of row-wise loops
+• **Supports multiple CSV files in a single run**, enabling batch processing of datasets  
 
-•    Batched SQL inserts for safe local execution
+• **Automatically creates one database per dataset** (derived from the CSV filename) if it does not already exist  
 
-•    Internal database-level validation using set-based SQL queries
+• **Normalizes multi-value cells (`;` → `,`) without exploding rows**, preserving row counts and dataset integrity  
 
-•    Exports machine-readable validation reports (JSON) with pass/fail status and failure reasons
+• **Uses vectorized Pandas column operations instead of slow row-wise loops** for high-performance data cleaning  
 
-•    Designed to process 1L rows × 60 columns in ~2 minutes across multiple CSVs
+• **Batched SQL inserts** to ensure **safe, memory-efficient local execution** on laptops  
 
-•    Fully automated artifact lifecycle management (old outputs are replaced per dataset)
+• **Internal database-level validation using set-based SQL queries**, avoiding expensive row scans  
+
+• **Exports machine-readable validation reports (JSON)** with clear **pass/fail status and detailed failure reasons**  
+
+• **Designed to process ~100K rows × 60 columns in ~2 minutes** across multiple CSV datasets  
+
+• **Fully automated artifact lifecycle management**, where **old outputs are replaced per dataset** to prevent disk bloat and stale results  
+
 
 ## Repository Structure
 
-data/                      → Input CSV files
+**data/**                      → Input CSV files
 
-cleaned_data_output/       → Cleaned CSV outputs (same filename preserved)
+**cleaned_data_output/**       → Cleaned CSV outputs (same filename preserved)
 
-validation_reports/        → Validation reports (JSON)
+**validation_reports/**        → Validation reports (JSON)
 
-plots/                     → missing plots, outliers, bins histogram
+**plots/**                     → missing plots, outliers, bins histogram
 
-logs/                      → dataset wise logs 
+**logs/**                     → dataset wise logs 
 
-json_output/               → Auto-generated schema & transformation metadata
+**json_output/**               → Auto-generated schema & transformation metadata
 
-sql_credentials/            → Database connection configuration  
+**sql_credentials/**            → Database connection configuration  
 
-src/etldashboard.py         → Streamlit dashboard  
+**src/etldashboard.py**         → Streamlit dashboard  
 
-run_reports.py             → Cleaning + validation execution  
+**run_reports.py**             → Cleaning + validation execution  
 
-generate_transformation.py → Auto-generate transformation configs 
+**generate_transformation.py** → Auto-generate transformation configs 
 
-apply_transformation.py    → Apply transforms & push to database
+**apply_transformation.py**    → Apply transforms & push to database
 
-run_pipeline.py            → Single entry-point for full automation 
+**run_pipeline.py**           → Single entry-point for full datacleaning automation 
 
-Jenkinsfile                → CI pipeline configuration  
+**Jenkinsfile**                → CI pipeline configuration  
 
 ## Project Architecture:
 
@@ -62,59 +68,62 @@ Jenkinsfile                → CI pipeline configuration
 
 
 
-## Challenges & Optimization Journey
+## ⚙️ Challenges & Optimization Journey
 
-•	Initially used pandas.apply() for text cleaning but found it takes hours for 60 text-heavy columns 
+• Initially used **`pandas.apply()` for text cleaning**, but found it **took hours** when applied across **60 text-heavy columns**
 
-•	Explored parallel execution for text transformations 
+• Explored **parallel execution for text transformations**, but observed **limited gains** due to Python overhead and I/O constraints  
 
-•	Tested Swifter to optimize apply speed, but still not ideal for huge scale 
+• Tested **Swifter to optimize `apply` performance**, but results were **still not suitable for large-scale datasets**  
 
-•	Introduced chunk-based processing while reading/writing CSV to prevent RAM spikes 
+• Introduced **chunk-based processing for CSV read/write operations** to **prevent RAM spikes and system instability**  
 
-•	After research, confirmed:
+• After experimentation and research, confirmed that:
 
-     •Vectorized Pandas column operations + set-based MySQL validation is the best approach. It delivers fast execution, memory optimization, and stability on laptops without row explosion.
+  • **Vectorized Pandas column operations combined with set-based MySQL validation** provide the **best balance of speed, memory efficiency, and execution stability**, enabling **laptop-safe processing without row explosion**
+
 
 ## Technologies & Skills Used:
 
-•	Python: Pandas, NumPy, SQLAlchemy, PyMySQL, Pytest
+•	**Python**: Pandas, NumPy, SQLAlchemy, PyMySQL, Pytest
 
-•	Database: TiDB Cloud (MySQL-compatible)
+•	**Database**: TiDB Cloud (MySQL-compatible)
 
-•	Visualization: Matplotlib
+•	**Visualization**: Matplotlib
 
-•	Automation: Jenkins CI
+•	**Automation**: Jenkins CI
 
-•	Config & Reporting: JSON-based validation and metadata
+•	**Config & Reporting**: JSON-based validation and metadata
 
-•	Optimization: Vectorized operations, chunking, batched inserts
+•	**Optimization**: Vectorized operations, chunking, batched inserts
 
-## Binning Visualization Support:
+## 📊 Binning Visualization Support
 
-•	Detects numeric columns and generates *_bin columns when enabled
+• **Automatically detects numeric columns** and generates `*_bin` columns when binning is enabled  
 
-•	Plot is generated once per CSV, auto-updated, scalable figsize
+• **Generates one plot per CSV dataset**, with **auto-updated output and scalable figure sizing**  
 
-•	Uses only vectorized count summaries for plotting
+• **Uses only vectorized count-based summaries for plotting**, avoiding row-wise operations and ensuring efficient visualization even for large datasets  
+
 
 ## How a user will run this project:
 
 ## Installation
 
-•	Install Python
+•	Install **Python**
 
 •	Install required Python packages including:
 
-•	Pandas → data cleaning & transformation
+•	**Pandas** → data cleaning & transformation
 
-•	NumPy → memory-efficient numeric operations
+•	**NumPy** → memory-efficient numeric operations
 
-•	SQLAlchemy + PyMySQL → MySQL ingestion
+•	**SQLAlchemy + PyMySQL** → MySQL ingestion
 
-•	Cryptography → required for secure MySQL authentication (caching_sha2_password)
+•	**Cryptography** → required for secure MySQL authentication (caching_sha2_password)
 
-•	Pytest → automated testing & report generation
+•	**Pytest** → automated testing & report generation
+
 ## 🔐 GitHub Token Requirement
 
 This project integrates with the **GitHub Releases API** to automatically manage JSON artifacts generated during the ETL process, including:
@@ -125,7 +134,7 @@ This project integrates with the **GitHub Releases API** to automatically manage
 
 To enable this functionality, a **GitHub Personal Access Token (PAT)** is required.
 
----
+
 
 ### Why the GitHub Token Is Required
 
@@ -135,7 +144,7 @@ The token is used to:
 - Upload newly generated JSON files as versioned release assets
 - Avoid unauthenticated API rate limits during automation
 
----
+
 
 ### 📌 When a GitHub Token Is Required
 
@@ -148,7 +157,7 @@ The token is used to:
 
 > The Streamlit dashboard does **not** perform GitHub uploads and will run without a GitHub token.
 
----
+
 
 ###  How to Set Up the GitHub Token
 
@@ -160,35 +169,44 @@ The token is used to:
    - **Releases: Read & Write**
 3. Copy the token and store it securely
 
----
+
 
 #### Step 2: Set the Token as an Environment Variable
 
-- Linux / macOS
+**Linux / macOS**
+
     ```bash
     export GITHUB_TOKEN=your_token_here
+    
+**Windows Powershell**
 
-- Windows powershell
    setx GITHUB_TOKEN "your_token_here"
+  
+## Clone the repository
+
+      git clone https://github.com/Sahithidurgaraju/automated-data-cleaning
 
 ## Run this command to install everything:
 
-pip install pandas numpy pytest streamlit SQLAlchemy PyMySQL pyarrow cryptography matplotlib seaborn pillow reportlab openpyxl pycountry rapidfuzz
+      pip install pandas numpy pytest streamlit SQLAlchemy PyMySQL pyarrow cryptography matplotlib seaborn pillow reportlab openpyxl pycountry rapidfuzz
 
 ## Run the project in this sequence
 
 1. Place one or more CSV files inside the `data/` folder.
 
-2. Run the reports script to clean the data:
+2. Run the reports script to clean the data - **python run_reports.py**:
+   
    - Each file is processed column-wise using vectorized Pandas operations.
    - Cleaned output is stored in `cleaned_data_output/` using the original CSV filename (no new rows are created or removed).
    - A structural validation report is generated and exported as JSON.
 
-3. Generate the transformation configuration:
+3. Generate the transformation configuration - **python generate_transformation.py**:
+
    - The script reads the cleaned CSV files from `cleaned_data_output/`.
    - Produces a user-editable `transform_config.json` file for each dataset.
 
-4. Apply transformations and push to MySQL:
+4. Apply transformations and push to MySQL - **python apply_transformation.py**:
+
    - Transformations (casting, binning, MLops if enabled) are applied to the cleaned data.
    - Final transformed datasets are inserted into MySQL using batched SQL writes for laptop-safe execution.
 
@@ -203,23 +221,23 @@ python apply_transformation.py       # Step 3: Apply transformations (bins, grou
 
 ## MySQL Connection Note
 
--To connect MySQL successfully:
+-To connect **MySQL** successfully:
 
--The pipeline uses PyMySQL driver, which requires the cryptography package for secure authentication plugins.
+-The pipeline uses **PyMySQL** driver, which requires the **cryptography** package for secure authentication plugins.
 
--If cryptography is missing, MySQL connection fails. 
+-If **cryptography** is missing, **MySQL** connection fails. 
 
 -Installing it ensures secure connectivity and avoids auth runtime errors.
 
 ## Database Backend
 
-- This project uses TiDB Cloud, a MySQL-compatible distributed database.
+- This project uses **TiDB Cloud**, a MySQL-compatible distributed database.
 
     - Connection via SQLAlchemy + PyMySQL
 
     - Standard MySQL SQL syntax
 
-- Works unchanged with:
+- **Works unchanged with**:
 
     - MySQL
 
@@ -229,7 +247,7 @@ python apply_transformation.py       # Step 3: Apply transformations (bins, grou
 
     - Azure MySQL
 
-- TiDB Cloud provides:
+- **TiDB Cloud provides**:
 
     - Serverless operation
 
@@ -239,9 +257,9 @@ python apply_transformation.py       # Step 3: Apply transformations (bins, grou
   
 ## Automatic Artifact Management:
 
-•	The pipeline processes input CSV files placed in the data/ folder.
+•	The pipeline processes input **CSV files** placed in the data/ folder.
 
-•	Cleaned output is stored in cleaned_data_output/ using the original CSV filename.
+•	Cleaned output is stored in **cleaned_data_output/** using the original CSV filename.
 
 •	When the same CSV dataset is re-run, the system automatically:
 
@@ -253,7 +271,7 @@ python apply_transformation.py       # Step 3: Apply transformations (bins, grou
 
 •	Artifacts from other CSV datasets are preserved to maintain lineage.
 
-•	This ensures fast, stable, and memory-safe continuous local execution, ideal for dashboard preparation.
+•	This ensures **fast, stable, and memory-safe continuous local execution, ideal** for dashboard preparation.
 
 ## Data CLeaning Process:
 
@@ -304,48 +322,126 @@ python apply_transformation.py       # Step 3: Apply transformations (bins, grou
   "timestamp": "20251224_1224"
 }
 
-## Only structural nulls found:
+## 🧩 Only Structural NULLs Found
 
-When a year column contains mixed formats such as 2023-2024 and single values like 2023, the pipeline splits ranges into year and year_end.
+When a **year column contains mixed formats** such as `2023–2024` and single values like `2023`, the pipeline **splits year ranges into `year` and `year_end` columns**.
 
-For single year values, the year_end part remains empty or contains spaces, which is intentionally treated as a structural NULL because no valid end range exists.
+For **single-year values**, the `year_end` field **remains empty or contains whitespace**, which is **intentionally treated as a structural NULL**, as **no valid end range exists**.
 
-These NULLs are expected, acceptable, and excluded from failure assertions, as they do not represent bad data but a valid business condition.
+These **NULL values are expected, acceptable, and explicitly excluded from failure assertions**, since they **represent a valid business condition rather than bad or missing data**.
+
 
 ## Transformation Stage:
 
 ## Transform Config JSON (User-Editable):
 
 {
-    "dataset": "messydata_cleaned_20251224_122450",
+    "dataset": "messydata_cleaned",
     "columns": {
         "rank": {
-            "suggested": {
-                "cast": {
-                    "type": "float",
-                    "reason": "Numeric column",
-                    "default": true
-                },
-                "bins": {
-                    "type": "auto",
-                    "reason": "High cardinality numeric column",
-                    "default": false
-                }
-            },
             "enabled": {
-                "cast": true,
-                "bins": true
+                "cast_float": true,
+                "bins": true,
+                "scale": false,
+                "log": false,
+                "outliers": true
             }
-        }
-    "dataset_ops": {
-        "filter": {
-            "rank": {
-                ">=": null,
-                "<=": null           
         },
-        "groupby": {
-            "by": [],
-            "agg": {}
+        "peak": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": false
+            }
+        },
+        "all_time_peak": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": false
+            }
+        },
+        "actual_gross": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "adjusted_gross_in_2022_dollars": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "artist": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "tour_title": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_year": false
+            }
+        },
+        "year_s": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": true
+            }
+        },
+        "shows": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "average_gross": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "year_s_start": {
+            "enabled": {
+                "cast_int": true,
+                "bins": true,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "year_s_end": {
+            "enabled": {
+                "cast_int": true,
+                "bins": true,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
         }
     }
 }
@@ -359,13 +455,9 @@ These NULLs are expected, acceptable, and excluded from failure assertions, as t
 <img width="1918" height="577" alt="image" src="https://github.com/user-attachments/assets/39d070d9-4154-437b-a4c4-3266cd7f5b55" />
 
 
-## Clone the repository
-
-git clone https://github.com/Sahithidurgaraju/automated-data-cleaning
-
 ## CI Automation (Jenkins)
 
-The repository includes a Jenkinsfile to enable:
+**The repository includes a Jenkinsfile to enable**:
 
 - Automated dependency installation
 
@@ -379,10 +471,11 @@ The repository includes a Jenkinsfile to enable:
   
 ## Dashboard Visualization
 
-After pipeline execution, launch the dashboard:
+**After pipeline execution, launch the dashboard**:
 
        streamlit run src/etldashboard.py
-The dashboard provides:
+
+**The dashboard provides**:
 
 - Dataset-wise validation status
 
@@ -392,11 +485,11 @@ The dashboard provides:
 
 - Overall dataset health metrics
 
-The dashboard is read-only and does not trigger ETL execution.
+**The dashboard is read-only and does not trigger ETL execution.**
 
 ## Future Enhancements
 
--Support for Excel file automation (.xlsx, .xls) alongside CSV ingestion:
+-Support for **Excel file automation (.xlsx, .xls)** alongside CSV ingestion:
 
    - Multi-sheet handling
 
@@ -404,7 +497,7 @@ The dashboard is read-only and does not trigger ETL execution.
 
    - Large Excel file chunked processing
 
-- Cloud-native deployment support:
+-**Cloud-native deployment support**
 
    - Containerization using Docker
 
@@ -412,13 +505,13 @@ The dashboard is read-only and does not trigger ETL execution.
 
    - Managed database integrations (RDS, Cloud SQL)
 
-- Scheduled and event-driven ETL execution
+-**Scheduled and event-driven ETL execution**
 
    - Cron-based scheduling
 
    - CI-triggered runs (Jenkins)
 
-- BI and analytics integrations
+-**BI and analytics integrations**
 
    - Direct connectors to Metabase, Power BI, Tableau
 
