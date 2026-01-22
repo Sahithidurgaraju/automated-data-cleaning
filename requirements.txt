@@ -1,6 +1,7 @@
 pandas
 numpy
 streamlit
+altair>=5.0.0
 pyarrow
 SQLAlchemy
 PyMySQL
