@@ -10,8 +10,6 @@ import matplotlib
 from pathlib import Path
 from src.logger_config import get_logger 
 matplotlib.use("Agg")
-from pandarallel import pandarallel
-pandarallel.initialize(nb_workers=1, progress_bar=False)
 from src.config import DATA_DIR,JSON_DIR,CLEANED_DATA_DIR
 from src.pandasdatacleaning import Datacleaner
 from src.datatransformation import Datatranformer
@@ -21,11 +19,6 @@ pd.set_option('display.max_columns', None)  # show all columns
 pd.set_option('display.width', None)  
 pd.set_option('display.max_rows', None)  # show all rows
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-import os
-from pathlib import Path
-import pandas as pd
-import pytest
 
 # Assuming get_logger is defined somewhere
 # from your_logging_module import get_logger

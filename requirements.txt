@@ -1,5 +1,6 @@
 pandas
 numpy
+scipy
 streamlit>=1.32
 altair>=5.0.0
 pyarrow
@@ -14,5 +15,6 @@ openpyxl
 pycountry
 rapidfuzz
 pytest
+pytest-html
 
 

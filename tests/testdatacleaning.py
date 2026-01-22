@@ -12,8 +12,6 @@ import matplotlib
 from pathlib import Path
 from src.logger_config import get_logger 
 matplotlib.use("Agg")
-from pandarallel import pandarallel
-pandarallel.initialize(nb_workers=1, progress_bar=False)
 from src.config import DATA_DIR,JSON_DIR
 # Ignore only RuntimeWarning (common for all-NaN median/mean)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -21,11 +19,6 @@ pd.set_option('display.max_columns', None)  # show all columns
 pd.set_option('display.width', None)  
 pd.set_option('display.max_rows', None)  # show all rows
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-import os
-from pathlib import Path
-import pandas as pd
-import pytest
 
 # Assuming get_logger is defined somewhere
 # from your_logging_module import get_logger
@@ -153,7 +146,7 @@ def test_pipeline(messy_data):
 def test_token(messy_data):
     csvname,df,logger=messy_data
     cleaner = Datacleaner(df,csvname)
-    uplaoded = cleaner.upload_jsons_to_github_release(logger, api_headers=API_HEADERS,upload_headers=UPLOAD_HEADERS) 
-    loaded = cleaner.load_schema(csvname)
-    logger.info(f"{loaded}")
+    uplaoded = cleaner.upload_jsons_to_github_release(logger,csvname, api_headers=API_HEADERS,upload_headers=UPLOAD_HEADERS) 
+    # loaded = cleaner.load_schema(csvname)
+    # logger.info(f"{loaded}")
     logger.info(f"{uplaoded}")

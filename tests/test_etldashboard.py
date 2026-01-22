@@ -11,8 +11,6 @@ import matplotlib
 from pathlib import Path
 from src.logger_config import get_logger 
 matplotlib.use("Agg")
-from pandarallel import pandarallel
-pandarallel.initialize(nb_workers=1, progress_bar=False)
 from src.config import DATA_DIR,JSON_DIR,CLEANED_DATA_DIR,DASHBOARD_DIR
 from src.pandasdatacleaning import Datacleaner
 from src.etldashboard import Datadashboard
