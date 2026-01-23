@@ -21,6 +21,12 @@ DASHBOARD_DIR =  PROJECT_ROOT/"dashboard_reports"
 OWNER = "Sahithidurgaraju"
 REPO = "automated-data-cleaning"
 RELEASE_TAG = "latest-images"
+#secrets
+DB_HOST = st.secrets["tidb"]["host"]
+DB_USER = st.secrets["tidb"]["user"]
+DB_PASSWORD = st.secrets["tidb"]["password"]
+DB_NAME = st.secrets["tidb"]["database"]
+DB_PORT = st.secrets["tidb"]["port"]
 
 @st.cache_data(ttl=300)
 def get_release_assets():
@@ -37,11 +43,11 @@ def sql_query(dbname, table_name):
         database = json.load(f)
 
     mysqluri = (
-    f"mysql+pymysql://{database['user']}:{database['password']}"
-    f"@{database['host']}:{database['port']}/{database['dbname']}"
+    f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}"
+    f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
 
-    if not database["user"] or not database["password"] or not database["host"]:
+    if not DB_USER or not DB_PASSWORD or not DB_HOST:
         st.error("MySQL credentials are missing. Please update `sql_credentials.json` in the project root.")
         engine = None
     else:
@@ -70,10 +76,10 @@ class Datadashboard:
 
 
         self.mysqluri = (
-    f"mysql+pymysql://{database['user']}:{database['password']}"
-    f"@{database['host']}:{database['port']}/{database['dbname']}"
+    f"mysql+pymysql://{DB_USER}:{DB_PASSWORD}"
+    f"@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 )
-        if not database["user"] or not database["password"] or not database["host"]:
+        if not DB_USER or not DB_PASSWORD or not DB_HOST:
             st.error("MySQL credentials are missing. Please update `sql_credentials.json` in the project root.")
             self.engine = None
         else:
