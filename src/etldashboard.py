@@ -490,7 +490,11 @@ class Datadashboard:
             st.info("✔ No bins images found")
 
         st.markdown(f"## Data")
-        
+        st.caption(
+    "ℹ️ This cleaned dataset is generated as part of an ETL demonstration. "
+    "The original data was sourced from publicly available datasets and is "
+    "provided here for educational and demonstration purposes only."
+)
         preview_df, full_df = self.prepare_preview_and_full(df)
         
         c1, c2, c3 = st.columns(3)
