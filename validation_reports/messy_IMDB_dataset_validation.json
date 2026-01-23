@@ -1,0 +1,23 @@
+{
+  "dataset": "messy_IMDB_dataset",
+  "status": "PASS",
+  "checks": {
+    "non_empty": {
+      "status": "PASS",
+      "message": "Dataset contains 101 rows after cleaning"
+    },
+    "schema_match": {
+      "status": "PASS",
+      "message": "All expected schema columns are present"
+    },
+    "deduplication": {
+      "status": "PASS",
+      "message": "Deduplication skipped intentionally: Aborted: 0.99% rows would be removed"
+    },
+    "no_nulls": {
+      "status": "PASS",
+      "message": "No null values found in this messy_IMDB_dataset dataset"
+    }
+  },
+  "timestamp": "20260122_2005"
+}

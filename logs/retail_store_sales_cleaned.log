@@ -1,0 +1,12 @@
+2026-01-22 20:35:10,091 - INFO - Logger initialized for retail_store_sales_cleaned
+2026-01-22 20:35:10,092 - INFO - Processing: data\retail_store_sales.csv
+2026-01-22 20:35:10,188 - INFO - Loaded CSV using encoding: utf-8
+2026-01-22 20:35:13,094 - INFO -   Transaction ID Customer ID       Category          Item  Price Per Unit  Quantity  Total Spent  Payment Method Location Transaction Date Discount Applied
+0    TXN_6867343     CUST_09     Patisserie   Item_10_PAT            18.5      10.0        185.0  Digital Wallet   Online       2024-04-08             True
+1    TXN_3731986     CUST_22  Milk Products  Item_17_MILK            29.0       9.0        261.0  Digital Wallet   Online       2023-07-23             True
+2    TXN_9303719     CUST_02       Butchers   Item_12_BUT            21.5       2.0         43.0     Credit Card   Online       2022-10-05            False
+3    TXN_9458126     CUST_06      Beverages   Item_16_BEV            27.5       9.0        247.5     Credit Card   Online       2022-05-07              NaN
+4    TXN_4575373     CUST_05           Food   Item_6_FOOD            12.5       7.0         87.5  Digital Wallet   Online       2022-10-02            False
+2026-01-22 20:35:13,206 - INFO - retail_store_sales.csv
+2026-01-22 20:35:16,024 - INFO - {'executed': True, 'aborted': False, 'keys': ['Transaction ID'], 'removed': 0, 'removed_pct': 0.0, 'reason': 'no duplication rows found'}
+2026-01-22 20:35:16,535 - INFO - PDF generated at C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\dashboard_reports\retail_store_sales_cleaned_dashboard_2026-01-22_20-35-16.pdf

@@ -1,0 +1,12 @@
+2026-01-22 20:34:58,815 - INFO - Logger initialized for messy_imdb_dataset_cleaned
+2026-01-22 20:34:58,815 - INFO - Processing: data\messy_IMDB_dataset.csv
+2026-01-22 20:34:58,823 - INFO - Loaded CSV using encoding: cp1252
+2026-01-22 20:35:01,439 - INFO -   IMBD title ID            Original titlÊ  Release year                Genrë¨ Duration Country Content Rating              Director  Unnamed: 8         Income     Votes  Score
+0     tt0111161  The Shawshank Redemption    1995-02-10                 Drama      142     USA              R        Frank Darabont         NaN     $ 28815245  2.278.845   9.3
+1     tt0068646             The Godfather    09 21 1972          Crime, Drama      175     USA              R  Francis Ford Coppola         NaN    $ 246120974  1.572.674   9.2
+2     tt0468569           The Dark Knight   23 -07-2008  Action, Crime, Drama      152      US          PG-13     Christopher Nolan         NaN   $ 1005455211  2.241.615    9.
+3     tt0071562    The Godfather: Part II    1975-09-25          Crime, Drama      220     USA              R  Francis Ford Coppola         NaN  $ 4o8,035,783  1.098.714  9,.0
+4     tt0110912              Pulp Fiction    1994-10-28          Crime, Drama              USA              R     Quentin Tarantino         NaN    $ 222831817  1.780.147  8,9f
+2026-01-22 20:35:01,445 - INFO - messy_IMDB_dataset.csv
+2026-01-22 20:35:03,669 - INFO - {'executed': True, 'aborted': False, 'keys': ['IMBD title ID'], 'removed': 0, 'removed_pct': 0.0, 'reason': 'no duplication rows found'}
+2026-01-22 20:35:03,729 - INFO - PDF generated at C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\dashboard_reports\messy_imdb_dataset_cleaned_dashboard_2026-01-22_20-35-03.pdf

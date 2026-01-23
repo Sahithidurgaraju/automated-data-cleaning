@@ -1,0 +1,100 @@
+{
+    "dataset": "messy_IMDB_dataset_cleaned",
+    "columns": {
+        "imbd_title_id": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "original_titl\u00ea": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_year": false
+            }
+        },
+        "release_year": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false,
+                "cast_datetime": true
+            }
+        },
+        "genr\u00eb": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "duration": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "country": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false,
+                "normalize_country_names": true,
+                "normalize_country_codes": false
+            }
+        },
+        "content_rating": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "director": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "income": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "votes": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "score": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        }
+    }
+}

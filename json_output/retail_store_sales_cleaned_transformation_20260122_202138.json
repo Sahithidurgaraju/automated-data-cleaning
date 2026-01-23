@@ -1,0 +1,99 @@
+{
+    "dataset": "retail_store_sales_cleaned",
+    "columns": {
+        "transaction_id": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "customer_id": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "category": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "item": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "price_per_unit": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "quantity": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "total_spent": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "payment_method": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "location": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "transaction_date": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false,
+                "cast_datetime": true
+            }
+        },
+        "discount_applied": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false,
+                "cast_bool": true
+            }
+        }
+    }
+}

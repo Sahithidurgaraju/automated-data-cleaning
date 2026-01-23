@@ -1,0 +1,696 @@
+{
+    "dataset": "fifa21 raw data v2_cleaned",
+    "columns": {
+        "id": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "name": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "longname": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "photourl": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "playerurl": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "nationality": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false,
+                "normalize_country_names": true,
+                "normalize_country_codes": false
+            }
+        },
+        "age": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "ova": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "pot": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "club": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_year": false
+            }
+        },
+        "contract": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": true,
+                "log": true,
+                "outliers": false
+            }
+        },
+        "positions": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "height": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "weight": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "preferred_foot": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "bov": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "best_position": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "joined": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "loan_date_end": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": true,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "value": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "wage": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "release_clause": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "attacking": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "crossing": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "finishing": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "heading_accuracy": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "short_passing": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "volleys": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "skill": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "dribbling": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "curve": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "fk_accuracy": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "long_passing": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "ball_control": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "movement": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "acceleration": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "sprint_speed": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "agility": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "reactions": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "balance": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "power": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "shot_power": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "jumping": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "stamina": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "strength": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "long_shots": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "mentality": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "aggression": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "interceptions": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "positioning": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "vision": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "penalties": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "composure": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "defending": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "marking": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "standing_tackle": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "sliding_tackle": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "goalkeeping": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "gk_diving": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "gk_handling": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "gk_kicking": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "gk_positioning": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "gk_reflexes": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "total_stats": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "base_stats": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "w_f": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "sm": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "a_w": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "d_w": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "ir": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": false
+            }
+        },
+        "pac": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "sho": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "pas": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "dri": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "def": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "phy": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "hits": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "contract_end": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": true,
+                "log": false,
+                "outliers": false
+            }
+        }
+    }
+}

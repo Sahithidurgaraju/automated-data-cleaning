@@ -1,0 +1,182 @@
+{
+    "dataset": "dataset_cleaned",
+    "columns": {
+        "track_id": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "artists": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_year": false
+            }
+        },
+        "album_name": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_year": false
+            }
+        },
+        "track_name": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_year": false
+            }
+        },
+        "popularity": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "duration_ms": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "explicit": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false,
+                "cast_bool": true
+            }
+        },
+        "danceability": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "energy": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "key": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "loudness": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "mode": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false,
+                "cast_bool": true
+            }
+        },
+        "speechiness": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "acousticness": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "instrumentalness": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "liveness": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "valence": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "tempo": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "time_signature": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "track_genre": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        }
+    }
+}

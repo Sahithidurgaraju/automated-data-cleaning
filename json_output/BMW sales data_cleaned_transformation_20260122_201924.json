@@ -1,0 +1,98 @@
+{
+    "dataset": "BMW sales data_cleaned",
+    "columns": {
+        "model": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "year": {
+            "enabled": {
+                "cast_int": true,
+                "bins": false,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "region": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "color": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "fuel_type": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "transmission": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "engine_size_l": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": false,
+                "outliers": false
+            }
+        },
+        "mileage_km": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "price_usd": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "sales_volume": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "sales_classification": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        }
+    }
+}

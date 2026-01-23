@@ -1,0 +1,23 @@
+{
+  "dataset": "retail_store_sales",
+  "status": "PASS",
+  "checks": {
+    "non_empty": {
+      "status": "PASS",
+      "message": "Dataset contains 12575 rows after cleaning"
+    },
+    "schema_match": {
+      "status": "PASS",
+      "message": "All expected schema columns are present"
+    },
+    "deduplication": {
+      "status": "PASS",
+      "message": "Deduplication skipped intentionally: no duplication rows found"
+    },
+    "no_nulls": {
+      "status": "PASS",
+      "message": "No null values found in this retail_store_sales dataset"
+    }
+  },
+  "timestamp": "20260122_2005"
+}

@@ -1,0 +1,12 @@
+2026-01-22 20:33:42,162 - INFO - Logger initialized for bmw_sales_data_cleaned
+2026-01-22 20:33:42,162 - INFO - Processing: data\BMW sales data.csv
+2026-01-22 20:33:42,491 - INFO - Loaded CSV using encoding: utf-8
+2026-01-22 20:33:47,606 - INFO -       Model  Year         Region  Color Fuel_Type Transmission  Engine_Size_L  Mileage_KM  Price_USD  Sales_Volume Sales_Classification
+0  5 Series  2016           Asia    Red    Petrol       Manual            3.5      151748      98740          8300                 High
+1        i8  2013  North America    Red    Hybrid    Automatic            1.6      121671      79219          3428                  Low
+2  5 Series  2022  North America   Blue    Petrol    Automatic            4.5       10991     113265          6994                  Low
+3        X3  2024    Middle East   Blue    Petrol    Automatic            1.7       27255      60971          4047                  Low
+4  7 Series  2020  South America  Black    Diesel       Manual            2.1      122131      49898          3080                  Low
+2026-01-22 20:33:47,959 - INFO - BMW sales data.csv
+2026-01-22 20:33:50,311 - INFO - {'executed': False, 'aborted': True, 'keys': None, 'removed': 0, 'removed_pct': 0.0, 'reason': 'No explicit deduplication keys provided'}
+2026-01-22 20:33:51,220 - INFO - PDF generated at C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\dashboard_reports\bmw_sales_data_cleaned_dashboard_2026-01-22_20-33-51.pdf

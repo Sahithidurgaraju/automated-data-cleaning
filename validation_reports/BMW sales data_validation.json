@@ -12,12 +12,12 @@
     },
     "deduplication": {
       "status": "PASS",
-      "message": "Deduplication skipped intentionally: Aborted: 100.0% rows would be removed"
+      "message": "Deduplication skipped intentionally: Aborted: 99.97% rows would be removed"
     },
     "no_nulls": {
       "status": "PASS",
       "message": "No null values found in this BMW sales data dataset"
     }
   },
-  "timestamp": "20260103_1233"
+  "timestamp": "20260122_1959"
 }

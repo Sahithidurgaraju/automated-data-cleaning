@@ -4,7 +4,7 @@
   "checks": {
     "non_empty": {
       "status": "PASS",
-      "message": "Dataset contains 89741 rows after cleaning"
+      "message": "Dataset contains 114000 rows after cleaning"
     },
     "schema_match": {
       "status": "PASS",
@@ -12,12 +12,12 @@
     },
     "deduplication": {
       "status": "PASS",
-      "message": "Deduplication skipped intentionally: No valid deduplication keys"
+      "message": "Deduplication skipped intentionally: Aborted: 21.28% rows would be removed"
     },
     "no_nulls": {
       "status": "PASS",
       "message": "No null values found in this dataset dataset"
     }
   },
-  "timestamp": "20260103_1235"
+  "timestamp": "20260122_2002"
 }

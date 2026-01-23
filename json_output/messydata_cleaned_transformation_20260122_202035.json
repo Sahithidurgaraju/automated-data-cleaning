@@ -1,0 +1,110 @@
+{
+    "dataset": "messydata_cleaned",
+    "columns": {
+        "rank": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": false,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "peak": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": false
+            }
+        },
+        "all_time_peak": {
+            "enabled": {
+                "cast_float": true,
+                "bins": false,
+                "scale": false,
+                "log": true,
+                "outliers": false
+            }
+        },
+        "actual_gross": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "adjusted_gross_in_2022_dollars": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "artist": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": false
+            }
+        },
+        "tour_title": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": true,
+                "split_year": false
+            }
+        },
+        "year_s": {
+            "enabled": {
+                "lowercase": true,
+                "strip": true,
+                "normalize_delimiters": false,
+                "split_year": true
+            }
+        },
+        "shows": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": false,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "average_gross": {
+            "enabled": {
+                "cast_float": true,
+                "bins": true,
+                "scale": true,
+                "log": true,
+                "outliers": true
+            }
+        },
+        "year_s_start": {
+            "enabled": {
+                "cast_int": true,
+                "bins": true,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        },
+        "year_s_end": {
+            "enabled": {
+                "cast_int": true,
+                "bins": true,
+                "scale": true,
+                "log": false,
+                "outliers": true
+            }
+        }
+    }
+}

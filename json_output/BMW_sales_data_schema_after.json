@@ -1,0 +1,13 @@
+{
+    "model": "category",
+    "year": "integer",
+    "region": "category",
+    "color": "category",
+    "fuel_type": "category",
+    "transmission": "category",
+    "engine_size_l": "float",
+    "mileage_km": "integer",
+    "price_usd": "integer",
+    "sales_volume": "integer",
+    "sales_classification": "category"
+}

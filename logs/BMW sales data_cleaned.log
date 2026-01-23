@@ -1,3 +1,73 @@
-2026-01-03 21:05:29,457 - INFO - Logger initialized for BMW sales data_cleaned
-2026-01-03 21:05:29,457 - INFO - Processing: cleaned_data_output\BMW sales data_cleaned_20260103_123304.csv
-2026-01-03 21:05:30,260 - INFO - Transformation config saved: C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\json_output\BMW sales data_cleaned_transformation_20260103_210529.json
+2026-01-22 20:27:13,381 - INFO - Logger initialized for BMW sales data_cleaned
+2026-01-22 20:27:13,382 - INFO - Processing: cleaned_data_output\BMW sales data_cleaned_20260122_195947.csv
+2026-01-22 20:27:13,714 - INFO - Loaded CSV using encoding: utf-8
+2026-01-22 20:27:13,719 - INFO - [BMW sales data_cleaned] Loaded transform config: BMW sales data_cleaned_transformation_20260122_201924.json
+2026-01-22 20:27:13,877 - INFO - 
+=== Columns after Transformation ===
+2026-01-22 20:27:13,877 - INFO - - model  |  dtype: object
+2026-01-22 20:27:13,877 - INFO - - year  |  dtype: int16
+2026-01-22 20:27:13,877 - INFO - - region  |  dtype: object
+2026-01-22 20:27:13,878 - INFO - - color  |  dtype: object
+2026-01-22 20:27:13,878 - INFO - - fuel_type  |  dtype: object
+2026-01-22 20:27:13,878 - INFO - - transmission  |  dtype: object
+2026-01-22 20:27:13,878 - INFO - - engine_size_l  |  dtype: float32
+2026-01-22 20:27:13,878 - INFO - - mileage_km  |  dtype: float32
+2026-01-22 20:27:13,878 - INFO - - price_usd  |  dtype: float32
+2026-01-22 20:27:13,878 - INFO - - sales_volume  |  dtype: float32
+2026-01-22 20:27:13,878 - INFO - - sales_classification  |  dtype: object
+2026-01-22 20:27:13,878 - INFO - - year_scaled  |  dtype: float64
+2026-01-22 20:27:13,878 - INFO - - year_outlier  |  dtype: bool
+2026-01-22 20:27:13,878 - INFO - - mileage_km_bin  |  dtype: category
+2026-01-22 20:27:13,878 - INFO - - mileage_km_scaled  |  dtype: float32
+2026-01-22 20:27:13,879 - INFO - - mileage_km_outlier  |  dtype: bool
+2026-01-22 20:27:13,879 - INFO - - price_usd_bin  |  dtype: category
+2026-01-22 20:27:13,879 - INFO - - price_usd_scaled  |  dtype: float32
+2026-01-22 20:27:13,879 - INFO - - price_usd_outlier  |  dtype: bool
+2026-01-22 20:27:13,879 - INFO - - sales_volume_bin  |  dtype: category
+2026-01-22 20:27:13,879 - INFO - - sales_volume_scaled  |  dtype: float32
+2026-01-22 20:27:13,879 - INFO - - sales_volume_outlier  |  dtype: bool
+2026-01-22 20:27:14,549 - INFO - Data Exported to csv:C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\transformed_cleaned_data_output\BMW sales data_cleaned_transformed_20260122_202713.csv
+2026-01-22 20:27:14,562 - INFO -       model  year         region   color fuel_type transmission  engine_size_l  mileage_km  price_usd  sales_volume sales_classification  year_scaled  year_outlier        mileage_km_bin  mileage_km_scaled  mileage_km_outlier         price_usd_bin  price_usd_scaled  price_usd_outlier  sales_volume_bin  sales_volume_scaled  sales_volume_outlier
+0  5 series  2016           asia     red    petrol       manual            3.5    151748.0    98740.0        8300.0                 high    -0.234174         False  (150610.0, 199996.0]           0.887249               False   (97573.0, 119998.0]          0.912530              False  (7541.0, 9999.0]             1.130136                 False
+1        i8  2013  north america     red    hybrid    automatic            1.6    121671.0    79219.0        3428.0                  low    -0.927810         False  (100436.0, 150610.0]           0.368189               False    (75014.0, 97573.0]          0.160676              False  (2591.0, 5097.0]            -0.575183                 False
+2  5 series  2022  north america    blue    petrol    automatic            4.5     10991.0   113265.0        6994.0                  low     1.153098         False      (2.999, 50121.5]          -1.541895               False   (97573.0, 119998.0]          1.471962              False  (5097.0, 7541.0]             0.673004                 False
+3        x3  2024    middle east    blue    petrol    automatic            1.7     27255.0    60971.0        4047.0                  low     1.615522         False      (2.999, 50121.5]          -1.261215               False    (52501.5, 75014.0]         -0.542148              False  (2591.0, 5097.0]            -0.358518                 False
+4  7 series  2020  south america   black    diesel       manual            2.1    122131.0    49898.0        3080.0                  low     0.690674         False  (100436.0, 150610.0]           0.376128               False  (29999.999, 52501.5]         -0.968626              False  (2591.0, 5097.0]            -0.696991                 False
+5  5 series  2017    middle east  silver    diesel       manual            1.9    171362.0    42926.0        1232.0                  low    -0.002962         False  (150610.0, 199996.0]           1.225742               False  (29999.999, 52501.5]         -1.237153              False  (99.999, 2591.0]            -1.343836                 False
+6        i8  2022         europe   white    diesel       manual            1.8    196741.0    55064.0        7949.0                 high     1.153098         False  (150610.0, 199996.0]           1.663726               False    (52501.5, 75014.0]         -0.769656              False  (7541.0, 9999.0]             1.007277                 False
+7        m5  2014           asia   black    diesel    automatic            1.6    121156.0   102778.0         632.0                  low    -0.696598         False  (100436.0, 150610.0]           0.359301               False   (97573.0, 119998.0]          1.068054              False  (99.999, 2591.0]            -1.553851                 False
+8        x3  2016  south america   white    diesel    automatic            1.7     48073.0   116482.0        8944.0                 high    -0.234174         False      (2.999, 50121.5]          -0.901944               False   (97573.0, 119998.0]          1.595865              False  (7541.0, 9999.0]             1.355551                 False
+9        i8  2019         europe   white  electric       manual            3.0     35700.0    96257.0        4411.0                  low     0.459462         False      (2.999, 50121.5]          -1.115474               False    (75014.0, 97573.0]          0.816897              False  (2591.0, 5097.0]            -0.231109                 False
+2026-01-22 20:27:16,862 - INFO - MySQL connection successful!
+2026-01-22 20:27:17,079 - INFO - [BMW sales data_cleaned] Created fresh MySQL database: test
+2026-01-22 20:27:24,605 - INFO - [BMW sales data_cleaned] Data pushed to DB `test` → table `transformed_bmw_sales_data_cleaned`
+2026-01-22 20:27:24,609 - INFO - ('test', 'transformed_bmw_sales_data_cleaned', Engine(mysql+pymysql://3bTvxC1vQNiq6qa.root:***@gateway01.ap-southeast-1.prod.aws.tidbcloud.com:4000/test))
+2026-01-22 20:27:25,464 - INFO - Table `transformed_bmw_sales_data_cleaned` contains 47691 rows
+2026-01-22 20:27:25,470 - INFO - 
+Data Preview:
+      model  year         region  color fuel_type transmission  engine_size_l  mileage_km  price_usd  sales_volume sales_classification
+0  5 series  2016           asia    red    petrol       manual            3.5    151748.0    98740.0        8300.0                 high
+1        i8  2013  north america    red    hybrid    automatic            1.6    121671.0    79219.0        3428.0                  low
+2  5 series  2022  north america   blue    petrol    automatic            4.5     10991.0   113265.0        6994.0                  low
+3        x3  2024    middle east   blue    petrol    automatic            1.7     27255.0    60971.0        4047.0                  low
+4  7 series  2020  south america  black    diesel       manual            2.1    122131.0    49898.0        3080.0                  low
+2026-01-22 20:27:25,470 - INFO - 
+NULL Counts:
+model                   0
+year                    0
+region                  0
+color                   0
+fuel_type               0
+transmission            0
+engine_size_l           0
+mileage_km              0
+price_usd               0
+sales_volume            0
+sales_classification    0
+dtype: int64
+2026-01-22 20:27:25,470 - INFO - 
+Row Counts:
+47691
+2026-01-22 20:27:25,471 - INFO - successfully pushed data to sql
+2026-01-22 20:27:25,835 - INFO - [BMW sales data_cleaned] Bin histogram saved : C:\Users\LENOVO\Downloads\Python scripts\project\Datacleaningsqlpandas\plots\BMW sales data_cleaned_bins_histogram\BMW sales data_cleaned_bins_20260122_202725.png
+2026-01-22 20:27:25,835 - INFO - Bin plotting successful
