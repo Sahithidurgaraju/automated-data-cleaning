@@ -421,7 +421,7 @@ class Datadashboard:
         c1.metric("Total Rows", len(df))
         c2.metric("Total Columns", len(df.columns))
         if any(c.lower()and c.lower().endswith("_end") and df[c].isna().any() for c in df.columns):
-            st.markdown("**Structural NA in `*_end` is expected.**")
+            st.markdown("**Structural NA in `_end` is expected.**")
         c3.metric("Total Missing Cells", int(df.isna().sum().sum()))        
         st.markdown(f"## Data Validation Report ")        
         df_before = self.read_csv_with_fallback(DATA_DIR/csvname)
@@ -490,7 +490,7 @@ class Datadashboard:
             st.info("✔ No bins images found")
 
         st.markdown(f"## Data")
-        st.caption(
+        st.write(
     "ℹ️ This cleaned dataset is generated as part of an ETL demonstration. "
     "The original data was sourced from publicly available datasets and is "
     "provided here for educational and demonstration purposes only."
