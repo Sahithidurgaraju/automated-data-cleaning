@@ -103,11 +103,21 @@ The pipeline is **optimized for local execution on laptops**, leveraging **vecto
 
 • **Uses only vectorized count-based summaries for plotting**, avoiding row-wise operations and ensuring efficient visualization even for large datasets  
 
-## 📂 Dataset Notes
+## 📂 Dataset Disclaimer
 
-• This project uses **publicly available and demo datasets** representing a variety of real-world data quality patterns (missing values, mixed formats, outliers, and high-cardinality fields).
+• This repository includes sample datasets used to demonstrate the ETL pipeline
+and analytics workflows.
 
-• Datasets are used **solely for demonstration and educational purposes** to showcase pipeline design, performance optimization, and validation logic.
+• The datasets were obtained from **publicly available sources**, including platforms
+such as **Kaggle** and are licensed under permissive open-source, public-domain,
+or open database licenses (including **MIT**, **Apache License 2.0**, **CC0**, and
+**Open Database licenses**).
+
+• The datasets are included **solely for demonstration and educational purposes**.
+No proprietary, confidential, or sensitive data is used or distributed.
+
+• All rights and credits for the datasets remain with their original authors.
+
 
 ## How a user will run this project:
 
