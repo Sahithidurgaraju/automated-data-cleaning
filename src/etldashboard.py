@@ -709,11 +709,14 @@ class Datadashboard:
         st.title("📊 Automated Multi CSV - Dataset ETL & Analytics Dashboard")
 
     # Short description
-        st.caption(
+        st.write(
         "An end-to-end pipeline that ingests multiple CSV files, "
         "performs data cleaning and transformation, loads the results "
         "into a cloud SQL database, and provides interactive dashboards "
-        "and data quality reports per dataset."
+        "and data quality reports per dataset." \
+        "ℹ️ This cleaned dataset is generated as part of an ETL demonstration. "
+    "The original data was sourced from publicly available datasets and is "
+    "provided here for educational and demonstration purposes only." 
     )
 
         st.markdown("---")
