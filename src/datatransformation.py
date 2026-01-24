@@ -72,8 +72,33 @@ class Datatranformer:
         return file_path
 
     def push_to_sql(self,df,logger,csvname):
-        with open(DATABASE_DIR / f"sql_credentials.json", "r") as f:
-            database = json.load(f)
+        local_json_path = DATABASE_DIR / "sql_credentials.json"
+        try:
+            if local_json_path.exists():
+                with open(local_json_path, "r") as f:
+                    database = json.load(f)
+        except Exception as e:
+            logger.info(f"Warning: failed to load {DATABASE_DIR / "sql_credentials.json"}: {e}")
+        env_json_path = os.getenv("DB_JSON")
+        try:
+            if env_json_path and os.path.exists(env_json_path):
+                with open(env_json_path, "r") as f:
+                    env_database = json.load(f)
+                for key, value in env_database.items():
+                    if not database.get(key):
+                        database[key] = value
+        except Exception as e:
+            logger.info(f"Warning: failed to load env JSON {env_json_path}: {e}")
+        database = {
+    "user": database.get("user") or os.getenv("DB_USER"),
+    "password": database.get("password") or os.getenv("DB_PASSWORD"),
+    "host": database.get("host") or os.getenv("DB_HOST"),
+    "port": database.get("port") or os.getenv("DB_PORT", "3306"),
+    "dbname": database.get("dbname") or os.getenv("DB_NAME")
+}
+        missing = [k for k, v in database.items() if not v]
+        if missing:
+            raise RuntimeError(f"Missing database config values: {missing}")
         if not database.get("user") or not database.get("password") or not database.get("host"):
             logger.error("SQL credentials missing or blank. Please update sql_credentials.json")
             return None, None, None 
