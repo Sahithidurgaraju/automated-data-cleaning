@@ -73,15 +73,17 @@ echo Cleanup complete!
         }
         stage('Run generate transformation') {
             steps {
+                withCredentials([string(credentialsId: 'GITHUB_TOKEN', variable: 'GITHUB_TOKEN')]){
                 bat'''
                 python generate_transformation.py'''
-            }
+            }}
         }
         stage('Run apply transformation') {
             steps {
+                withCredentials([file(credentialsId: 'DB_JSON', variable: 'DB_JSON')]) {
                 bat'''
                 python apply_transformation.py'''
-            }
+            }}
         }
         stage('Run generate metrics pdf ') {
             steps {
