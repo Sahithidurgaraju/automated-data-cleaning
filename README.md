@@ -582,4 +582,9 @@ Developer of the ETL Automation Pipeline
 This project is for demonstration and personal use. 
 
 All rights are reserved by the author.
+## Feedback & Discussion
 
+Feedback and suggestions are very welcome.
+Please share your thoughts in the GitHub Discussions section:
+
+👉 https://github.com/Sahithidurgaraju/automated-data-cleaning/discussions
