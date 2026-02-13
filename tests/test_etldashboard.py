@@ -2,6 +2,7 @@ import os
 import pandas as pd
 import logging
 from src.datatransformation import Datatranformer
+import streamlit as st
 import warnings
 import re
 import pytest
@@ -72,6 +73,13 @@ def messy_data():
     return plot_csv, csv_name, df, logger
 #here onwards testing of before cleaning of messy data starts:
 #testing column name has any issues like white spaces, unicode characters, upper characters
+
+#secrets
+DB_HOST = st.secrets["tidb"]["host"]
+DB_USER = st.secrets["tidb"]["user"]
+DB_PASSWORD = st.secrets["tidb"]["password"]
+DB_NAME = st.secrets["tidb"]["database"]
+DB_PORT = st.secrets["tidb"]["port"]
 
 @pytest.mark.tc_0001
 def test_save_pdf_metrics(messy_data):
