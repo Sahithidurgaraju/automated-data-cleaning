@@ -2,7 +2,6 @@ import os
 import pandas as pd
 import logging
 from src.datatransformation import Datatranformer
-from src.etldashboard import Datadashboard
 import warnings
 import re
 import pytest
