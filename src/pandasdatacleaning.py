@@ -337,30 +337,30 @@ class Datacleaner:
         JSON_DIR.mkdir(exist_ok=True)
         base = os.path.splitext(os.path.basename(csvname))[0].replace(" ", "_")
         asset_name = f"{base}_schema_after.json"
-        release_url = f"https://api.github.com/repos/{OWNER}/{REPO}/releases/tags/{RELEASE_TAG}"
-        if release_url in _RELEASE_CACHE:
-            release = _RELEASE_CACHE[release_url]
-        else:
-            r = requests.get(
-    release_url,
-    headers={"User-Agent": "streamlit-app"}
-)
-            r.raise_for_status()
-            release = r.json()
+        release_url = f"https://github.com/{OWNER}/{REPO}/releases/download/{RELEASE_TAG}/{asset_name}"
+#         if release_url in _RELEASE_CACHE:
+#             release = _RELEASE_CACHE[release_url]
+#         else:
+#             r = requests.get(
+#     release_url,
+#     headers={"User-Agent": "streamlit-app"}
+# )
+#             r.raise_for_status()
+#             release = r.json()
 
-            _RELEASE_CACHE[release_url] = release
+#             _RELEASE_CACHE[release_url] = release
 
     # 2️⃣ Find the asset
-        asset = next(
-        (a for a in release["assets"] if a["name"] == asset_name),
-        None,
-    )
+    #     asset = next(
+    #     (a for a in release["assets"] if a["name"] == asset_name),
+    #     None,
+    # )
 
-        if not asset:
-            raise FileNotFoundError(f"{asset_name} not found in GitHub release")
+    #     if not asset:
+    #         raise FileNotFoundError(f"{asset_name} not found in GitHub release")
 
     # 3️⃣ Download asset (IMPORTANT: octet-stream)
-        schema_resp = requests.get(asset["browser_download_url"])
+        schema_resp = requests.get(release_url)
         schema_resp.raise_for_status()
 
         return schema_resp.json()
