@@ -39,20 +39,20 @@ OWNER = "Sahithidurgaraju"
 REPO = "automated-data-cleaning"
 RELEASE_TAG = "json-output"
 # =================================
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+# GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 
-if not GITHUB_TOKEN:
-    raise RuntimeError("GITHUB_TOKEN not found")
+# if not GITHUB_TOKEN:
+#     raise RuntimeError("GITHUB_TOKEN not found")
 
-# ---------- Headers ----------
-API_HEADERS = {
-    "Authorization": f"token {GITHUB_TOKEN}",
-    "Accept": "application/vnd.github.v3+json",
-}
-UPLOAD_HEADERS = {
-    "Authorization": f"token {GITHUB_TOKEN}",
-    "Content-Type": "application/octet-stream",
-}
+# # ---------- Headers ----------
+# API_HEADERS = {
+#     "Authorization": f"token {GITHUB_TOKEN}",
+#     "Accept": "application/vnd.github.v3+json",
+# }
+# UPLOAD_HEADERS = {
+#     "Authorization": f"token {GITHUB_TOKEN}",
+#     "Content-Type": "application/octet-stream",
+# }
 
 _RELEASE_CACHE = {}
 #datacleaner class starts 
@@ -341,11 +341,7 @@ class Datacleaner:
         if release_url in _RELEASE_CACHE:
             release = _RELEASE_CACHE[release_url]
         else:
-            headers = {
-            "Authorization": f"Bearer {GITHUB_TOKEN}",
-            "Accept": "application/vnd.github+json"
-        }
-            r = requests.get(release_url, headers=headers)
+            r = requests.get(release_url)
             r.raise_for_status()
             release = r.json()
 
