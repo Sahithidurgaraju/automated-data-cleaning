@@ -341,7 +341,10 @@ class Datacleaner:
         if release_url in _RELEASE_CACHE:
             release = _RELEASE_CACHE[release_url]
         else:
-            r = requests.get(release_url)
+            r = requests.get(
+    release_url,
+    headers={"User-Agent": "streamlit-app"}
+)
             r.raise_for_status()
             release = r.json()
 
